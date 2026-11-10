@@ -473,19 +473,45 @@
 })();
 
 
-/* Scroll glass navigation: keep links/logo crisp while text behind is blurred.
-   Applies to the public welcome header only, not the exercise/test interface. */
+/* Scroll glass navigation v2 — screenshot repair.
+   Keep the header light, use a transparent SVG wordmark, and offset section anchors. */
 (() => {
   "use strict";
   let scheduled = false;
+  let initialHashApplied = false;
+  const anchorIds = new Set([
+    "arch-subjects", "arch-how", "why-qadam", "qadam-features",
+    "qadam-how", "qadam-demo", "ornek-subjects"
+  ]);
+
+  function normalizeWelcomeNav() {
+    if (!document.body.classList.contains("on-welcome")) return;
+    const nav = document.querySelector("#welcome > .arch-nav, #welcome > .welcome-nav");
+    if (!nav) return;
+
+    const brandLink = nav.querySelector("a:first-child");
+    if (brandLink && !brandLink.querySelector(".ornek-nav-wordmark")) {
+      // The previous dark-header filter turned the PNG's white background
+      // into a blank rectangle. The transparent wordmark has no background.
+      const logo = document.createElement("img");
+      logo.className = "ornek-nav-wordmark";
+      logo.src = "/assets/ornek-wordmark.svg";
+      logo.alt = "Örnek";
+      logo.width = 142;
+      logo.height = 46;
+      logo.decoding = "async";
+      brandLink.replaceChildren(logo);
+    }
+  }
 
   function updateScrollGlass() {
     scheduled = false;
+    normalizeWelcomeNav();
     const nav = document.body.classList.contains("on-welcome")
       ? document.querySelector("#welcome > .arch-nav, #welcome > .welcome-nav")
       : null;
     if (!nav) return;
-    nav.classList.toggle("ornek-nav-scrolled", window.scrollY > 32);
+    nav.classList.toggle("ornek-nav-scrolled", window.scrollY > 36);
   }
 
   function scheduleScrollGlass() {
@@ -494,17 +520,57 @@
     window.requestAnimationFrame(updateScrollGlass);
   }
 
+  function scrollToAnchor(hash, smooth = true) {
+    if (!document.body.classList.contains("on-welcome")) return false;
+    const id = String(hash || "").replace(/^#/, "");
+    if (!anchorIds.has(id)) return false;
+    const element = document.getElementById(id);
+    if (!element || !element.closest("#welcome")) return false;
+    const position = Math.max(0, window.scrollY + element.getBoundingClientRect().top - 113);
+    window.scrollTo({
+      top: position,
+      behavior: smooth && !window.matchMedia?.("(prefers-reduced-motion: reduce)").matches
+        ? "smooth"
+        : "auto"
+    });
+    return true;
+  }
+
+  function applyInitialHash() {
+    if (initialHashApplied || !anchorIds.has(location.hash.slice(1))) return;
+    initialHashApplied = true;
+    requestAnimationFrame(() => requestAnimationFrame(() => scrollToAnchor(location.hash, false)));
+  }
+
   if (typeof renderWelcome === "function") {
-    const priorRender = renderWelcome;
+    const originalRender = renderWelcome;
     renderWelcome = function () {
-      const result = priorRender.apply(this, arguments);
+      const result = originalRender.apply(this, arguments);
+      normalizeWelcomeNav();
       scheduleScrollGlass();
+      applyInitialHash();
       return result;
     };
   }
 
+  document.addEventListener("click", event => {
+    if (!(event.target instanceof Element)) return;
+    const link = event.target.closest('#welcome a[href^="#"]');
+    if (!link) return;
+    const hash = link.getAttribute("href");
+    if (!hash || !anchorIds.has(hash.slice(1))) return;
+    const element = document.getElementById(hash.slice(1));
+    if (!element) return;
+    event.preventDefault();
+    if (location.hash !== hash) window.history.pushState(null, "", hash);
+    scrollToAnchor(hash);
+  });
+
   window.addEventListener("scroll", scheduleScrollGlass, { passive: true });
   window.addEventListener("resize", scheduleScrollGlass, { passive: true });
   window.addEventListener("pageshow", scheduleScrollGlass);
+  window.addEventListener("hashchange", () => scrollToAnchor(location.hash, true));
+  normalizeWelcomeNav();
   scheduleScrollGlass();
+  applyInitialHash();
 })();
