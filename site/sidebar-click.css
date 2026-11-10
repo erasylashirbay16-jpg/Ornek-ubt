@@ -11,3 +11,10 @@ aside nav .ornek-click-nav button.active .line-sidebar-index{color:#a855f7}
 aside nav .ornek-click-nav button:focus-visible{outline:2px solid var(--line-accent);outline-offset:2px}
 aside{overflow-y:auto!important}
 @media(prefers-reduced-motion:reduce){aside nav .ornek-click-nav *{transition:none!important}.ornek-click-nav .line-sidebar-marker{transform:scaleX(.5)!important}}
+
+/* Keep the loading screen stable until all dependent page layers are ready. */
+body.ornek-loading #welcome,body.ornek-loading>aside,body.ornek-loading>main{visibility:hidden!important}
+body.ornek-loading #boot-status{position:fixed;inset:0;z-index:9999;display:grid;place-content:center;margin:0;background:#f8f6fc;color:#7952cf;font-size:15px;line-height:1.5;font-weight:500}
+body.ornek-loading #boot-status::before{content:"";display:block;width:28px;height:28px;margin:0 auto 16px;border:3px solid #e7def6;border-top-color:#a855f7;border-radius:50%;animation:ornek-loading-spin .8s linear infinite}
+@keyframes ornek-loading-spin{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){body.ornek-loading #boot-status::before{animation:none}}
