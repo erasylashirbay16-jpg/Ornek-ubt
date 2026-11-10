@@ -88,3 +88,108 @@ aside nav .ow-bottom button:hover{background:#e9e1ff;color:#6542c5}
 @media(max-width:850px){.ow-wheel{height:302px}.ow-shell{margin-top:15px}}
 @media(prefers-reduced-motion:reduce){aside nav button.ow-item{transition:none!important;filter:none!important}}
 .motion-paused aside nav button.ow-item{transition:none!important;filter:none!important}
+
+
+/* Örnek StarBorder: primary actions only. One 4s clockwise white orbit,
+   trailLength .3, thickness 1px, radius 12px, glow .6, hover lap and click pulse. */
+@property --ornek-star-angle {
+  syntax:"<angle>";
+  inherits:false;
+  initial-value:0deg;
+}
+@keyframes ornek-star-orbit {
+  to { --ornek-star-angle:360deg; }
+}
+@keyframes ornek-star-click-pulse {
+  0% {opacity:.66;transform:scale(1);filter:blur(0)}
+  65% {opacity:.42;transform:scale(1.075);filter:blur(1px)}
+  100% {opacity:0;transform:scale(1.13);filter:blur(3px)}
+}
+.ornek-star-border {
+  position:relative!important;
+  isolation:isolate;
+  --ornek-star-color:#ffffff;
+  --ornek-star-duration:4s;
+}
+.ornek-star-border:not(.ornek-star-border--card) {
+  border-radius:12px!important;
+}
+.ornek-star-border--card {
+  border-color:#c6b1fe!important;
+  border-radius:25px!important;
+}
+.ornek-star-border::before {
+  content:"";
+  position:absolute;
+  inset:-1px;
+  z-index:4;
+  pointer-events:none;
+  border-radius:inherit;
+  padding:1px;
+  background:conic-gradient(
+    from var(--ornek-star-angle),
+    transparent 0deg,
+    transparent 252deg,
+    rgba(255,255,255,.11) 263deg,
+    rgba(255,255,255,.27) 282deg,
+    rgba(255,255,255,.48) 302deg,
+    rgba(255,255,255,.9) 321deg,
+    #fff 330deg,
+    rgba(255,255,255,.34) 337deg,
+    transparent 351deg,
+    transparent 360deg
+  );
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;
+  mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  mask-composite:exclude;
+  filter:drop-shadow(0 0 5px rgba(255,255,255,.6));
+  animation:ornek-star-orbit var(--ornek-star-duration) linear infinite;
+}
+.ornek-star-border::after {
+  content:"";
+  position:absolute;
+  inset:-2px;
+  z-index:5;
+  pointer-events:none;
+  border-radius:inherit;
+  border:1px solid rgba(255,255,255,.9);
+  opacity:0;
+  transform:scale(1);
+}
+.ornek-star-border:hover::before,
+.ornek-star-border:focus-visible::before {
+  animation-duration:1.35s;
+  filter:drop-shadow(0 0 7px rgba(255,255,255,.78));
+}
+.ornek-star-border.ornek-star-pulse::after {
+  animation:ornek-star-click-pulse .65s ease-out both;
+}
+.ornek-star-border--card::before {
+  background:conic-gradient(
+    from var(--ornek-star-angle),
+    transparent 0deg,
+    transparent 252deg,
+    rgba(138,95,234,.13) 263deg,
+    rgba(138,95,234,.4) 290deg,
+    rgba(156,116,250,.8) 316deg,
+    #ffffff 330deg,
+    rgba(121,74,229,.55) 339deg,
+    transparent 354deg
+  );
+  filter:drop-shadow(0 0 5px rgba(122,86,224,.55));
+}
+.ornek-star-border--card:hover {
+  box-shadow:0 14px 40px rgba(93,49,189,.12);
+}
+.ornek-star-border--card.ornek-star-pulse::after {
+  border-color:rgba(122,86,224,.75);
+}
+.ornek-star-border[disabled]::before,
+.ornek-star-border[aria-disabled="true"]::before {animation-play-state:paused;opacity:.3}
+.motion-paused .ornek-star-border::before {animation-play-state:paused!important}
+.motion-paused .ornek-star-border::after {animation:none!important}
+@media(prefers-reduced-motion:reduce) {
+  .ornek-star-border::before {animation:none!important;--ornek-star-angle:320deg;filter:none!important}
+  .ornek-star-border::after {animation:none!important}
+}
