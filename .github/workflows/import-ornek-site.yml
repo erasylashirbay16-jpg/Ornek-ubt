@@ -1,0 +1,166 @@
+name: Import current Örnek site and integrate 2026 math questions
+on:
+  push:
+    paths:
+      - '.github/workflows/import-ornek-site.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Recover original publicly deployed static assets
+        run: |
+          set -euo pipefail
+          mkdir -p site
+          cat > /tmp/paths.txt <<'EOF'
+app.js
+architecture.css
+architecture.js
+assets/geologica-400.ttf
+assets/geologica-600.ttf
+assets/golos-400.ttf
+assets/golos-600.ttf
+assets/onest-400.ttf
+assets/onest-600.ttf
+assets/onest-700.ttf
+assets/ornek-icon.svg
+assets/ornek-logo.png
+assets/ornek-wordmark.svg
+assets/qadam-font-license.txt
+assets/qadam-icon.png
+assets/qadam-sans-bold.woff
+assets/qadam-sans.woff
+assets/qadam-wordmark.png
+assets/subject-art.webp
+boot.js
+canonical.js
+creative.css
+creative.js
+editorial.css
+editorial.js
+email-account.js
+email-auth.js
+extra-second100-ru.js
+extra100-ru.js
+features.js
+formula-guide.js
+formula-ru.js
+hard60-ru.js
+history-data.js
+history.css
+history.js
+index.html
+legal/consent.html
+legal/cookies.html
+legal/legal.css
+legal/privacy.html
+locale.js
+math-ru.js
+math-solutions-ru.js
+new100-ru.js
+next-first100-ru.js
+next-second100-ru.js
+ornek-privacy.css
+ornek-privacy.js
+ornek-qa-fixes.js
+ornek.css
+ornek.js
+polish.css
+polish.js
+qadam.css
+qadam.js
+question-room.css
+question-room.js
+questions-diverse.js
+questions-expanded.js
+questions-hard-extra.js
+questions-hard-next.js
+questions-hard.js
+questions-materials.js
+questions-new.js
+questions-quality.js
+reading-data.js
+reading-ru-core.js
+reading-ru-v1.js
+reading-ru-v10.js
+reading-ru-v2.js
+reading-ru-v3.js
+reading-ru-v4.js
+reading-ru-v5.js
+reading-ru-v6.js
+reading-ru-v7.js
+reading-ru-v8.js
+reading-ru-v9.js
+reading.js
+robots.txt
+sitemap.xml
+study-features.js
+supabase.js
+test-variants.js
+tests.js
+typography-v3.css
+visual-refresh.css
+visual-refresh.js
+welcome.css
+welcome.js
+workspace.css
+workspace.js
+EOF
+          while IFS= read -r path; do
+            mkdir -p "site/$(dirname "$path")"
+            curl --retry 3 --fail --silent --show-error --location "https://ornek-ubt.vercel.app/$path" -o "site/$path"
+          done < /tmp/paths.txt
+          cp questions-2026-400.js site/questions-2026-400.js
+      - name: Integrate new math question bank and 40 variants
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('site/boot.js')
+          t=p.read_text()
+          target="'questions-materials.js','app.js'"
+          assert t.count(target)==1, 'Unable to locate the math bank load order'
+          t=t.replace(target,"'questions-materials.js','questions-2026-400.js','app.js'")
+          target="'test-variants.js','tests.js'"
+          assert t.count(target)==1
+          t=t.replace(target,"'test-variants.js','ornek-math-2026-variants.js','tests.js'")
+          p.write_text(t)
+          p=Path('site/app.js')
+          t=p.read_text()
+          target="for(const item of materialQuestions)q(item.s,item.l,item.t,item.o,item.a,item.e);"
+          assert t.count(target)==1, 'Cannot locate math bank initialization'
+          t=t.replace(target,target+"\nfor(const item of ornekMath2026Questions)q(item.s,item.l,item.t,item.o,item.a,item.e);")
+          p.write_text(t)
+          Path('site/ornek-math-2026-variants.js').write_text("""
+          /* Registered after testVariants, before tests.js */
+          (() => {
+            const lookup = new Map(bank.map(q => [q.t, q.id]));
+            let next = Math.max(...testVariants.map(t => t.number))+1;
+            for (let v = 0; v < 40; v++) {
+              const slice = ornekMath2026Questions.slice(v*10, (v+1)*10);
+              const ids = slice.map(q => lookup.get(q.t));
+              if(ids.length!==10 || ids.some(id=>!Number.isInteger(id))) throw Error('Missing questions in 2026 variant '+(v+1));
+              testVariants.push({number:next++,ids,ornek2026:true});
+            }
+          })();
+          """)
+          assert "questions-2026-400.js" in Path('site/boot.js').read_text()
+          assert "ornekMath2026Questions" in Path('site/app.js').read_text()
+          PY
+      - name: Validate scripts and commit preserved website
+        run: |
+          set -euo pipefail
+          node --check site/boot.js
+          node --check site/app.js
+          node --check site/questions-2026-400.js
+          node --check site/ornek-math-2026-variants.js
+          node -e "const fs=require('fs');const s=fs.readFileSync('site/questions-2026-400.js','utf8');const vm=require('vm');vm.runInNewContext(s+';globalThis.count=ornekMath2026Questions.length',globalThis);if(globalThis.count!==400)process.exit(1);"
+          git config user.name "Örnek site integration"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add site
+          git commit -m "Restore Örnek site and add 400 math questions + 40 variants" || exit 0
+          git push
