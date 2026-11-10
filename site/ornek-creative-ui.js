@@ -537,19 +537,21 @@
   const chevIcon = '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>';
   const userIcon = '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="8" r="3.4"/><path d="M5 20c0-4 3-6 7-6s7 2 7 6"/></svg>';
   const menuIcon = '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>';
-  const subjectMarks = { math:"∑", reading:"▤", history:"◇", profile:"ƒ" };
+  const subjectMarks = { math:"∑", reading:"▤", history:"◇", profile:"ƒ", physics:"φ" };
   const subjectLabels = {
     kk: {
       math:["Математикалық сауаттылық","Есептер мен логика"],
       reading:["Оқу сауаттылығы","Мәтінмен жұмыс"],
       history:["Қазақстан тарихы","Тарихи білім"],
-      profile:["Бейіндік математика","Тереңдетілген есептер"]
+      profile:["Бейіндік математика","Тереңдетілген есептер"],
+      physics:["Физика","50 нұсқа · 25 тақырып"]
     },
     ru: {
       math:["Математическая грамотность","Задачи и логика"],
       reading:["Грамотность чтения","Работа с текстом"],
       history:["История Казахстана","Исторические задания"],
-      profile:["Профильная математика","Углублённая практика"]
+      profile:["Профильная математика","Углублённая практика"],
+      physics:["Физика","50 вариантов · 25 тем"]
     }
   };
 
@@ -557,7 +559,7 @@
     return typeof qLanguage !== "undefined" && qLanguage === "ru" ? "ru" : "kk";
   }
   function subjects() {
-    const ids = ["math", "reading", "history", "profile"];
+    const ids = ["math", "reading", "history", "profile", "physics"];
     const available = typeof subjectNames !== "undefined" ? subjectNames : null;
     return ids.filter(id => available ? Object.prototype.hasOwnProperty.call(available,id) : id !== "profile");
   }

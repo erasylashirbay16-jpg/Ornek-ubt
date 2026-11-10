@@ -1,0 +1,195 @@
+{
+  "sourceFiles": 5,
+  "sourceCandidateCount": 1338,
+  "automaticallyFlaggedNearDuplicates": 325,
+  "verifiedSourceItems": 308,
+  "authorContextItems": 125,
+  "authorMultiItems": 25,
+  "authorMatchItems": 25,
+  "uniqueBankItems": 483,
+  "variantCount": 50,
+  "itemsPerVariant": 40,
+  "placements": 2000,
+  "format": {
+    "single": 25,
+    "context": 5,
+    "multi": 5,
+    "match": 5
+  },
+  "levelsPerVariant": {
+    "A": 20,
+    "B": 12,
+    "C": 8
+  },
+  "crossVariantReuse": true,
+  "removedAfterReview": [
+    {
+      "id": "phys-src-0017",
+      "sameAs": "phys-src-0008",
+      "similarity": 0.773
+    },
+    {
+      "id": "phys-src-0127",
+      "sameAs": "phys-src-0126",
+      "similarity": 0.675
+    },
+    {
+      "id": "phys-src-0148",
+      "sameAs": "phys-src-0147",
+      "similarity": 0.879
+    },
+    {
+      "id": "phys-src-0175",
+      "sameAs": "phys-src-0142",
+      "similarity": 0.66
+    },
+    {
+      "id": "phys-src-0303",
+      "sameAs": "phys-src-0289",
+      "similarity": 0.684
+    },
+    {
+      "id": "phys-src-0430",
+      "sameAs": "phys-src-0428",
+      "similarity": 0.708
+    },
+    {
+      "id": "phys-src-1301",
+      "sameAs": "phys-src-1300",
+      "similarity": 0.687
+    }
+  ],
+  "topics": [
+    {
+      "id": 1,
+      "name": "Кинематика",
+      "bankItems": 36
+    },
+    {
+      "id": 2,
+      "name": "Динамика",
+      "bankItems": 60
+    },
+    {
+      "id": 3,
+      "name": "Статика",
+      "bankItems": 13
+    },
+    {
+      "id": 4,
+      "name": "Сақталу заңдары",
+      "bankItems": 49
+    },
+    {
+      "id": 5,
+      "name": "Сұйықтар мен газдардың механикасы",
+      "bankItems": 18
+    },
+    {
+      "id": 6,
+      "name": "Молекулалы-кинетикалық теория",
+      "bankItems": 22
+    },
+    {
+      "id": 7,
+      "name": "Газ заңдары",
+      "bankItems": 10
+    },
+    {
+      "id": 8,
+      "name": "Термодинамика",
+      "bankItems": 27
+    },
+    {
+      "id": 9,
+      "name": "Сұйық және қатты денелер",
+      "bankItems": 13
+    },
+    {
+      "id": 10,
+      "name": "Электростатика",
+      "bankItems": 9
+    },
+    {
+      "id": 11,
+      "name": "Тұрақты ток",
+      "bankItems": 34
+    },
+    {
+      "id": 12,
+      "name": "Әртүрлі ортадағы электр тогы",
+      "bankItems": 8
+    },
+    {
+      "id": 13,
+      "name": "Магнит өрісі",
+      "bankItems": 11
+    },
+    {
+      "id": 14,
+      "name": "Электромагниттік индукция",
+      "bankItems": 17
+    },
+    {
+      "id": 15,
+      "name": "Механикалық тербелістер",
+      "bankItems": 23
+    },
+    {
+      "id": 16,
+      "name": "Электромагниттік тербелістер және айнымалы ток",
+      "bankItems": 15
+    },
+    {
+      "id": 17,
+      "name": "Толқындық қозғалыс",
+      "bankItems": 18
+    },
+    {
+      "id": 18,
+      "name": "Электромагниттік толқындар",
+      "bankItems": 12
+    },
+    {
+      "id": 19,
+      "name": "Толқындық оптика",
+      "bankItems": 7
+    },
+    {
+      "id": 20,
+      "name": "Геометриялық оптика",
+      "bankItems": 22
+    },
+    {
+      "id": 21,
+      "name": "Салыстырмалылық теориясы",
+      "bankItems": 12
+    },
+    {
+      "id": 22,
+      "name": "Атомдық және кванттық физика",
+      "bankItems": 16
+    },
+    {
+      "id": 23,
+      "name": "Атом ядросының физикасы",
+      "bankItems": 17
+    },
+    {
+      "id": 24,
+      "name": "Нанотехнология және наноматериалдар",
+      "bankItems": 7
+    },
+    {
+      "id": 25,
+      "name": "Космология",
+      "bankItems": 7
+    }
+  ],
+  "notes": [
+    "Нұсқалар ортақ банктен құрастырылған. Бір сұрақ әртүрлі нұсқада кездесуі мүмкін.",
+    "Бір нұсқада бір сұрақ немесе сандары ғана ауыстырылған жұп жоқ.",
+    "Тақырыптар 2026 спецификациясына негізделген; бұл ресми ҰБТ сұрақтар банкі емес.",
+    "A/B/C белгілері — авторлық әдістемелік бағалау."
+  ]
+}
