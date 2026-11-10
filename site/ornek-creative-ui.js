@@ -1,115 +1,160 @@
-/* Örnek creative interface — native adaptation of BranchedMenu + SplitText.
-   Works with the existing vanilla-JS application without React runtime or new dependencies. */
+/* Örnek creative interface — OptionWheel + SplitText, native JavaScript.
+   Preserves the existing study engines and requires no React runtime. */
 (() => {
   "use strict";
-
-  const groupsOpen = [true, true];
   let activeSection = "home";
+  let wheelTimer = null;
   const reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)");
-  const iconArrow = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>';
+  const spacing = 58;
+  const clamp = (n, lo, hi) => Math.max(lo, Math.min(hi, n));
 
-  function toggleGroup(section, open) {
-    const head = section.querySelector(".ob-branch-head");
-    const panel = section.querySelector(".ob-branch-panel");
-    section.dataset.open = String(open);
-    head.setAttribute("aria-expanded", String(open));
-    panel.setAttribute("aria-hidden", String(!open));
-    panel.querySelectorAll("button").forEach(button => button.tabIndex = open ? 0 : -1);
-    const number = Number(section.dataset.groupIndex);
-    groupsOpen[number] = open;
-  }
-
-  function refreshBranch() {
-    const nav = document.querySelector("aside nav.ob-branch-nav");
-    if (!nav) return;
-    const links = Array.from(nav.querySelectorAll(".ob-branch-link"));
-    links.forEach(link => {
-      const isCurrent = link.dataset.section === activeSection;
-      link.classList.toggle("active", isCurrent);
-      if (isCurrent) link.setAttribute("aria-current", "page");
-      else link.removeAttribute("aria-current");
+  function setWheelIndex(wheel, next, navigate) {
+    if (!wheel) return;
+    const buttons = Array.from(wheel.querySelectorAll(".ow-item"));
+    if (!buttons.length) return;
+    const index = clamp(next, 0, buttons.length - 1);
+    wheel.dataset.selected = String(index);
+    wheel.setAttribute("aria-activedescendant", buttons[index].id);
+    buttons.forEach((button, i) => {
+      const distance = i - index;
+      const amount = Math.abs(distance);
+      button.style.setProperty("--ow-y", (distance * spacing) + "px");
+      button.style.setProperty("--ow-x", (Math.pow(amount, 1.6) * 6.2).toFixed(1) + "px");
+      button.style.setProperty("--ow-rotate", (clamp(-distance * 6, -25, 25)) + "deg");
+      button.style.setProperty("--ow-scale", String(1 - Math.min(amount * 0.075, .3)));
+      button.style.setProperty("--ow-opacity", String(amount === 0 ? 1 : Math.max(.18, 1 - amount * .23)));
+      button.style.setProperty("--ow-blur", (Math.min(amount * .55, 2)) + "px");
+      button.style.visibility = amount <= 3.35 ? "visible" : "hidden";
+      button.style.pointerEvents = amount <= 3.35 ? "auto" : "none";
+      button.setAttribute("aria-selected", String(i === index));
+      if (i === index) button.setAttribute("aria-current", "page");
+      else button.removeAttribute("aria-current");
+      button.tabIndex = i === index ? 0 : -1;
+      button.classList.toggle("active", i === index);
     });
-    const current = links.find(link => link.dataset.section === activeSection);
-    if (!current) return;
-    const group = current.closest(".ob-branch-group");
-    if (!group) return;
-    if (group.dataset.open !== "true") toggleGroup(group, true);
-    const tree = group.querySelector(".ob-branch-tree");
-    const node = current.closest(".ob-branch-node");
-    if (!tree || !node) return;
-    const update = () => {
-      if (!node.isConnected) return;
-      const y = node.offsetTop + node.offsetHeight / 2;
-      tree.style.setProperty("--ob-trail-length", Math.max(y - 7, 0) + "px");
-      tree.style.setProperty("--ob-marker-top", y + "px");
-    };
-    requestAnimationFrame(update);
+    const number = wheel.closest(".ow-shell")?.querySelector(".ow-count");
+    if (number) number.textContent = String(index + 1).padStart(2, "0") + " / " + String(buttons.length).padStart(2, "0");
+    if (navigate && activeSection !== buttons[index].dataset.section) subjectNavigate(buttons[index].dataset.section);
   }
 
-  function enhanceBranchMenu() {
+  function syncOptionWheel() {
+    const wheel = document.querySelector("aside nav .ow-wheel");
+    if (!wheel) return;
+    const buttons = Array.from(wheel.querySelectorAll(".ow-item"));
+    const index = buttons.findIndex(button => button.dataset.section === activeSection);
+    setWheelIndex(wheel, index >= 0 ? index : 0, false);
+  }
+
+  function enhanceOptionWheel() {
     const nav = document.querySelector("aside nav");
     if (!nav) return;
-    if (nav.querySelector(".ob-branch-group")) {
-      refreshBranch();
+    if (nav.querySelector(".ow-wheel")) {
+      syncOptionWheel();
       return;
     }
-    const existing = Array.from(nav.children);
-    const menu = [];
-    let section = null;
-    for (const element of existing) {
-      if (element.classList.contains("navgroup")) {
-        section = { label: element.textContent.trim(), buttons: [] };
-        menu.push(section);
-      } else if (element.matches("button[data-section]") && section) {
-        section.buttons.push(element);
+    const buttons = Array.from(nav.querySelectorAll("button[data-section]"));
+    if (!buttons.length) return;
+    const preserved = Array.from(nav.children).filter(element => element.matches('label[for="subject-switch"], #subject-switch'));
+    nav.replaceChildren(...preserved);
+    nav.classList.remove("ob-branch-nav");
+    nav.classList.add("ow-nav");
+
+    const shell = document.createElement("section");
+    shell.className = "ow-shell";
+    shell.setAttribute("aria-label", "Örnek айналмалы мәзірі");
+    shell.innerHTML = '<div class="ow-topline"><span class="ow-live-dot"></span><span>БӨЛІМДЕР</span><span class="ow-count">01 / 08</span></div><div class="ow-wheel" tabindex="0" role="listbox" aria-label="Оқу бөлімдерін таңдаңыз" aria-orientation="vertical"><div class="ow-orbit" aria-hidden="true"></div><div class="ow-track"></div><div class="ow-focus-line" aria-hidden="true"><span></span></div></div><div class="ow-bottom"><button type="button" class="ow-prev" aria-label="Алдыңғы бөлім">↑</button><span>АЙНАЛДЫР · СҮЙРЕ · ТАҢДА</span><button type="button" class="ow-next" aria-label="Келесі бөлім">↓</button></div>';
+    const wheel = shell.querySelector(".ow-wheel");
+    const track = shell.querySelector(".ow-track");
+    buttons.forEach((button, index) => {
+      button.classList.remove("ob-branch-link");
+      button.classList.add("ow-item");
+      button.id = "ow-option-" + index;
+      button.dataset.index = String(index);
+      button.setAttribute("role", "option");
+      button.title = button.textContent.trim();
+      track.append(button);
+    });
+    nav.append(shell);
+
+    let pointer = null;
+    let suppressClick = false;
+    const selected = () => Number(wheel.dataset.selected) || 0;
+    function settle() {
+      window.clearTimeout(wheelTimer);
+      wheelTimer = window.setTimeout(() => {
+        const button = buttons[selected()];
+        if (button && button.dataset.section !== activeSection) subjectNavigate(button.dataset.section);
+      }, 190);
+    }
+    function shift(dir, immediate) {
+      const next = clamp(selected() + dir, 0, buttons.length - 1);
+      if (next === selected()) return false;
+      setWheelIndex(wheel, next, false);
+      if (immediate) {
+        window.clearTimeout(wheelTimer);
+        const button = buttons[next];
+        if (button && button.dataset.section !== activeSection) subjectNavigate(button.dataset.section);
+      } else settle();
+      return true;
+    }
+    wheel.addEventListener("wheel", event => {
+      if (event.ctrlKey) return;
+      if (shift(event.deltaY > 0 ? 1 : -1, false)) event.preventDefault();
+    }, { passive: false });
+    wheel.addEventListener("keydown", event => {
+      if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+        event.preventDefault();
+        shift(event.key === "ArrowDown" ? 1 : -1, true);
+      } else if (event.key === "Home" || event.key === "End") {
+        event.preventDefault();
+        const next = event.key === "Home" ? 0 : buttons.length - 1;
+        setWheelIndex(wheel, next, false);
+        const button = buttons[next];
+        if (button.dataset.section !== activeSection) subjectNavigate(button.dataset.section);
+      } else if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        buttons[selected()]?.click();
+      }
+    });
+    wheel.addEventListener("pointerdown", event => {
+      if (event.button !== 0) return;
+      pointer = { id: event.pointerId, y: event.clientY, index: selected(), moved: false };
+      wheel.setPointerCapture?.(event.pointerId);
+    });
+    wheel.addEventListener("pointermove", event => {
+      if (!pointer || event.pointerId !== pointer.id) return;
+      const distance = pointer.y - event.clientY;
+      if (Math.abs(distance) > 10) pointer.moved = true;
+      if (pointer.moved) {
+        wheel.classList.add("ow-dragging");
+        setWheelIndex(wheel, clamp(pointer.index + Math.round(distance / 44), 0, buttons.length - 1), false);
+      }
+    });
+    function finishPointer(event) {
+      if (!pointer || event.pointerId !== pointer.id) return;
+      const moved = pointer.moved;
+      pointer = null;
+      wheel.classList.remove("ow-dragging");
+      if (moved) {
+        suppressClick = true;
+        settle();
+        window.setTimeout(() => { suppressClick = false; }, 130);
       }
     }
-    if (!menu.length) return;
-
-    const preserved = existing.filter(element => element.matches('label[for="subject-switch"], #subject-switch'));
-    nav.replaceChildren(...preserved);
-    nav.classList.add("ob-branch-nav");
-
-    const eyebrow = document.createElement("div");
-    eyebrow.className = "ob-menu-eyebrow";
-    eyebrow.innerHTML = '<span class="ob-menu-dot"></span> ОҚУ НАВИГАЦИЯСЫ';
-    nav.append(eyebrow);
-
-    menu.forEach((item, index) => {
-      const group = document.createElement("section");
-      group.className = "ob-branch-group";
-      group.dataset.groupIndex = String(index);
-
-      const head = document.createElement("button");
-      head.type = "button";
-      head.className = "ob-branch-head";
-      head.innerHTML = '<span class="ob-branch-head-label">' + item.label + '</span><span class="ob-branch-count">' + String(item.buttons.length).padStart(2, "0") + '</span><span class="ob-branch-chevron">' + iconArrow + '</span>';
-      const panel = document.createElement("div");
-      panel.className = "ob-branch-panel";
-      panel.id = "ob-branch-panel-" + index;
-      head.setAttribute("aria-controls", panel.id);
-      const fold = document.createElement("div");
-      fold.className = "ob-branch-fold";
-      const tree = document.createElement("div");
-      tree.className = "ob-branch-tree";
-      const trail = document.createElement("span");
-      trail.className = "ob-branch-trail";
-      trail.setAttribute("aria-hidden", "true");
-      tree.append(trail);
-
-      item.buttons.forEach(link => {
-        const node = document.createElement("div");
-        node.className = "ob-branch-node";
-        link.classList.add("ob-branch-link");
-        node.append(link);
-        tree.append(node);
+    wheel.addEventListener("pointerup", finishPointer);
+    wheel.addEventListener("pointercancel", finishPointer);
+    wheel.addEventListener("click", event => {
+      if (suppressClick && event.target.closest(".ow-item")) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+      }
+    }, true);
+    shell.querySelector(".ow-prev").addEventListener("click", () => shift(-1, true));
+    shell.querySelector(".ow-next").addEventListener("click", () => shift(1, true));
+    wheel.querySelectorAll(".ow-item").forEach(button => {
+      button.addEventListener("click", () => {
+        if (!suppressClick) setWheelIndex(wheel, Number(button.dataset.index), false);
       });
-      fold.append(tree);
-      panel.append(fold);
-      group.append(head, panel);
-      nav.append(group);
-      head.addEventListener("click", () => toggleGroup(group, group.dataset.open !== "true"));
-      toggleGroup(group, groupsOpen[index] !== false);
     });
 
     const shortcut = document.createElement("div");
@@ -117,7 +162,7 @@
     shortcut.innerHTML = '<span class="ob-branch-shortcut-kicker">КҮННІҢ ҚАДАМЫ</span><strong>5 минуттан баста.</strong><p>Кішкентай жаттығу — үлкен әдет.</p><button type="button">Жылдам жаттығу <span aria-hidden="true">↗</span></button>';
     shortcut.querySelector("button").addEventListener("click", () => subjectNavigate("rush"));
     nav.append(shortcut);
-    refreshBranch();
+    syncOptionWheel();
   }
 
   function splitText(element) {
@@ -204,31 +249,34 @@
   if (typeof subjectMenu === "function") {
     const originalSubjectMenu = subjectMenu;
     subjectMenu = function () {
-      originalSubjectMenu.apply(this, arguments);
-      enhanceBranchMenu();
+      const result = originalSubjectMenu.apply(this, arguments);
+      enhanceOptionWheel();
+      return result;
     };
   }
   if (typeof subjectNavigate === "function") {
     const originalNavigate = subjectNavigate;
     subjectNavigate = function (key) {
       activeSection = key;
-      const value = originalNavigate.apply(this, arguments);
-      refreshBranch();
+      const result = originalNavigate.apply(this, arguments);
+      syncOptionWheel();
       enhanceStudyHeading();
-      return value;
+      return result;
     };
   }
   if (typeof renderWelcome === "function") {
     const originalRenderWelcome = renderWelcome;
     renderWelcome = function () {
-      const value = originalRenderWelcome.apply(this, arguments);
+      const result = originalRenderWelcome.apply(this, arguments);
       enhanceWelcome();
-      return value;
+      return result;
     };
   }
 
   enhanceWelcome();
-  enhanceBranchMenu();
+  enhanceOptionWheel();
   enhanceStudyHeading();
-  window.addEventListener("resize", () => { if (!document.body.classList.contains("on-welcome")) refreshBranch(); }, { passive: true });
+  window.addEventListener("resize", () => {
+    if (!document.body.classList.contains("on-welcome")) syncOptionWheel();
+  }, { passive: true });
 })();
