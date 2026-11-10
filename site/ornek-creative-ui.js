@@ -54,7 +54,7 @@
     }
     const buttons = Array.from(nav.querySelectorAll("button[data-section]"));
     if (!buttons.length) return;
-    const preserved = Array.from(nav.children).filter(element => element.matches('label[for="subject-switch"], #subject-switch'));
+    const preserved = Array.from(nav.children).filter(element => element.matches('.subject-switch-label, #subject-switch, .subject-picker'));
     nav.replaceChildren(...preserved);
     nav.classList.remove("ob-branch-nav");
     nav.classList.add("ow-nav");
