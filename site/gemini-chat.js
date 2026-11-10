@@ -20,7 +20,7 @@ roomAskHTML = function () {
     [roomAiText('Неден бастаймын?', 'С чего начать?'), 'hint'],
     [roomAiText('Қандай тәсіл тиімді?', 'Какой способ лучше?'), 'method'],
     [roomAiText('Қадамдап түсіндір', 'Объясни по шагам'), 'steps']
-  ].map(([label, key]) => `<button class="assistant-prompt" onclick="roomAiPrompt('${key}')">${label}${roomIcon('next')}</button>`).join('')}</div><p class="assistant-note">${roomAiText('Gemini жауабы қате болуы мүмкін. Есептеуін тексер. Сұрағың мен есеп мәтіні Google Gemini-ге жіберіледі; жеке деректерді жазба.', 'Gemini может ошибаться. Проверяй вычисления. Вопрос и условие задачи отправляются Google Gemini; не указывай личные данные.')}</p>`;
+  ].map(([label, key]) => `<button class="assistant-prompt" onclick="roomAiPrompt('${key}')">${label}${roomIcon('next')}</button>`).join('')}</div><p class="assistant-note">${roomAiText('ИИ жауабы қате болуы мүмкін. Есептеуін тексер. Сұрағың мен есеп мәтіні Google Gemini-ге жіберіледі; жеке деректерді жазба.', 'ИИ может ошибаться. Проверяй вычисления. Вопрос и условие задачи отправляются Google Gemini; не указывай личные данные.')}</p>`;
 };
 function roomAiPrompt(key) {
   const prompts = {
@@ -40,7 +40,7 @@ function roomRenderAI() {
     const article = document.createElement('article');
     article.className = 'room-ai-message room-ai-' + message.role;
     const label = document.createElement('strong');
-    label.textContent = message.role === 'user' ? roomAiText('Сен', 'Ты') : 'Örnek · Gemini';
+    label.textContent = message.role === 'user' ? roomAiText('Сен', 'Ты') : 'Өрнек ИИ';
     const text = document.createElement('p');
     text.textContent = message.text;
     article.append(label, text);
