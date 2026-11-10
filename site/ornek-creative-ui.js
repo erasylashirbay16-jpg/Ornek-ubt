@@ -83,7 +83,7 @@
       window.clearTimeout(wheelTimer);
       wheelTimer = window.setTimeout(() => {
         const button = buttons[selected()];
-        if (button && button.dataset.section !== activeSection) subjectNavigate(button.dataset.section);
+        // Scrolling and dragging preview the choice; click commits it.
       }, 190);
     }
     function shift(dir, immediate) {
@@ -119,12 +119,12 @@
     wheel.addEventListener("pointerdown", event => {
       if (event.button !== 0) return;
       pointer = { id: event.pointerId, y: event.clientY, index: selected(), moved: false };
-      wheel.setPointerCapture?.(event.pointerId);
+      // Capture only after a real drag; ordinary clicks must reach the option.
     });
     wheel.addEventListener("pointermove", event => {
       if (!pointer || event.pointerId !== pointer.id) return;
       const distance = pointer.y - event.clientY;
-      if (Math.abs(distance) > 10) pointer.moved = true;
+      if (Math.abs(distance) > 10 && !pointer.moved) { pointer.moved = true; wheel.setPointerCapture?.(event.pointerId); }
       if (pointer.moved) {
         wheel.classList.add("ow-dragging");
         setWheelIndex(wheel, clamp(pointer.index + Math.round(distance / 44), 0, buttons.length - 1), false);
@@ -166,6 +166,7 @@
   }
 
   function splitText(element) {
+    if (document.querySelector('script[src*="scroll-float.js"]')) return;
     if (!element || element.dataset.ornekSplit === "1") return;
     if (element.textContent.trim().length > 125) return;
     element.dataset.ornekSplit = "1";
