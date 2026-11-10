@@ -307,6 +307,6 @@ function mount(img){
  const cleanup=new MutationObserver(()=>{if(root.isConnected)return;cleanup.disconnect();resize.disconnect();cancelAnimationFrame(frame);gl.deleteTexture(texture);gl.deleteBuffer(buffer);gl.deleteProgram(program);shaders.forEach(s=>gl.deleteShader(s));});cleanup.observe(document.body,{childList:true,subtree:true});
  canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();root.classList.remove('holo-ready')});
 }
-const scan=()=>document.querySelectorAll('img.ornek-uploaded-logo').forEach(mount);
+const scan=()=>document.querySelectorAll('img.ornek-uploaded-logo, img.ornek-nav-wordmark').forEach(mount);
 scan();new MutationObserver(records=>{if(records.some(r=>r.addedNodes.length))scan()}).observe(document.body,{childList:true,subtree:true});
 })();
