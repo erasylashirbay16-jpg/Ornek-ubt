@@ -165,61 +165,10 @@
     syncOptionWheel();
   }
 
-  function splitText(element) {
-    if (document.querySelector('script[src*="scroll-float.js"]')) return;
-    if (!element || element.dataset.ornekSplit === "1") return;
-    if (element.textContent.trim().length > 125) return;
-    element.dataset.ornekSplit = "1";
-    const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
-    const textNodes = [];
-    while (walker.nextNode()) textNodes.push(walker.currentNode);
-    let step = 0;
-    for (const textNode of textNodes) {
-      if (!textNode.parentNode || !textNode.nodeValue.trim()) continue;
-      const parts = textNode.nodeValue.split(/(\s+)/);
-      const fragment = document.createDocumentFragment();
-      parts.forEach(part => {
-        if (!part) return;
-        if (!part.trim()) {
-          fragment.append(document.createTextNode(part));
-          return;
-        }
-        const piece = document.createElement("span");
-        piece.className = "ob-split-piece";
-        piece.textContent = part;
-        piece.style.setProperty("--ob-stagger", Math.min(step * 60, 840) + "ms");
-        step++;
-        fragment.append(piece);
-      });
-      textNode.replaceWith(fragment);
-    }
-    if (!step) return;
-    element.classList.add("ob-split-text");
-    const reveal = () => element.classList.add("ob-split-revealed");
-    if ((reduced && reduced.matches) || !("IntersectionObserver" in window)) {
-      reveal();
-      return;
-    }
-    const observer = new IntersectionObserver(entries => {
-      if (entries.some(entry => entry.isIntersecting)) {
-        reveal();
-        observer.disconnect();
-      }
-    }, { threshold: 0.12, rootMargin: "0px 0px -35px 0px" });
-    observer.observe(element);
-  }
-
   function enhanceWelcome() {
     const root = document.getElementById("welcome");
     if (!root || !document.body.classList.contains("on-welcome")) return;
     root.classList.add("ob-creative-ready");
-    [
-      ".arch-hero h1",
-      ".arch-section-title h2",
-      ".ornek-method h2",
-      ".arch-how h2"
-    ].forEach(selector => root.querySelectorAll(selector).forEach(splitText));
-
     const copy = root.querySelector(".arch-hero-copy");
     if (copy && !copy.querySelector(".ob-quick-launch")) {
       const quick = document.createElement("div");
@@ -240,13 +189,6 @@
     }
   }
 
-  function enhanceStudyHeading() {
-    const app = document.getElementById("app");
-    if (!app || document.body.classList.contains("on-welcome")) return;
-    const title = app.querySelector("h1");
-    if (title && title.textContent.length < 100) splitText(title);
-  }
-
   if (typeof subjectMenu === "function") {
     const originalSubjectMenu = subjectMenu;
     subjectMenu = function () {
@@ -261,7 +203,6 @@
       activeSection = key;
       const result = originalNavigate.apply(this, arguments);
       syncOptionWheel();
-      enhanceStudyHeading();
       return result;
     };
   }
@@ -276,7 +217,6 @@
 
   enhanceWelcome();
   enhanceOptionWheel();
-  enhanceStudyHeading();
   window.addEventListener("resize", () => {
     if (!document.body.classList.contains("on-welcome")) syncOptionWheel();
   }, { passive: true });
