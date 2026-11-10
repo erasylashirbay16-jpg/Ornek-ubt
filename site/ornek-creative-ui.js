@@ -349,25 +349,23 @@
   const TARGET_MONTH = 5;
   const TARGET_DAY = 10;
   const MS_PER_DAY = 86400000;
+  const TARGET_MS = Date.parse("2027-05-10T00:00:00+05:00");
   let activeNumber = null;
   let shownDays = null;
   let animation = 0;
   const prefersReducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)");
 
-  function kazakhstanToday() {
-    const parts = new Intl.DateTimeFormat("en-US", {
-      timeZone: "Asia/Almaty",
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit"
-    }).formatToParts(new Date());
-    const get = type => Number(parts.find(p => p.type === type)?.value);
-    return Date.UTC(get("year"), get("month") - 1, get("day"));
-  }
-
-  function daysToUNT() {
-    const target = Date.UTC(TARGET_YEAR, TARGET_MONTH - 1, TARGET_DAY);
-    return Math.max(0, Math.round((target - kazakhstanToday()) / MS_PER_DAY));
+  function timeToUNT() {
+    // Midnight on 10 May 2027 in Kazakhstan (UTC+5).
+    const remaining = Math.max(0, TARGET_MS - Date.now());
+    const seconds = Math.ceil(remaining / 1000);
+    return {
+      days: Math.floor(seconds / 86400),
+      hours: Math.floor(seconds % 86400 / 3600),
+      minutes: Math.floor(seconds % 3600 / 60),
+      seconds: seconds % 60,
+      started: remaining === 0
+    };
   }
 
   function animateTo(node, value, force = false) {
@@ -405,10 +403,17 @@
       shownDays = null;
       force = true;
     }
-    const value = daysToUNT();
-    animateTo(node, value, force);
+    const time = timeToUNT();
+    animateTo(node, time.days, force);
     const card = node.closest(".ornek-unt-counter");
-    if (card) card.dataset.started = value === 0 ? "true" : "false";
+    if (!card) return;
+    card.dataset.started = time.started ? "true" : "false";
+    for (const part of ["hours", "minutes", "seconds"]) {
+      const field = card.querySelector('[data-unt-part="' + part + '"]');
+      if (!field) continue;
+      const value = String(time[part]).padStart(2, "0");
+      if (field.textContent !== value) field.textContent = value;
+    }
   }
 
   function attachCounter() {
@@ -436,6 +441,13 @@
       '<strong class="ornek-unt-number" id="ornek-unt-days-number" aria-label="Қалған күндер" aria-live="off">—</strong>',
       '<span class="ornek-unt-unit">КҮН<br>ҚАЛДЫ</span>',
       '</div>',
+      '<div class="ornek-unt-clock" role="timer" aria-label="Қалған сағат, минут және секунд" aria-live="off">',
+      '<div class="ornek-unt-clock-part"><strong data-unt-part="hours">00</strong><span>САҒАТ</span></div>',
+      '<span class="ornek-unt-clock-colon" aria-hidden="true">:</span>',
+      '<div class="ornek-unt-clock-part"><strong data-unt-part="minutes">00</strong><span>МИНУТ</span></div>',
+      '<span class="ornek-unt-clock-colon" aria-hidden="true">:</span>',
+      '<div class="ornek-unt-clock-part"><strong data-unt-part="seconds">00</strong><span>СЕКУНД</span></div>',
+      '</div>',
       '<div class="ornek-unt-counter-progress"><span></span></div>',
       '</div>'
     ].join("");
@@ -456,5 +468,5 @@
     if (!document.hidden) updateCounter();
   });
   window.addEventListener("pageshow", () => updateCounter());
-  window.setInterval(() => updateCounter(), 60000);
+  window.setInterval(() => updateCounter(), 250);
 })();
