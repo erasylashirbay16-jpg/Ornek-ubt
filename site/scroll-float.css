@@ -1,4 +1,0 @@
-.ornek-scroll-float .sf-word{display:inline-block;white-space:nowrap;vertical-align:baseline}
-.ornek-scroll-float .sf-char{display:inline-block;transform-origin:50% 100%;backface-visibility:hidden}
-@media(prefers-reduced-motion:reduce){.ornek-scroll-float .sf-char{transform:none!important;opacity:1!important}}
-@media print{.ornek-scroll-float .sf-char{transform:none!important;opacity:1!important}}
