@@ -160,7 +160,13 @@
     const shortcut = document.createElement("div");
     shortcut.className = "ob-branch-shortcut";
     shortcut.innerHTML = '<span class="ob-branch-shortcut-kicker">КҮННІҢ ҚАДАМЫ</span><strong>5 минуттан баста.</strong><p>Кішкентай жаттығу — үлкен әдет.</p><button type="button">Жылдам жаттығу <span aria-hidden="true">↗</span></button>';
-    shortcut.querySelector("button").addEventListener("click", () => subjectNavigate("rush"));
+    const shortcutTarget=currentSubject==='profile'?'library':'rush';
+    if(shortcutTarget==='library'){
+      shortcut.querySelector('strong').textContent='Бір есептен баста.';
+      shortcut.querySelector('p').textContent='Тақырыпты таңда да, шешу жолын талда.';
+      shortcut.querySelector('button').textContent='Есептерді қарау ↗';
+    }
+    shortcut.querySelector("button").addEventListener("click", () => subjectNavigate(shortcutTarget));
     nav.append(shortcut);
     syncOptionWheel();
   }
