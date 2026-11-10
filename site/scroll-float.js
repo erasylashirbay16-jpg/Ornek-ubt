@@ -2,7 +2,7 @@
 (()=>{
  const reduced=matchMedia('(prefers-reduced-motion: reduce)');
  const selector='#welcome :is(h1,h2,h3,p),#app :is(h1,h2,h3,p)';
- const excluded='button,a,label,summary,dialog,.questionrow,.question-room,.qroom,.history-workspace,.reading-workspace,.reading-passage,.reading-context,.option,.feedback,.testtile,.testintro,.formula,.motivation-loop';
+ const excluded='button,a,label,summary,dialog,.questionrow,.question-room,.qroom,.history-workspace,.reading-workspace,.reading-passage,.reading-context,.option,.feedback,.testtile,.testintro,.formula,.motivation-loop,.arch-example,.example-paper';
  const items=new Map();let raf=0;
  const ease=t=>{const c=2*1.525;return t<.5?Math.pow(2*t,2)*((c+1)*2*t-c)/2:(Math.pow(2*t-2,2)*((c+1)*(2*t-2)+c)+2)/2};
  function update(){raf=0;const vh=innerHeight;
@@ -17,7 +17,7 @@
  function split(el){if(el.dataset.scrollFloat==='ready')return;el.dataset.scrollFloat='ready';el.classList.add('ornek-scroll-float');el.setAttribute('aria-label',el.innerText.trim()||el.textContent.trim());const nodes=[];const walker=document.createTreeWalker(el,NodeFilter.SHOW_TEXT);while(walker.nextNode())nodes.push(walker.currentNode);const chars=[];
   for(const node of nodes){const frag=document.createDocumentFragment();for(const part of node.textContent.split(/(\s+)/)){if(!part)continue;if(/^\s+$/.test(part)){frag.append(document.createTextNode(part));continue}const word=document.createElement('span');word.className='sf-word';word.setAttribute('aria-hidden','true');for(const letter of Array.from(part)){const span=document.createElement('span');span.className='sf-char';span.textContent=letter;word.append(span);chars.push(span)}frag.append(word)}node.replaceWith(frag)}items.set(el,chars);
  }
- function scan(){for(const el of document.querySelectorAll(selector)){if(el.closest(excluded)||el.textContent.trim().length>180||!el.textContent.trim())continue;if(el.closest('#app')&&document.querySelector('#app input[type=radio],#app .option,#app .history-question,#app .reading-practice-option'))continue;split(el);}schedule()}
+ function scan(){for(const el of document.querySelectorAll(selector)){if(el.querySelector('button,a,input,select,textarea,svg')||el.closest(excluded)||el.textContent.trim().length>180||!el.textContent.trim())continue;if(el.closest('#app')&&document.querySelector('#app input[type=radio],#app .option,#app .history-question,#app .reading-practice-option'))continue;split(el);}schedule()}
  new MutationObserver(records=>{if(records.some(r=>[...r.addedNodes].some(n=>n.nodeType===1&&!n.classList?.contains('sf-word')&&!n.classList?.contains('sf-char'))))scan()}).observe(document.body,{childList:true,subtree:true});
  addEventListener('scroll',schedule,{passive:true});addEventListener('resize',schedule,{passive:true});reduced.addEventListener('change',schedule);scan();
 })();
