@@ -12,7 +12,7 @@
     'header.top :is(button,a,small,strong,.topbrand,.toptools)',
     '.site-footer :is(p,a,small,strong,span)'
   ].join(', ');
-  const excluded = 'script,style,noscript,textarea,option,select,pre,code,svg,math,[contenteditable],[aria-hidden="true"],.sr-only,.ri-sr-only,.ri-word,.ri-char,.ornek-rising-ink,.ornek-scroll-float,dialog,.questionrow,.question-room,.qroom,.reading-workspace,.reading-passage,.reading-context,.history-workspace,.history-question,.reading-question,.qtext,.options,.option,.feedback,.testgrid,.testtile,.testintro,.formula,.motivation-loop,.arch-example,.example-paper,.ornek-privacy-legalbar,.ornek-countdown,[role="timer"]';
+  const excluded = 'script,style,noscript,textarea,option,select,pre,code,svg,math,[contenteditable],[aria-hidden="true"],.sr-only,.ri-sr-only,.ri-word,.ri-char,.ornek-rising-ink,.ornek-scroll-float,.arch-cta,dialog,.questionrow,.question-room,.qroom,.reading-workspace,.reading-passage,.reading-context,.history-workspace,.history-question,.reading-question,.qtext,.options,.option,.feedback,.testgrid,.testtile,.testintro,.formula,.motivation-loop,.arch-example,.example-paper,.ornek-privacy-legalbar,.ornek-countdown,[role="timer"]';
   const registry = new WeakMap();
   const MAX_CHARS = 350;
   const RADIUS = 125;
