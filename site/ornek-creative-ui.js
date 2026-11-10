@@ -585,3 +585,193 @@
   scheduleScrollGlass();
   applyInitialHash();
 })();
+
+
+/* Örnek Header V3 — polished educational navigation inspired by the supplied
+   layout, but using Örnek brand, actual available subjects and real actions.
+   Existing landing page, account, locale and study engines are preserved. */
+(() => {
+  "use strict";
+
+  const gridIcon = '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3.5" y="3.5" width="6.5" height="6.5" rx="1.5"/><rect x="14" y="3.5" width="6.5" height="6.5" rx="1.5"/><rect x="3.5" y="14" width="6.5" height="6.5" rx="1.5"/><rect x="14" y="14" width="6.5" height="6.5" rx="1.5"/></svg>';
+  const chevIcon = '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>';
+  const userIcon = '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="8" r="3.4"/><path d="M5 20c0-4 3-6 7-6s7 2 7 6"/></svg>';
+  const menuIcon = '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>';
+  const subjectMarks = { math:"∑", reading:"▤", history:"◇", profile:"ƒ" };
+  const subjectLabels = {
+    kk: {
+      math:["Математикалық сауаттылық","Есептер мен логика"],
+      reading:["Оқу сауаттылығы","Мәтінмен жұмыс"],
+      history:["Қазақстан тарихы","Тарихи білім"],
+      profile:["Бейіндік математика","Тереңдетілген есептер"]
+    },
+    ru: {
+      math:["Математическая грамотность","Задачи и логика"],
+      reading:["Грамотность чтения","Работа с текстом"],
+      history:["История Казахстана","Исторические задания"],
+      profile:["Профильная математика","Углублённая практика"]
+    }
+  };
+
+  function language() {
+    return typeof qLanguage !== "undefined" && qLanguage === "ru" ? "ru" : "kk";
+  }
+  function subjects() {
+    const ids = ["math", "reading", "history", "profile"];
+    const available = typeof subjectNames !== "undefined" ? subjectNames : null;
+    return ids.filter(id => available ? Object.prototype.hasOwnProperty.call(available,id) : id !== "profile");
+  }
+  function buildHeader() {
+    const l = language();
+    const kk = l === "kk";
+    const t = kk ? {
+      subjects:"Пәндер каталогы", catalog:"Пәнді таңдау", home:"ҰБТ", tests:"Тест нұсқалары",
+      plan:"Оқу жоспары", analytics:"Нәтижелер", login:"Кіру", account:"Аккаунт",
+      menu:"Мәзір", free:"Тегін дайындық", catalogTitle:"Өзіңе керек пәнді таңда"
+    } : {
+      subjects:"Каталог предметов", catalog:"Выбрать предмет", home:"ЕНТ", tests:"Варианты тестов",
+      plan:"План подготовки", analytics:"Результаты", login:"Войти", account:"Аккаунт",
+      menu:"Меню", free:"Бесплатная подготовка", catalogTitle:"Выбери предмет"
+    };
+    const available = subjects();
+    const items = available.map(id => {
+      const [name,description] = subjectLabels[l][id];
+      return '<button class="ornek-v3-subject" type="button" role="menuitem" data-ornek-v3-subject="' + id + '">' +
+        '<span class="ornek-v3-subject-icon">' + subjectMarks[id] + '</span>' +
+        '<span class="ornek-v3-subject-copy"><strong>' + name + '</strong><small>' + description + '</small></span>' +
+        '<span class="ornek-v3-subject-arrow" aria-hidden="true">↗</span></button>';
+    }).join("");
+    const links = [
+      ["home",t.home],["tests",t.tests],["plan",t.plan],["analytics",t.analytics]
+    ];
+    const mid = links.map(([key,label]) =>
+      '<button type="button" class="ornek-v3-link' + (key==="home" ? " is-current" : "") +
+      '" data-ornek-v3-action="' + key + '">' + label + '</button>'
+    ).join("");
+    const mobileLinks = links.map(([key,label]) =>
+      '<button type="button" data-ornek-v3-action="' + key + '">' + label + '<span aria-hidden="true">↗</span></button>'
+    ).join("");
+    const profile = typeof ornekAccount !== "undefined" && ornekAccount.user;
+    const label = profile ? t.account : t.login;
+
+    return '<a class="ornek-v3-brand" href="/" aria-label="Örnek — басты бет">' +
+      '<span class="ornek-nav-lockup"><img class="ornek-nav-symbol" src="/assets/ornek-icon.svg" alt="" width="37" height="37">' +
+      '<span class="ornek-v3-brand-name">Örnek<span class="ornek-v3-brand-dot">.</span></span></span></a>' +
+      '<div class="ornek-v3-catalog-wrap">' +
+      '<button type="button" class="ornek-v3-catalog" data-ornek-v3-toggle="catalog" aria-haspopup="menu" aria-expanded="false" aria-controls="ornek-v3-catalog-menu">' +
+      gridIcon + '<span>' + t.subjects + '</span>' + chevIcon + '</button>' +
+      '<div id="ornek-v3-catalog-menu" class="ornek-v3-popover" role="menu" hidden>' +
+      '<div class="ornek-v3-popover-top"><strong>' + t.catalogTitle + '</strong><small>' + t.free + '</small></div>' +
+      items + '</div></div>' +
+      '<nav class="ornek-v3-mainlinks" aria-label="' + t.menu + '">' + mid + '</nav>' +
+      '<div class="ornek-v3-actions">' +
+      '<div class="ornek-v3-language" role="group" aria-label="Тіл / Язык">' +
+      '<button type="button" data-ornek-v3-lang="kk" class="' + (kk ? "is-current" : "") + '" aria-pressed="' + kk + '">Қаз</button>' +
+      '<button type="button" data-ornek-v3-lang="ru" class="' + (!kk ? "is-current" : "") + '" aria-pressed="' + !kk + '">Рус</button>' +
+      '</div>' +
+      '<button type="button" class="ornek-v3-login" data-ornek-v3-action="login">' + userIcon +
+      '<span>' + label + '</span></button>' +
+      '<button type="button" class="ornek-v3-menu-toggle" data-ornek-v3-toggle="mobile" aria-expanded="false" aria-controls="ornek-v3-mobile-menu" aria-label="' + t.menu + '">' + menuIcon + '</button>' +
+      '</div>' +
+      '<div id="ornek-v3-mobile-menu" class="ornek-v3-mobile-panel" hidden>' +
+      '<div class="ornek-v3-mobile-heading">' + t.menu + '</div>' + mobileLinks +
+      '<div class="ornek-v3-mobile-heading">' + t.catalog + '</div>' + items.replaceAll('role="menuitem"','role="menuitem"') +
+      '<div class="ornek-v3-mobile-languages"><button type="button" data-ornek-v3-lang="kk">Қаз</button><button type="button" data-ornek-v3-lang="ru">Рус</button></div>' +
+      '</div>';
+  }
+
+  function closeMenus(nav, returnFocus=false) {
+    for (const which of ["catalog","mobile"]) {
+      const panel = nav.querySelector("#ornek-v3-" + (which==="catalog" ? "catalog-menu" : "mobile-menu"));
+      const trigger = nav.querySelector('[data-ornek-v3-toggle="' + which + '"]');
+      if (!panel || !trigger) continue;
+      if (!panel.hidden && returnFocus) trigger.focus();
+      panel.hidden = true;
+      trigger.setAttribute("aria-expanded","false");
+    }
+  }
+
+  function activate(id) {
+    if (id==="home") {
+      const dest = document.getElementById("arch-subjects");
+      if (dest) {
+        dest.scrollIntoView({behavior:window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",block:"start"});
+      }
+      return;
+    }
+    if (id==="login") {
+      if (typeof showAccount==="function") showAccount();
+      return;
+    }
+    const routes = {tests:"testsPage",plan:"planner",analytics:"analytics"};
+    if (routes[id] && typeof openSubject==="function") {
+      openSubject("math");
+      if (typeof subjectNavigate==="function") subjectNavigate(routes[id]);
+    }
+  }
+
+  function decorate() {
+    if (!document.body.classList.contains("on-welcome")) return;
+    const root = document.getElementById("welcome");
+    const nav = root?.querySelector(":scope > .arch-nav, :scope > .welcome-nav");
+    if (!nav || nav.classList.contains("ornek-header-v3")) return;
+    nav.classList.add("ornek-header-v3");
+    nav.setAttribute("aria-label","Örnek негізгі мәзірі");
+    nav.innerHTML = buildHeader();
+  }
+
+  document.addEventListener("click", event => {
+    const target = event.target;
+    if (!(target instanceof Element)) return;
+    const nav = document.querySelector("#welcome > .ornek-header-v3");
+    if (!nav) return;
+    if (!nav.contains(target)) {
+      closeMenus(nav);
+      return;
+    }
+    const trigger = target.closest("[data-ornek-v3-toggle]");
+    if (trigger) {
+      const which = trigger.dataset.ornekV3Toggle;
+      const panel = nav.querySelector("#ornek-v3-" + (which === "catalog" ? "catalog-menu" : "mobile-menu"));
+      if (!panel) return;
+      const wasOpen = !panel.hidden;
+      closeMenus(nav);
+      panel.hidden = wasOpen;
+      trigger.setAttribute("aria-expanded",String(!wasOpen));
+      if (!wasOpen) panel.querySelector("button")?.focus({preventScroll:true});
+      return;
+    }
+    const subject = target.closest("[data-ornek-v3-subject]");
+    if (subject) {
+      closeMenus(nav);
+      if (typeof openSubject==="function") openSubject(subject.dataset.ornekV3Subject);
+      return;
+    }
+    const lang = target.closest("[data-ornek-v3-lang]");
+    if (lang) {
+      closeMenus(nav);
+      if (typeof setQLanguage==="function") setQLanguage(lang.dataset.ornekV3Lang);
+      return;
+    }
+    const action = target.closest("[data-ornek-v3-action]");
+    if (action) {
+      closeMenus(nav);
+      activate(action.dataset.ornekV3Action);
+    }
+  });
+  document.addEventListener("keydown", event => {
+    if (event.key !== "Escape") return;
+    const nav = document.querySelector("#welcome > .ornek-header-v3");
+    if (nav) closeMenus(nav,true);
+  });
+
+  if (typeof renderWelcome==="function") {
+    const prior = renderWelcome;
+    renderWelcome = function() {
+      const result = prior.apply(this,arguments);
+      decorate();
+      return result;
+    };
+  }
+  decorate();
+})();
