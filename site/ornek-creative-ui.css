@@ -394,76 +394,163 @@ aside nav .ow-bottom button:hover{background:#e9e1ff;color:#6542c5}
 }
 
 
-/* Örnek frosted scroll navigation: content passing beneath the sticky header
-   is optically blurred; navigation labels remain sharp (reference screenshot). */
+/* Örnek frosted navigation v2 — screenshot fixes:
+   compact light glass, transparent logo, legible links and anchored section offsets. */
 body.on-welcome #welcome > .arch-nav,
 body.on-welcome #welcome > .welcome-nav {
   position: sticky !important;
-  top: 12px;
+  top: 14px;
   z-index: 200;
   isolation: isolate;
-  -webkit-backdrop-filter: blur(9px) saturate(120%);
-  backdrop-filter: blur(9px) saturate(120%);
-  transition: background-color .28s ease, border-color .28s ease,
-    box-shadow .28s ease, color .28s ease, -webkit-backdrop-filter .28s ease,
-    backdrop-filter .28s ease;
+  width: min(1320px, calc(100% - 40px));
+  min-height: 72px;
+  height: auto;
+  padding: 9px clamp(14px, 2.3vw, 27px);
+  margin: 14px auto 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(12px, 2vw, 28px);
+  border: 1px solid rgba(215, 206, 232, .76) !important;
+  border-radius: 23px !important;
+  background: rgba(255, 255, 255, .82) !important;
+  color: #332b45 !important;
+  box-shadow: 0 8px 27px rgba(45, 29, 89, .065);
+  -webkit-backdrop-filter: blur(14px) saturate(135%);
+  backdrop-filter: blur(14px) saturate(135%);
+  transition: background-color .22s ease, border-color .22s ease,
+    box-shadow .22s ease, -webkit-backdrop-filter .22s ease,
+    backdrop-filter .22s ease, transform .22s ease;
 }
 body.on-welcome #welcome > .arch-nav.ornek-nav-scrolled,
 body.on-welcome #welcome > .welcome-nav.ornek-nav-scrolled {
-  background: rgba(16, 14, 29, .76) !important;
-  border: 1px solid rgba(255,255,255,.15) !important;
-  color: #f8f6ff !important;
-  box-shadow: 0 13px 38px rgba(15, 8, 34, .20),
-    inset 0 1px 0 rgba(255,255,255,.13);
-  -webkit-backdrop-filter: blur(23px) saturate(145%) !important;
-  backdrop-filter: blur(23px) saturate(145%) !important;
+  background: rgba(250, 249, 255, .90) !important;
+  border-color: rgba(191, 177, 225, .86) !important;
+  color: #32264c !important;
+  box-shadow: 0 11px 32px rgba(43, 25, 87, .13),
+    inset 0 1px 0 rgba(255, 255, 255, .8);
+  -webkit-backdrop-filter: blur(18px) saturate(145%) !important;
+  backdrop-filter: blur(18px) saturate(145%) !important;
 }
-body.on-welcome #welcome > .arch-nav.ornek-nav-scrolled::after,
-body.on-welcome #welcome > .welcome-nav.ornek-nav-scrolled::after {
-  content: "";
-  position: absolute;
-  top: calc(100% - 3px);
-  left: 20px;
-  right: 20px;
-  height: 31px;
-  border-radius: 0 0 26px 26px;
-  pointer-events: none;
-  background: rgba(21, 17, 35, .025);
-  -webkit-backdrop-filter: blur(11px);
-  backdrop-filter: blur(11px);
-  -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,.78), transparent);
-  mask-image: linear-gradient(to bottom, rgba(0,0,0,.78), transparent);
+/* No blurred pseudo-strip outside the header: it previously obscured the hero. */
+body.on-welcome #welcome > .arch-nav::after,
+body.on-welcome #welcome > .welcome-nav::after {
+  content: none !important;
+  display: none !important;
 }
+body.on-welcome #welcome > .arch-nav > a:first-child,
+body.on-welcome #welcome > .welcome-nav > a:first-child {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex: 0 0 auto;
+  width: 154px;
+  min-height: 49px;
+  background: transparent !important;
+  border: 0 !important;
+  filter: none !important;
+  text-decoration: none;
+}
+body.on-welcome #welcome > .arch-nav .ornek-nav-wordmark,
+body.on-welcome #welcome > .welcome-nav .ornek-nav-wordmark {
+  display: block;
+  width: 142px !important;
+  height: 46px !important;
+  max-width: 100%;
+  object-fit: contain;
+  opacity: 1 !important;
+  filter: none !important;
+  mix-blend-mode: normal !important;
+  background: transparent;
+}
+body.on-welcome #welcome > .arch-nav nav,
+body.on-welcome #welcome > .welcome-nav nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(12px, 2.5vw, 35px);
+  min-width: 0;
+  margin-left: auto;
+}
+body.on-welcome #welcome > .arch-nav nav a,
+body.on-welcome #welcome > .welcome-nav nav a,
 body.on-welcome #welcome > .arch-nav.ornek-nav-scrolled nav a,
 body.on-welcome #welcome > .welcome-nav.ornek-nav-scrolled nav a {
-  color: rgba(248,246,255,.87) !important;
+  color: #625574 !important;
+  font-size: clamp(12px, 1.05vw, 14px);
+  font-weight: 550;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: color .18s ease;
 }
+body.on-welcome #welcome > .arch-nav nav a:hover,
+body.on-welcome #welcome > .welcome-nav nav a:hover,
 body.on-welcome #welcome > .arch-nav.ornek-nav-scrolled nav a:hover,
 body.on-welcome #welcome > .welcome-nav.ornek-nav-scrolled nav a:hover {
+  color: #6e45cc !important;
+}
+body.on-welcome #welcome > .arch-nav .arch-account,
+body.on-welcome #welcome > .arch-nav.ornek-nav-scrolled .arch-account {
+  flex: 0 0 auto;
+  min-height: 42px;
+  border: 1px solid #e6dcfc !important;
+  border-radius: 13px !important;
+  padding: 9px 17px;
+  background: #f4efff !important;
+  color: #593c9a !important;
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: none !important;
+}
+body.on-welcome #welcome > .arch-nav .arch-account:hover {
+  background: #e9dfff !important;
+  border-color: #c8b5fa !important;
+}
+body.on-welcome #welcome > .welcome-nav .welcome-nav-actions > button,
+body.on-welcome #welcome > .welcome-nav.ornek-nav-scrolled .welcome-nav-actions > button {
+  background: #7450d0 !important;
   color: #fff !important;
 }
-body.on-welcome #welcome > .arch-nav.ornek-nav-scrolled > a:first-child,
-body.on-welcome #welcome > .welcome-nav.ornek-nav-scrolled > a:first-child {
-  filter: brightness(0) invert(1);
+/* Anchor targets remain fully visible below the sticky 72px navigation. */
+body.on-welcome #welcome #arch-subjects,
+body.on-welcome #welcome #arch-how,
+body.on-welcome #welcome #why-qadam,
+body.on-welcome #welcome #qadam-features,
+body.on-welcome #welcome #ornek-subjects,
+body.on-welcome #welcome #qadam-how,
+body.on-welcome #welcome #qadam-demo {
+  scroll-margin-top: 114px;
 }
-body.on-welcome #welcome > .arch-nav.ornek-nav-scrolled .arch-account {
-  background: rgba(255,255,255,.94) !important;
-  color: #33215e !important;
-}
-body.on-welcome #welcome > .welcome-nav.ornek-nav-scrolled .welcome-nav-actions > button {
-  background: rgba(255,255,255,.94) !important;
-  color: #33215e !important;
-}
-@media(max-width:750px) {
+@media(max-width:850px) {
   body.on-welcome #welcome > .arch-nav,
   body.on-welcome #welcome > .welcome-nav {
-    top: 7px;
-    border-radius: 21px;
+    top: 9px;
+    width: calc(100% - 22px);
+    min-height: 65px;
+    padding: 9px 13px;
+    border-radius: 18px !important;
+    gap: 9px;
   }
-  body.on-welcome #welcome > .arch-nav.ornek-nav-scrolled::after,
-  body.on-welcome #welcome > .welcome-nav.ornek-nav-scrolled::after {
-    left: 10px; right: 10px; height: 18px;
+  body.on-welcome #welcome > .arch-nav > a:first-child,
+  body.on-welcome #welcome > .welcome-nav > a:first-child {
+    width: 117px;
+    min-height: 42px;
   }
+  body.on-welcome #welcome > .arch-nav .ornek-nav-wordmark,
+  body.on-welcome #welcome > .welcome-nav .ornek-nav-wordmark {
+    width: 113px !important;
+    height: 38px !important;
+  }
+  body.on-welcome #welcome > .arch-nav nav,
+  body.on-welcome #welcome > .welcome-nav nav { gap: 10px; }
+  body.on-welcome #welcome > .arch-nav nav a,
+  body.on-welcome #welcome > .welcome-nav nav a { font-size: 11px; }
+  body.on-welcome #welcome > .arch-nav .arch-account { padding: 8px 10px; font-size: 11px; }
+}
+@media(max-width:610px) {
+  body.on-welcome #welcome > .arch-nav nav,
+  body.on-welcome #welcome > .welcome-nav nav { display: none !important; }
+  body.on-welcome #welcome > .arch-nav .arch-account { min-height: 39px; }
 }
 @media(prefers-reduced-motion:reduce) {
   body.on-welcome #welcome > .arch-nav,
