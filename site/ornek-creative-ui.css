@@ -338,3 +338,57 @@ aside nav .ow-bottom button:hover{background:#e9e1ff;color:#6542c5}
 @media(prefers-reduced-motion:reduce) {
   .ornek-unt-counter * { scroll-behavior: auto; }
 }
+
+
+/* Live HH:MM:SS timer below the animated day Counter. */
+.ornek-unt-clock {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  width: min(100%, 288px);
+  margin-top: 13px;
+  padding: 10px 12px;
+  border: 1px solid rgba(207,185,255,.28);
+  border-radius: 14px;
+  background: rgba(255,255,255,.075);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.075);
+  font-variant-numeric: tabular-nums;
+}
+.ornek-unt-clock-part {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  flex: 1 1 0;
+  min-width: 0;
+}
+.ornek-unt-clock-part strong {
+  color: #fff;
+  font-family: "Ornek Geologica", "Qadam Sans", sans-serif;
+  font-size: clamp(23px, 2vw, 30px);
+  font-weight: 600;
+  letter-spacing: -.025em;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+.ornek-unt-clock-part > span {
+  color: #cbb9f7;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .09em;
+}
+.ornek-unt-clock-colon {
+  align-self: flex-start;
+  color: #a98def;
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1;
+}
+.ornek-unt-counter-progress {
+  margin-top: 14px;
+}
+@media(max-width:750px) {
+  .ornek-unt-clock { max-width: 320px; width: 100%; }
+  .ornek-unt-clock-part strong { font-size: clamp(24px, 7vw, 30px); }
+}
