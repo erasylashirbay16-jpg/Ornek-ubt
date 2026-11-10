@@ -6,8 +6,8 @@
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const pointerIsFine = window.matchMedia('(hover: hover) and (pointer: fine)');
   const selector = [
-    '#welcome :is(h1,h2,h3,h4,p,button,a,summary,small,strong,.overline,.ornek-chip,.subject-category,.subject-free,.subject-language-note,.tag,.eyebrow,.muted,.hero-label,.handlabel,.welcome-step-number,.feature-label,.footer-note)',
-    '#app :is(h1,h2,h3,h4,p,button,a,summary,small,strong,.muted,.overline,.eyebrow,.tag,.hero-label,.stat,.stat-value,.stat-label,.notice,.subject-category,.subject-free,.subject-shortcuts,.session-ticket,.qhero .hero-label,.reading-spec-note,.sidebar-heading)',
+    '#welcome :is(h1,h2,h3,h4,p,button,a,summary,small,strong,span,.overline,.ornek-chip,.subject-category,.subject-free,.subject-language-note,.tag,.eyebrow,.muted,.hero-label,.handlabel,.welcome-step-number,.feature-label,.footer-note)',
+    '#app :is(h1,h2,h3,h4,p,button,a,summary,small,strong,span,.muted,.overline,.eyebrow,.tag,.hero-label,.stat,.stat-value,.stat-label,.notice,.subject-category,.subject-free,.subject-shortcuts,.session-ticket,.qhero .hero-label,.reading-spec-note,.sidebar-heading)',
     'aside :is(button,a,summary,small,strong,.examlabel,.navgroup)',
     'header.top :is(button,a,small,strong,.topbrand,.toptools)',
     '.site-footer :is(p,a,small,strong,span)'
