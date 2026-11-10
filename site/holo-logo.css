@@ -3,3 +3,12 @@
 .ornek-holo-logo.holo-ready canvas{opacity:1}
 .ornek-holo-logo.holo-ready>img{opacity:0}
 @media(prefers-reduced-motion:reduce){.ornek-holo-logo{transform:none!important;transition:none}}
+/* Keep the foil visible when WebGL is unavailable (including some phones). */
+.ornek-holo-logo{isolation:isolate;border-radius:12px}
+.ornek-holo-logo:not(.holo-ready)::before,.ornek-holo-logo:not(.holo-ready)::after{content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;z-index:1}
+.ornek-holo-logo:not(.holo-ready)::before{background:repeating-conic-gradient(from 0deg at 65% 45%,#7df9ff55 0deg 8deg,#b69aff66 12deg 20deg,#ffb8ef55 24deg 32deg,transparent 36deg 45deg);mix-blend-mode:color;opacity:.5;animation:ornek-foil-bursts 7s ease-in-out infinite alternate}
+.ornek-holo-logo:not(.holo-ready)::after{background:linear-gradient(110deg,transparent 25%,#a2f9ff55 40%,#ffffffcc 48%,#f3baff66 56%,transparent 72%);background-size:250% 100%;mix-blend-mode:screen;animation:ornek-foil-sheen 4s ease-in-out infinite}
+@keyframes ornek-foil-sheen{0%,12%{background-position:180% 0;opacity:.15}50%{opacity:.85}88%,100%{background-position:-80% 0;opacity:.15}}
+@keyframes ornek-foil-bursts{from{opacity:.3;filter:hue-rotate(0deg)}to{opacity:.7;filter:hue-rotate(65deg)}}
+@media(hover:hover) and (pointer:fine){.ornek-holo-logo:not(.holo-ready):hover{transform:perspective(900px) rotateX(5deg) rotateY(-7deg) scale(1.025)}}
+@media(prefers-reduced-motion:reduce){.ornek-holo-logo::before,.ornek-holo-logo::after{animation:none!important}}
