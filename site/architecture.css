@@ -7,15 +7,5 @@
 .examlabel{display:block}.examlabel b{display:block;font-size:13px;line-height:1.5}.examlabel small{margin-top:5px}aside nav button .menu-glyph{flex-shrink:0}body:not(.on-welcome) aside{z-index:40}
 @media(min-width:851px) and (max-width:1150px){body.in-question main{margin-left:212px!important}}
 
-/* Subject-first Örnek landing layout: catalog visible without scrolling past promo blocks. */
-#arch-subjects{scroll-margin-top:118px}
-#arch-subjects .arch-section-title{padding:32px 0 20px}
-#arch-subjects .arch-section-title h2{font-size:clamp(29px,3.1vw,43px)}
-#arch-subjects .arch-category{margin-top:8px}
-#arch-subjects .arch-profile-label{margin-top:32px}
-#arch-subjects + .arch-hero{margin-top:54px}
+/* The retired promotional features section must stay hidden. */
 #welcome .welcome-features,#welcome #qadam-features{display:none!important}
-@media(max-width:700px){
-  #arch-subjects .arch-section-title{padding:24px 0 18px}
-  #arch-subjects + .arch-hero{margin-top:32px}
-}
