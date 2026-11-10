@@ -5,6 +5,7 @@
   if(list.dataset.lineSidebar)return;list.dataset.lineSidebar='true';
   const buttons=[...list.querySelectorAll('button[data-section]')];
   buttons.forEach((button,index)=>{
+   const label=document.createElement('span');label.className='line-sidebar-label';for(const node of [...button.childNodes]){if(node.nodeType===Node.TEXT_NODE)label.append(node)}button.append(label);
    button.dataset.lineIndex=String(index+1).padStart(2,'0');
    const marker=document.createElement('span');marker.className='line-sidebar-marker';marker.setAttribute('aria-hidden','true');
    button.prepend(marker);
@@ -13,7 +14,7 @@
   function reset(){for(const button of buttons){button.style.setProperty('--line-shift','0px');button.style.setProperty('--line-scale','.5')}}
   list.addEventListener('pointermove',event=>{
    if(event.pointerType==='touch'||reduced.matches)return;
-   for(const button of buttons){const rect=button.getBoundingClientRect();const distance=Math.hypot(event.clientX-rect.left,event.clientY-(rect.top+rect.height/2));const t=Math.max(0,1-distance/100);const strength=t*t*(3-2*t);button.style.setProperty('--line-shift',`${strength*30}px`);button.style.setProperty('--line-scale',String(.5+strength*.5))}
+   for(const button of buttons){const rect=button.getBoundingClientRect();const distance=Math.hypot(event.clientX-rect.left,event.clientY-(rect.top+rect.height/2));const t=Math.max(0,1-distance/100);const strength=t*t*(3-2*t);button.style.setProperty('--line-shift',`${strength*8}px`);button.style.setProperty('--line-scale',String(.5+strength*.5))}
   });list.addEventListener('pointerleave',reset);
  }
  function repair(){
