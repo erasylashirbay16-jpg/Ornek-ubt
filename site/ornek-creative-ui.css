@@ -556,3 +556,75 @@ body.on-welcome #welcome #qadam-demo {
   body.on-welcome #welcome > .arch-nav,
   body.on-welcome #welcome > .welcome-nav { transition: none !important; }
 }
+
+
+/* Örnek header logo lockup — transparent icon + brand, never a white PNG box. */
+body.on-welcome #welcome > .arch-nav > a:first-child,
+body.on-welcome #welcome > .welcome-nav > a:first-child {
+  width: 195px !important;
+  min-width: 160px;
+  min-height: 50px;
+  flex-shrink: 0;
+  line-height: 1;
+  filter: none !important;
+}
+body.on-welcome #welcome .ornek-nav-lockup {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 9px;
+  width: 100%;
+  min-height: 44px;
+  background: transparent !important;
+  opacity: 1 !important;
+  filter: none !important;
+}
+body.on-welcome #welcome .ornek-nav-lockup .ornek-nav-symbol {
+  display: block !important;
+  width: 37px !important;
+  height: 37px !important;
+  flex: 0 0 37px;
+  border-radius: 11px;
+  object-fit: contain;
+  opacity: 1 !important;
+  filter: none !important;
+}
+body.on-welcome #welcome .ornek-nav-lockup .ornek-nav-wordmark {
+  display: block !important;
+  width: 128px !important;
+  height: 43px !important;
+  flex: 0 1 128px;
+  max-width: none !important;
+  object-fit: contain;
+  opacity: 1 !important;
+  filter: none !important;
+  mix-blend-mode: normal !important;
+}
+/* Fallback while the JS enhancement is loading or blocked:
+   show the already-present transparent SVG wordmark instead of a white rectangle. */
+body.on-welcome #welcome > .arch-nav > a:first-child:not(:has(.ornek-nav-lockup)),
+body.on-welcome #welcome > .welcome-nav > a:first-child:not(:has(.ornek-nav-lockup)) {
+  background: url("/assets/ornek-wordmark.svg") 16px center / 128px auto no-repeat !important;
+}
+body.on-welcome #welcome > .arch-nav > a:first-child:not(:has(.ornek-nav-lockup)) > *,
+body.on-welcome #welcome > .welcome-nav > a:first-child:not(:has(.ornek-nav-lockup)) > * {
+  opacity: 0 !important;
+}
+@media (max-width: 850px) {
+  body.on-welcome #welcome > .arch-nav > a:first-child,
+  body.on-welcome #welcome > .welcome-nav > a:first-child {
+    width: 148px !important;
+    min-width: 137px;
+  }
+  body.on-welcome #welcome .ornek-nav-lockup { gap: 6px; }
+  body.on-welcome #welcome .ornek-nav-lockup .ornek-nav-symbol {
+    width: 30px !important;
+    height: 30px !important;
+    flex-basis: 30px;
+  }
+  body.on-welcome #welcome .ornek-nav-lockup .ornek-nav-wordmark {
+    width: 106px !important;
+    height: 36px !important;
+    flex-basis: 106px;
+  }
+}
