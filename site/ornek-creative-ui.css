@@ -628,3 +628,275 @@ body.on-welcome #welcome > .welcome-nav > a:first-child:not(:has(.ornek-nav-lock
     flex-basis: 106px;
   }
 }
+
+
+/* Örnek Header V3 — professional white/purple navbar, responsive catalog.
+   Distinct Örnek identity; the example's layout is a visual reference only. */
+body.on-welcome #welcome > .arch-nav.ornek-header-v3,
+body.on-welcome #welcome > .welcome-nav.ornek-header-v3 {
+  --nv-ink: #203256;
+  --nv-muted: #73849e;
+  --nv-purple: #744ce6;
+  --nv-soft: #f0ebff;
+  position: sticky !important;
+  top: 12px !important;
+  z-index: 300 !important;
+  isolation: isolate;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: clamp(12px, 1.6vw, 24px) !important;
+  height: 78px !important;
+  min-height: 78px !important;
+  width: min(1400px, calc(100% - 40px)) !important;
+  max-width: min(1400px, calc(100% - 40px)) !important;
+  padding: 11px clamp(15px, 1.65vw, 27px) !important;
+  margin: 12px auto 20px !important;
+  border: 1px solid rgba(228, 231, 242, .92) !important;
+  border-radius: 25px !important;
+  background: rgba(255,255,255,.96) !important;
+  color: var(--nv-ink) !important;
+  box-shadow: 0 12px 38px rgba(49, 40, 93, .07), 0 2px 10px rgba(43,42,75,.03) !important;
+  -webkit-backdrop-filter: blur(13px) saturate(125%) !important;
+  backdrop-filter: blur(13px) saturate(125%) !important;
+  overflow: visible !important;
+  transition: box-shadow .2s ease, background-color .2s ease, border-color .2s ease !important;
+}
+body.on-welcome #welcome > .arch-nav.ornek-header-v3.ornek-nav-scrolled,
+body.on-welcome #welcome > .welcome-nav.ornek-header-v3.ornek-nav-scrolled {
+  background: rgba(255,255,255,.94) !important;
+  border-color: rgba(217,216,235,.95) !important;
+  box-shadow: 0 14px 40px rgba(43, 34, 77, .11) !important;
+  -webkit-backdrop-filter: blur(17px) saturate(130%) !important;
+  backdrop-filter: blur(17px) saturate(130%) !important;
+}
+body.on-welcome #welcome > .ornek-header-v3::after { display: none !important;content: none !important; }
+body.on-welcome #welcome > .arch-nav.ornek-header-v3 > a.ornek-v3-brand,
+body.on-welcome #welcome > .welcome-nav.ornek-header-v3 > a.ornek-v3-brand {
+  display: inline-flex !important;
+  justify-content: flex-start !important;
+  align-items: center !important;
+  gap: 9px;
+  flex: 0 0 auto !important;
+  width: 169px !important;
+  min-width: 0 !important;
+  height: 48px !important;
+  min-height: 48px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  filter: none !important;
+  text-decoration: none !important;
+}
+body.on-welcome #welcome .ornek-header-v3 .ornek-nav-lockup {
+  width: auto !important;
+  min-height: 48px;
+  display: flex !important;
+  align-items: center;
+  gap: 9px;
+}
+body.on-welcome #welcome .ornek-header-v3 .ornek-nav-symbol {
+  width: 37px !important;
+  height: 37px !important;
+  flex: 0 0 37px;
+  display: block !important;
+  filter: none !important;
+  opacity: 1 !important;
+}
+body.on-welcome #welcome .ornek-header-v3 .ornek-v3-brand-name {
+  font-family: "Ornek Geologica", Onest, sans-serif !important;
+  color: #253456 !important;
+  font-size: 26px !important;
+  font-weight: 650 !important;
+  line-height: 1;
+  letter-spacing: -.065em;
+  white-space: nowrap;
+}
+.ornek-v3-brand-dot { color: #7b50df; }
+.ornek-v3-catalog-wrap {
+  position: relative;
+  z-index: 5;
+  flex: 0 0 auto;
+}
+body.on-welcome #welcome .ornek-header-v3 button {
+  cursor: pointer;
+  font-family: Onest, "Ornek Geologica", sans-serif !important;
+  text-transform: none !important;
+  box-shadow: none;
+  transition: background .18s ease, border-color .18s ease, color .18s ease, transform .18s ease !important;
+}
+body.on-welcome #welcome .ornek-header-v3 button:focus-visible,
+body.on-welcome #welcome .ornek-header-v3 a:focus-visible {
+  outline: 3px solid rgba(111,80,212,.45) !important;
+  outline-offset: 3px !important;
+}
+body.on-welcome #welcome .ornek-header-v3 .ornek-v3-catalog {
+  height: 48px;
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  padding: 0 15px !important;
+  border-radius: 16px !important;
+  border: 1px solid #e8e1fa !important;
+  background: #f2ecff !important;
+  color: #6742cb !important;
+  font-size: 13px !important;
+  font-weight: 650 !important;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+body.on-welcome #welcome .ornek-header-v3 .ornek-v3-catalog:hover,
+body.on-welcome #welcome .ornek-header-v3 .ornek-v3-catalog[aria-expanded="true"] {
+  background: #e9ddff !important;
+  border-color: #cdb7fc !important;
+}
+.ornek-v3-catalog svg { display: block; width: 19px; height: 19px; flex: 0 0 19px; }
+.ornek-v3-catalog svg:last-child { width: 14px; height: 14px; flex-basis: 14px;transition:transform .2s ease; }
+.ornek-v3-catalog[aria-expanded="true"] svg:last-child {transform:rotate(180deg);}
+body.on-welcome #welcome > .ornek-header-v3 nav.ornek-v3-mainlinks {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(5px, 1.1vw, 16px);
+  margin-left: auto;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+body.on-welcome #welcome .ornek-header-v3 .ornek-v3-mainlinks > button {
+  background: transparent !important;
+  color: #394d6b !important;
+  font-size: clamp(11px, .97vw, 14px) !important;
+  font-weight: 620 !important;
+  border: 0 !important;
+  border-radius: 11px !important;
+  padding: 11px clamp(7px, .9vw, 12px) !important;
+  min-height: 40px;
+  white-space: nowrap;
+}
+body.on-welcome #welcome .ornek-header-v3 .ornek-v3-mainlinks > button:hover,
+body.on-welcome #welcome .ornek-header-v3 .ornek-v3-mainlinks > button.is-current {
+  background: #f5f2ff !important;
+  color: #7045d2 !important;
+}
+.ornek-v3-actions {display: flex;align-items:center;gap: 12px;flex:0 0 auto;}
+.ornek-v3-language {
+  display:flex;align-items:center;gap:2px;
+  padding:4px;border-radius:99px;background:#f0f2f8;
+  border:1px solid #eef0f7;
+}
+body.on-welcome #welcome .ornek-header-v3 .ornek-v3-language > button {
+  height: 34px;min-width:43px;padding:0 10px !important;
+  border:0 !important;border-radius:99px !important;
+  color:#8290a6 !important;background:transparent !important;
+  font-size:12px !important;font-weight:650 !important;
+}
+body.on-welcome #welcome .ornek-header-v3 .ornek-v3-language > button.is-current {
+  color:#3a4770 !important;background:#fff !important;
+  box-shadow:0 2px 8px rgba(30,44,83,.10) !important;
+}
+body.on-welcome #welcome .ornek-header-v3 .ornek-v3-login,
+body.on-welcome #welcome > .ornek-header-v3 .ornek-v3-login {
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  min-height:47px;padding:0 18px !important;
+  color:#fff !important;background:#7550d9 !important;
+  border:1px solid #7550d9 !important;border-radius:15px !important;
+  font-weight:680 !important;font-size:13px !important;white-space:nowrap;
+  box-shadow:0 7px 19px rgba(107,66,209,.18) !important;
+}
+body.on-welcome #welcome .ornek-header-v3 .ornek-v3-login:hover {
+  background:#633ec2 !important;border-color:#633ec2 !important;
+  transform:translateY(-1px);
+}
+.ornek-v3-login svg {display:block;width:19px;height:19px;flex:0 0 19px;}
+body.on-welcome #welcome .ornek-header-v3 .ornek-v3-menu-toggle {
+  display:none;align-items:center;justify-content:center;
+  width:43px;height:43px;padding:0 !important;
+  border:1px solid #e6e2f1 !important;border-radius:13px !important;
+  background:#f5f2ff !important;color:#6a49c5 !important;
+}
+.ornek-v3-menu-toggle svg {width:21px;height:21px;}
+.ornek-v3-popover[hidden],.ornek-v3-mobile-panel[hidden] {display:none !important;}
+.ornek-v3-popover {
+  position:absolute;
+  top:calc(100% + 13px);
+  left:0;
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  width:min(395px, 92vw);
+  padding:13px;
+  border-radius:20px;
+  background:rgba(255,255,255,.98);
+  border:1px solid #e7e5f2;
+  box-shadow:0 20px 55px rgba(48,31,92,.17);
+  -webkit-backdrop-filter:blur(15px);
+  backdrop-filter:blur(15px);
+  z-index:320;
+}
+.ornek-v3-popover-top {display:flex;justify-content:space-between;align-items:center;gap:15px;padding:8px 9px 13px;border-bottom:1px solid #f0edf7;margin-bottom:4px;}
+.ornek-v3-popover-top strong {font-size:14px;color:#273556;font-weight:680;}
+.ornek-v3-popover-top small {font-size:10px;color:#9c86c5;white-space:nowrap;}
+body.on-welcome #welcome .ornek-header-v3 button.ornek-v3-subject {
+  display:flex;align-items:center;gap:11px;
+  width:100%;min-height:59px;
+  padding:8px 11px !important;
+  background:transparent !important;border:1px solid transparent !important;
+  border-radius:13px !important;
+  color:#2c3954 !important;text-align:left;
+}
+body.on-welcome #welcome .ornek-header-v3 button.ornek-v3-subject:hover {
+  background:#f4efff !important;border-color:#e8dffd !important;
+}
+.ornek-v3-subject-icon {display:grid;place-items:center;flex:0 0 40px;width:40px;height:40px;border-radius:11px;background:#f0eafd;color:#7a4de0;font-size:20px;font-weight:700;}
+.ornek-v3-subject-copy {display:flex;flex-direction:column;gap:4px;min-width:0;flex:1;}
+.ornek-v3-subject-copy strong {font-size:12.5px;font-weight:680;line-height:1.2;}
+.ornek-v3-subject-copy small {font-size:10.5px;font-weight:450;color:#8490a4;}
+.ornek-v3-subject-arrow {color:#9b87c4;font-size:17px;}
+.ornek-v3-mobile-panel {position:absolute;left:12px;right:12px;top:calc(100% + 9px);background:#fff;z-index:321;border-radius:19px;border:1px solid #e4e4f0;padding:12px;box-shadow:0 21px 52px #2d24572b;max-height:min(76vh,650px);overflow-y:auto;}
+.ornek-v3-mobile-heading {margin:11px 7px 9px;color:#9a86b8;font-size:10px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;}
+body.on-welcome #welcome .ornek-header-v3 .ornek-v3-mobile-panel > button:not(.ornek-v3-subject) {display:flex;align-items:center;justify-content:space-between;width:100%;min-height:47px;border:0 !important;border-radius:11px !important;background:#fff !important;color:#354566 !important;padding:11px 13px !important;font-size:13px!important;font-weight:650!important;text-align:left;}
+body.on-welcome #welcome .ornek-header-v3 .ornek-v3-mobile-panel > button:hover {background:#f2ecff!important;}
+.ornek-v3-mobile-languages {display:flex;justify-content:center;gap:8px;padding:15px 0 3px;}
+body.on-welcome #welcome .ornek-header-v3 .ornek-v3-mobile-languages button {background:#f2edff!important;border-radius:10px!important;color:#6447b8!important;padding:8px 18px!important;min-height:39px;font-size:12px!important;}
+@media(max-width:1180px) {
+  body.on-welcome #welcome > .arch-nav.ornek-header-v3,
+  body.on-welcome #welcome > .welcome-nav.ornek-header-v3 {gap:11px!important;}
+  body.on-welcome #welcome > .ornek-header-v3 nav.ornek-v3-mainlinks {gap:0;}
+  body.on-welcome #welcome > .arch-nav.ornek-header-v3 > a.ornek-v3-brand,
+  body.on-welcome #welcome > .welcome-nav.ornek-header-v3 > a.ornek-v3-brand {width:153px!important;}
+  body.on-welcome #welcome .ornek-header-v3 .ornek-v3-brand-name {font-size:24px!important;}
+  body.on-welcome #welcome .ornek-header-v3 .ornek-v3-catalog {padding:0 11px!important;font-size:12px!important;}
+  .ornek-v3-actions {gap:7px;}
+}
+@media(max-width:1000px) {
+  body.on-welcome #welcome > .ornek-header-v3 nav.ornek-v3-mainlinks {display:none!important;}
+  body.on-welcome #welcome .ornek-header-v3 .ornek-v3-menu-toggle {display:inline-flex;}
+  .ornek-v3-actions {margin-left:auto;}
+}
+@media(max-width:640px) {
+  body.on-welcome #welcome > .arch-nav.ornek-header-v3,
+  body.on-welcome #welcome > .welcome-nav.ornek-header-v3 {
+    top:8px!important;margin:9px auto 17px!important;
+    width:calc(100% - 18px)!important;max-width:calc(100% - 18px)!important;
+    min-height:66px!important;height:66px!important;padding:9px 12px!important;
+    border-radius:19px!important;
+  }
+  body.on-welcome #welcome > .arch-nav.ornek-header-v3 > a.ornek-v3-brand,
+  body.on-welcome #welcome > .welcome-nav.ornek-header-v3 > a.ornek-v3-brand {width:139px!important;min-width:0!important;}
+  body.on-welcome #welcome .ornek-header-v3 .ornek-nav-symbol {width:32px!important;height:32px!important;flex-basis:32px;}
+  body.on-welcome #welcome .ornek-header-v3 .ornek-v3-brand-name {font-size:23px!important;}
+  .ornek-v3-catalog-wrap,.ornek-v3-language {display:none!important;}
+  body.on-welcome #welcome .ornek-header-v3 .ornek-v3-login {height:41px!important;min-height:41px!important;padding:0 13px!important;font-size:12px!important;}
+  body.on-welcome #welcome .ornek-header-v3 .ornek-v3-menu-toggle {width:41px;height:41px;}
+}
+@media(max-width:370px) {
+  body.on-welcome #welcome > .arch-nav.ornek-header-v3 > a.ornek-v3-brand {width:112px!important;}
+  body.on-welcome #welcome .ornek-header-v3 .ornek-v3-brand-name {font-size:20px!important;}
+  body.on-welcome #welcome .ornek-header-v3 .ornek-v3-login span {display:none;}
+  body.on-welcome #welcome .ornek-header-v3 .ornek-v3-login {padding:0 11px!important;}
+}
+@media(prefers-reduced-motion:reduce) {
+  body.on-welcome #welcome > .ornek-header-v3 {transition:none!important;}
+  body.on-welcome #welcome .ornek-header-v3 button {transition:none!important;}
+}
