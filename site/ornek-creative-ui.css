@@ -1,0 +1,59 @@
+/* Örnek Creative UI · native BranchedMenu + SplitText adaptation */
+:root{--ob-accent:#7955ed;--ob-ink:#2f2944;--ob-rail:#ded8ea;--ob-curve:cubic-bezier(.22,1,.36,1)}
+aside nav.ob-branch-nav{position:relative;padding:0 1px 16px}
+.ob-menu-eyebrow{display:flex;align-items:center;gap:9px;margin:19px 13px 10px;color:#9c8daf;font-size:9px;font-weight:650;letter-spacing:.14em}
+.ob-menu-dot,.ob-quick-pulse{width:7px;height:7px;display:inline-block;border-radius:50%;background:#9c78ff;box-shadow:0 0 0 4px #9c78ff18}
+.ob-branch-group{position:relative}
+aside nav .ob-branch-head{width:100%;display:flex;align-items:center;gap:10px;min-height:42px;margin:2px 0 0;padding:7px 11px 7px 16px;border:0;border-radius:11px;background:transparent;color:#706785;text-align:left;font-size:11px!important;font-weight:650!important;letter-spacing:.025em;transition:background .2s,color .2s}
+aside nav .ob-branch-head:hover{background:#f0ebff;color:#5835ca}
+.ob-branch-head-label{flex:1}
+.ob-branch-count{font-size:9px;color:#9a8fad;font-variant-numeric:tabular-nums}
+.ob-branch-chevron{display:inline-flex;transition:transform .28s var(--ob-curve)}
+.ob-branch-chevron svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.8}
+.ob-branch-group[data-open="true"] .ob-branch-chevron{transform:rotate(90deg)}
+.ob-branch-panel{display:grid;grid-template-rows:0fr;transition:grid-template-rows .38s var(--ob-curve);visibility:hidden}
+.ob-branch-group[data-open="true"] .ob-branch-panel{grid-template-rows:1fr;visibility:visible}
+.ob-branch-fold{min-height:0;overflow:hidden}
+.ob-branch-tree{position:relative;padding:3px 0 7px 19px}
+.ob-branch-tree:before,.ob-branch-trail{content:"";position:absolute;top:0;left:19px;width:1.5px;border-radius:4px}
+.ob-branch-tree:before{height:calc(100% - 20px);background:linear-gradient(var(--ob-rail),#ece8f2 80%,transparent)}
+.ob-branch-trail{height:var(--ob-trail-length,0px);background:linear-gradient(#b4a4ef,var(--ob-accent));z-index:1;transition:height .42s var(--ob-curve)}
+.ob-branch-tree:after{content:"";position:absolute;left:15px;top:calc(var(--ob-marker-top,20px) - 3px);height:9px;width:9px;background:#fff;border:2px solid var(--ob-accent);box-shadow:0 0 0 4px #7955ed13;border-radius:50%;z-index:2;transition:top .34s var(--ob-curve)}
+.ob-branch-node{position:relative;padding-left:14px}
+.ob-branch-node:before{content:"";position:absolute;top:21px;left:0;height:1.5px;width:15px;background:var(--ob-rail);border-radius:0 12px 0 0}
+.ob-branch-node:has(.active):before{background:var(--ob-accent)}
+aside nav button.ob-branch-link{min-height:43px;margin:1px 0;padding:8px 8px 8px 11px;font-size:12px!important;line-height:1.35;border-radius:11px;color:#756b84;background:transparent;transition:color .18s,background .18s,transform .18s}
+aside nav button.ob-branch-link .menu-glyph{font-size:18px;width:23px;text-align:center;color:#998db1}
+aside nav button.ob-branch-link:hover{color:#5a3fb2;background:#f4f0ff;transform:translateX(2px)}
+aside nav button.ob-branch-link.active,aside nav button.ob-branch-link[aria-current="page"]{color:#5a39cd;background:#eee8ff;font-weight:650!important}
+aside nav button.ob-branch-link.active .menu-glyph{color:#7854ee}
+.ob-branch-shortcut{margin:20px 5px 8px;padding:16px 13px;border:1px solid #e3dcf5;border-radius:17px;background:linear-gradient(140deg,#faf8ff,#f1ebff);box-shadow:0 8px 22px #3c277c08}
+.ob-branch-shortcut-kicker{display:block;font-size:9px;letter-spacing:.12em;color:#8973b7;margin-bottom:8px}
+.ob-branch-shortcut strong{display:block;font-size:14px;line-height:1.3;color:#3a2a69}
+.ob-branch-shortcut p{font-size:11px;line-height:1.5;margin:7px 0 12px;color:#857896}
+aside nav .ob-branch-shortcut button{min-height:36px;background:#6948e2;color:white;font-size:11px!important;display:flex;align-items:center;justify-content:space-between;gap:9px;padding:7px 10px;border-radius:9px}
+.ob-split-text{visibility:visible;overflow:visible}
+.ob-split-piece{display:inline-block;opacity:0;transform:translate3d(0,24px,0) rotate(2deg);filter:blur(5px);transition:opacity .75s var(--ob-curve),transform .85s var(--ob-curve),filter .85s var(--ob-curve);transition-delay:var(--ob-stagger,0ms);will-change:transform,opacity}
+.ob-split-revealed .ob-split-piece{opacity:1;filter:blur(0);transform:translate3d(0,0,0) rotate(0)}
+.ob-creative-ready .arch-hero{position:relative;overflow:hidden;isolation:isolate}
+.ob-creative-ready .arch-hero:before{content:"";position:absolute;width:350px;height:350px;right:-100px;top:-120px;border:1px solid #ffffff2a;border-radius:50%;box-shadow:0 0 0 65px #ffffff06,0 0 0 120px #ffffff06;pointer-events:none;z-index:-1}
+.ob-creative-ready .arch-hero:after{content:"✳";position:absolute;top:15px;right:23px;color:#ffffff3d;font-size:44px;pointer-events:none;line-height:1;animation:ob-spin 28s linear infinite}
+@keyframes ob-spin{to{transform:rotate(360deg)}}
+.ob-quick-launch{margin-top:25px;padding:16px;border:1px solid #ffffff36;border-radius:18px;background:#ffffff13;backdrop-filter:blur(9px)}
+.ob-quick-label{display:flex;align-items:center;gap:9px;color:#ede6ff;font-size:10px;letter-spacing:.13em;font-weight:600;margin-bottom:13px}
+.ob-quick-label .ob-quick-pulse{background:#b9ffdc;box-shadow:0 0 0 4px #b9ffdc22}
+.ob-quick-line{height:1px;background:#ffffff46;flex:1}
+.ob-quick-buttons{display:flex;gap:8px;flex-wrap:wrap}
+.ob-quick-buttons button{display:inline-flex;align-items:center;gap:8px;min-height:38px;padding:8px 12px;border-radius:10px;background:#ffffffec;color:#49327e;border:1px solid #fff;white-space:nowrap;font-size:11px;font-weight:650;transition:transform .22s,box-shadow .22s,background .22s}
+.ob-quick-buttons button span{font-size:17px;color:#7855eb}
+.ob-quick-buttons button b{margin-left:5px;opacity:.5}
+.ob-quick-buttons button:hover{transform:translateY(-3px);box-shadow:0 8px 20px #261a5b24;background:#fff}
+.ob-quick-buttons button:focus-visible{outline:3px solid #f4db94;outline-offset:3px}
+.arch-example{position:relative}
+.ob-demo-decoration{position:absolute;top:-23px;right:18px;font-size:27px;color:#f3de9e;text-shadow:0 4px 12px #6950bd55;z-index:4;animation:ob-float 4s ease-in-out infinite}
+@keyframes ob-float{50%{transform:translateY(-6px) rotate(9deg)}}
+@media(max-width:950px){.ob-quick-buttons button{flex:1;justify-content:center}.ob-quick-buttons button b{margin-left:auto}}
+@media(max-width:640px){.ob-quick-launch{padding:13px}.ob-quick-buttons{gap:6px}.ob-quick-buttons button{flex:auto;min-width:0;padding:8px 10px}.ob-quick-buttons button span{font-size:15px}}
+@media(prefers-reduced-motion:reduce){.ob-split-piece{opacity:1!important;transform:none!important;filter:none!important;transition:none!important}.ob-branch-panel,.ob-branch-trail,.ob-branch-tree:after,.ob-branch-chevron{transition:none!important}.ob-creative-ready .arch-hero:after,.ob-demo-decoration{animation:none!important}}
+.motion-paused .ob-split-piece{transition:none!important;opacity:1;filter:none;transform:none}
+.motion-paused .ob-creative-ready .arch-hero:after,.motion-paused .ob-demo-decoration{animation-play-state:paused}
