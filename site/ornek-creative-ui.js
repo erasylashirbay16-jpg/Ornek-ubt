@@ -280,3 +280,61 @@
     if (!document.body.classList.contains("on-welcome")) syncOptionWheel();
   }, { passive: true });
 })();
+
+
+/* Örnek StarBorder for primary actions — native JS + CSS adaptation.
+   One clockwise white trail, four-second lap, subtle glow and click pulse.
+   Existing click handlers and navigation remain untouched. */
+(() => {
+  "use strict";
+  const actionSelectors = [
+    ".arch-cta",
+    ".arch-nav .arch-account",
+    ".arch-subject-grid > .arch-subject",
+    ".ob-quick-buttons > button",
+    ".welcome-cta > button",
+    ".welcome-bottom > button",
+    ".qhero-actions > button:first-child",
+    ".hero > button",
+    ".subject-banner > button",
+    ".testintro > button",
+    ".testtile:nth-child(-n+4) > button:not(.secondary)",
+    ".subject-shortcuts > button:first-child",
+    ".ob-branch-shortcut > button",
+    ".arch-footer > a[href='#arch-subjects']",
+    ".reading-hero > button",
+    ".history-hero > button",
+    "button[onclick^='startMixed(']",
+    ".panel > button[onclick^='startSection(']"
+  ];
+  const selector = actionSelectors.join(",");
+  let queued = false;
+  function enhanceActions() {
+    queued = false;
+    document.querySelectorAll(selector).forEach(element => {
+      if (element.classList.contains("ornek-star-border")) return;
+      if (element.matches(":disabled, [aria-disabled='true']")) return;
+      element.classList.add("ornek-star-border");
+      if (element.classList.contains("arch-subject")) element.classList.add("ornek-star-border--card");
+    });
+  }
+  function queueEnhance() {
+    if (queued) return;
+    queued = true;
+    requestAnimationFrame(enhanceActions);
+  }
+  queueEnhance();
+  const observer = new MutationObserver(records => {
+    if (records.some(record => record.addedNodes.length)) queueEnhance();
+  });
+  observer.observe(document.body, { childList: true, subtree: true });
+  document.addEventListener("click", event => {
+    if (!(event.target instanceof Element)) return;
+    const element = event.target.closest(".ornek-star-border");
+    if (!element || element.matches(":disabled, [aria-disabled='true']")) return;
+    element.classList.remove("ornek-star-pulse");
+    void element.offsetWidth;
+    element.classList.add("ornek-star-pulse");
+    window.setTimeout(() => element.classList.remove("ornek-star-pulse"), 680);
+  }, true);
+})();
