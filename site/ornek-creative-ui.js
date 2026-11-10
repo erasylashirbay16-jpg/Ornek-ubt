@@ -693,10 +693,7 @@
 
   function activate(id) {
     if (id==="home") {
-      const dest = document.getElementById("arch-subjects");
-      if (dest) {
-        dest.scrollIntoView({behavior:window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",block:"start"});
-      }
+      window.scrollTo({top:0,behavior:window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth"});
       return;
     }
     if (id==="login") {
@@ -774,4 +771,44 @@
     };
   }
   decorate();
+})();
+
+
+/* Örnek landing layout audit: prevent empty space above the hero, restore
+   intentional visual hierarchy and remove the loading placeholder once ready.
+   Landing-only: does not modify exercises, questions or account state. */
+(() => {
+  "use strict";
+  function polishLanding() {
+    if (!document.body.classList.contains("on-welcome")) return;
+    const root = document.getElementById("welcome");
+    const container = root?.querySelector(":scope > .arch-container");
+    const hero = container?.querySelector(":scope > .arch-hero");
+    if (!container || !hero) return;
+
+    // Header and actual learning introduction should appear above the subject
+    // card directory, which previously pushed the introduction >850px down.
+    if (container.firstElementChild !== hero) container.prepend(hero);
+
+    const counter = container.querySelector(":scope > .ornek-unt-counter");
+    const facts = container.querySelector(":scope > .arch-facts");
+    const subjects = container.querySelector(":scope > #arch-subjects");
+    if (counter && hero.nextElementSibling !== counter) hero.after(counter);
+    if (facts && (counter || hero).nextElementSibling !== facts) (counter || hero).after(facts);
+    if (subjects && (facts || counter || hero).nextElementSibling !== subjects)
+      (facts || counter || hero).after(subjects);
+
+    // The boot placeholder was in normal document flow and left a 142px
+    // empty band above the sticky navigation until every script had loaded.
+    document.getElementById("boot-status")?.remove();
+  }
+  if (typeof renderWelcome === "function") {
+    const oldRender = renderWelcome;
+    renderWelcome = function() {
+      const value = oldRender.apply(this, arguments);
+      polishLanding();
+      return value;
+    };
+  }
+  polishLanding();
 })();
