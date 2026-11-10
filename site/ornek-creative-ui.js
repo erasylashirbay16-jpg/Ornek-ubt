@@ -490,17 +490,28 @@
     if (!nav) return;
 
     const brandLink = nav.querySelector("a:first-child");
-    if (brandLink && !brandLink.querySelector(".ornek-nav-wordmark")) {
-      // The previous dark-header filter turned the PNG's white background
-      // into a blank rectangle. The transparent wordmark has no background.
-      const logo = document.createElement("img");
-      logo.className = "ornek-nav-wordmark";
-      logo.src = "/assets/ornek-wordmark.svg";
-      logo.alt = "Örnek";
-      logo.width = 142;
-      logo.height = 46;
-      logo.decoding = "async";
-      brandLink.replaceChildren(logo);
+    if (brandLink && !brandLink.querySelector(".ornek-nav-lockup")) {
+      // The original uploaded PNG has an opaque near-white background;
+      // use the transparent brand mark + transparent wordmark in the header.
+      const lockup = document.createElement("span");
+      lockup.className = "ornek-nav-lockup";
+      const mark = document.createElement("img");
+      mark.className = "ornek-nav-symbol";
+      mark.src = "/assets/ornek-icon.svg";
+      mark.alt = "";
+      mark.width = 36;
+      mark.height = 36;
+      mark.decoding = "async";
+      const name = document.createElement("img");
+      name.className = "ornek-nav-wordmark";
+      name.src = "/assets/ornek-wordmark.svg";
+      name.alt = "Örnek";
+      name.width = 128;
+      name.height = 44;
+      name.decoding = "async";
+      lockup.append(mark, name);
+      brandLink.setAttribute("aria-label", "Örnek — басты бет");
+      brandLink.replaceChildren(lockup);
     }
   }
 
