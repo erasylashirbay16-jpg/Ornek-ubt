@@ -1,5 +1,5 @@
 /* UI locale: no exercise content is rewritten; state survives a language change. */
-let qLanguage=readStore('qadam-ui-language','ru');if(!['ru','kk'].includes(qLanguage))qLanguage='ru';
+let qLanguage=readStore('qadam-ui-language','kk');if(!['ru','kk'].includes(qLanguage))qLanguage='ru';
 const qRussian=Object.fromEntries(`
 Басты бет|Главная
 Менің дайындығым|Моя подготовка
