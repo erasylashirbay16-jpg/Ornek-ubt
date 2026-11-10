@@ -5,10 +5,16 @@
 
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const pointerIsFine = window.matchMedia('(hover: hover) and (pointer: fine)');
-  const selector = '#welcome :is(h1,h2,h3,p), #app :is(h1,h2,h3,p)';
-  const excluded = 'button,a,label,summary,dialog,.questionrow,.question-room,.qroom,.history-workspace,.reading-workspace,.reading-passage,.reading-context,.option,.feedback,.testtile,.testintro,.formula,.motivation-loop,.arch-example,.example-paper';
+  const selector = [
+    '#welcome :is(h1,h2,h3,h4,p,button,a,summary,small,strong,.overline,.ornek-chip,.subject-category,.subject-free,.subject-language-note,.tag,.eyebrow,.muted,.hero-label,.handlabel,.welcome-step-number,.feature-label,.footer-note)',
+    '#app :is(h1,h2,h3,h4,p,button,a,summary,small,strong,.muted,.overline,.eyebrow,.tag,.hero-label,.stat,.stat-value,.stat-label,.notice,.subject-category,.subject-free,.subject-shortcuts,.session-ticket,.qhero .hero-label,.reading-spec-note,.sidebar-heading)',
+    'aside :is(button,a,summary,small,strong,.examlabel,.navgroup)',
+    'header.top :is(button,a,small,strong,.topbrand,.toptools)',
+    '.site-footer :is(p,a,small,strong,span)'
+  ].join(', ');
+  const excluded = 'script,style,noscript,textarea,option,select,pre,code,svg,math,[contenteditable],[aria-hidden="true"],.sr-only,.ri-sr-only,.ri-word,.ri-char,.ornek-rising-ink,.ornek-scroll-float,dialog,.questionrow,.question-room,.qroom,.reading-workspace,.reading-passage,.reading-context,.history-workspace,.history-question,.reading-question,.qtext,.options,.option,.feedback,.testgrid,.testtile,.testintro,.formula,.motivation-loop,.arch-example,.example-paper,.ornek-privacy-legalbar,.ornek-countdown,[role="timer"]';
   const registry = new WeakMap();
-  const MAX_CHARS = 180;
+  const MAX_CHARS = 350;
   const RADIUS = 125;
   let active = null;
   let pointerX = 0;
@@ -16,7 +22,9 @@
   let frame = 0;
   let scanQueued = false;
 
-  const canAnimate = () => pointerIsFine.matches && !reducedMotion.matches;
+  const isTestPage = () => !document.body.classList.contains('on-welcome') &&
+    !!document.querySelector('#app :is(.qroom,.reading-workspace,.history-workspace,.testgrid,.testintro,.questionrow,.qtext,.options,.reading-question,.history-question)');
+  const canAnimate = () => pointerIsFine.matches && !reducedMotion.matches && !isTestPage();
 
   function clearActive() {
     if (!active) return;
@@ -59,13 +67,13 @@
   }
 
   function split(el) {
-    if (el.dataset.risingInk === 'ready') return;
+    if (!canAnimate() || el.dataset.risingInk === 'ready' || el.closest('.ornek-rising-ink')) return;
     const readable = (el.innerText || el.textContent || '').replace(/\s+/g, ' ').trim();
     if (!readable || Array.from(readable).length > MAX_CHARS) return;
 
-    // Do not change links, buttons, form labels, test content, or nested controls.
-    if (el.closest(excluded) || el.querySelector('button,a,input,select,textarea,svg,[contenteditable]')) return;
-    if (el.closest('#app') && document.querySelector('#app input[type=radio],#app .option,#app .history-question,#app .reading-practice-option')) return;
+    // Animate navigation and homepage buttons, but never change exercises or embedded controls.
+    if (el.closest(excluded) || el.querySelector('button,a,input,select,textarea,[contenteditable]')) return;
+    if (el.matches('[aria-live], [role="status"], [role="timer"]')) return;
 
     el.dataset.risingInk = 'ready';
     el.classList.add('ornek-rising-ink');
@@ -74,8 +82,10 @@
     const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
     const nodes = [];
     while (walker.nextNode()) {
-      if (walker.currentNode.textContent.trim()) nodes.push(walker.currentNode);
+      const node = walker.currentNode;
+      if (node.textContent.trim() && !node.parentElement?.closest(excluded)) nodes.push(node);
     }
+    if (!nodes.length) return;
     for (const node of nodes) {
       const fragment = document.createDocumentFragment();
       for (const part of node.textContent.split(/(\s+)/u)) {
@@ -108,6 +118,7 @@
 
   function scan() {
     scanQueued = false;
+    if (!pointerIsFine.matches || reducedMotion.matches || isTestPage()) return;
     for (const el of document.querySelectorAll(selector)) split(el);
   }
   function scheduleScan() {
@@ -136,8 +147,8 @@
   }, { passive: true });
   window.addEventListener('blur', clearActive);
   window.addEventListener('scroll', clearActive, { passive: true });
-  reducedMotion.addEventListener('change', clearActive);
-  pointerIsFine.addEventListener('change', clearActive);
+  reducedMotion.addEventListener('change', () => { clearActive(); scheduleScan(); });
+  pointerIsFine.addEventListener('change', () => { clearActive(); scheduleScan(); });
 
   new MutationObserver((records) => {
     if (records.some(record => Array.from(record.addedNodes).some(node =>
