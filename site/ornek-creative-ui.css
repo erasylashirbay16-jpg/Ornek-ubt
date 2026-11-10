@@ -392,3 +392,80 @@ aside nav .ow-bottom button:hover{background:#e9e1ff;color:#6542c5}
   .ornek-unt-clock { max-width: 320px; width: 100%; }
   .ornek-unt-clock-part strong { font-size: clamp(24px, 7vw, 30px); }
 }
+
+
+/* Örnek frosted scroll navigation: content passing beneath the sticky header
+   is optically blurred; navigation labels remain sharp (reference screenshot). */
+body.on-welcome #welcome > .arch-nav,
+body.on-welcome #welcome > .welcome-nav {
+  position: sticky !important;
+  top: 12px;
+  z-index: 200;
+  isolation: isolate;
+  -webkit-backdrop-filter: blur(9px) saturate(120%);
+  backdrop-filter: blur(9px) saturate(120%);
+  transition: background-color .28s ease, border-color .28s ease,
+    box-shadow .28s ease, color .28s ease, -webkit-backdrop-filter .28s ease,
+    backdrop-filter .28s ease;
+}
+body.on-welcome #welcome > .arch-nav.ornek-nav-scrolled,
+body.on-welcome #welcome > .welcome-nav.ornek-nav-scrolled {
+  background: rgba(16, 14, 29, .76) !important;
+  border: 1px solid rgba(255,255,255,.15) !important;
+  color: #f8f6ff !important;
+  box-shadow: 0 13px 38px rgba(15, 8, 34, .20),
+    inset 0 1px 0 rgba(255,255,255,.13);
+  -webkit-backdrop-filter: blur(23px) saturate(145%) !important;
+  backdrop-filter: blur(23px) saturate(145%) !important;
+}
+body.on-welcome #welcome > .arch-nav.ornek-nav-scrolled::after,
+body.on-welcome #welcome > .welcome-nav.ornek-nav-scrolled::after {
+  content: "";
+  position: absolute;
+  top: calc(100% - 3px);
+  left: 20px;
+  right: 20px;
+  height: 31px;
+  border-radius: 0 0 26px 26px;
+  pointer-events: none;
+  background: rgba(21, 17, 35, .025);
+  -webkit-backdrop-filter: blur(11px);
+  backdrop-filter: blur(11px);
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,.78), transparent);
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,.78), transparent);
+}
+body.on-welcome #welcome > .arch-nav.ornek-nav-scrolled nav a,
+body.on-welcome #welcome > .welcome-nav.ornek-nav-scrolled nav a {
+  color: rgba(248,246,255,.87) !important;
+}
+body.on-welcome #welcome > .arch-nav.ornek-nav-scrolled nav a:hover,
+body.on-welcome #welcome > .welcome-nav.ornek-nav-scrolled nav a:hover {
+  color: #fff !important;
+}
+body.on-welcome #welcome > .arch-nav.ornek-nav-scrolled > a:first-child,
+body.on-welcome #welcome > .welcome-nav.ornek-nav-scrolled > a:first-child {
+  filter: brightness(0) invert(1);
+}
+body.on-welcome #welcome > .arch-nav.ornek-nav-scrolled .arch-account {
+  background: rgba(255,255,255,.94) !important;
+  color: #33215e !important;
+}
+body.on-welcome #welcome > .welcome-nav.ornek-nav-scrolled .welcome-nav-actions > button {
+  background: rgba(255,255,255,.94) !important;
+  color: #33215e !important;
+}
+@media(max-width:750px) {
+  body.on-welcome #welcome > .arch-nav,
+  body.on-welcome #welcome > .welcome-nav {
+    top: 7px;
+    border-radius: 21px;
+  }
+  body.on-welcome #welcome > .arch-nav.ornek-nav-scrolled::after,
+  body.on-welcome #welcome > .welcome-nav.ornek-nav-scrolled::after {
+    left: 10px; right: 10px; height: 18px;
+  }
+}
+@media(prefers-reduced-motion:reduce) {
+  body.on-welcome #welcome > .arch-nav,
+  body.on-welcome #welcome > .welcome-nav { transition: none !important; }
+}
