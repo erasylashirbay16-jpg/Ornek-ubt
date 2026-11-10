@@ -75,9 +75,6 @@
     if (el.closest(excluded) || el.querySelector('button,a,input,select,textarea,[contenteditable]')) return;
     if (el.matches('[aria-live], [role="status"], [role="timer"]')) return;
 
-    el.dataset.risingInk = 'ready';
-    el.classList.add('ornek-rising-ink');
-
     const letters = [];
     const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
     const nodes = [];
@@ -86,6 +83,8 @@
       if (node.textContent.trim() && !node.parentElement?.closest(excluded)) nodes.push(node);
     }
     if (!nodes.length) return;
+    el.dataset.risingInk = 'ready';
+    el.classList.add('ornek-rising-ink');
     for (const node of nodes) {
       const fragment = document.createDocumentFragment();
       for (const part of node.textContent.split(/(\s+)/u)) {
