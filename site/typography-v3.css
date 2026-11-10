@@ -1,0 +1,55 @@
+
+@font-face{font-family:"Ornek Geologica";src:url("assets/geologica-400.ttf") format("truetype");font-weight:100 450;font-style:normal;font-display:swap}
+@font-face{font-family:"Ornek Geologica";src:url("assets/geologica-600.ttf") format("truetype");font-weight:451 900;font-style:normal;font-display:swap}
+@font-face{font-family:"Ornek Golos";src:url("assets/golos-400.ttf") format("truetype");font-weight:100 450;font-style:normal;font-display:swap}
+@font-face{font-family:"Ornek Golos";src:url("assets/golos-600.ttf") format("truetype");font-weight:451 900;font-style:normal;font-display:swap}
+/* Calm product typography: lighter headings, clear body text, natural tracking. */
+body,button,input,select,textarea,.architecture-lobby{font-family:"Ornek Golos",sans-serif!important;font-synthesis:none;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4,.architecture-lobby h1,.architecture-lobby h2,.architecture-lobby h3,.home-heading h1,.page-intro h1,.hero-copy h2,.arch-coming h3,.arch-subject h3,.ornek-method h2,.ornek-dialog h2{
+font-family:"Ornek Geologica",sans-serif!important;font-weight:400!important;letter-spacing:-.025em!important;line-height:1.22}
+.arch-hero h1{font-family:"Ornek Geologica",sans-serif!important;font-weight:400!important;font-size:clamp(38px,4.3vw,59px)!important;letter-spacing:-.03em!important;line-height:1.13!important;margin:25px 0 26px}
+.arch-hero h1 em{font-weight:400;font-style:normal}
+.arch-hero-copy>p{font-size:16px!important;line-height:1.75!important;font-weight:400;letter-spacing:0;color:#6e6679}
+.arch-section-title h2,.arch-how h2{font-size:clamp(29px,3vw,40px)!important;line-height:1.22!important}
+.arch-subject h3{font-size:23px!important;line-height:1.3!important;letter-spacing:-.02em!important;font-weight:400!important}
+.arch-coming h3{font-size:23px!important}.arch-subject p{font-size:13px!important;font-weight:400;letter-spacing:0}
+.arch-nav nav a{font-weight:400;font-size:14px}.arch-nav button,.arch-cta,.arch-card-bottom{font-weight:500!important;letter-spacing:0!important}
+.arch-pill,.arch-kicker,.arch-category,.overline,.hero-label,.navgroup{font-weight:500!important;letter-spacing:.075em!important}
+.arch-example h2{font-size:18px;font-weight:400!important;line-height:1.55!important;letter-spacing:-.015em!important}
+.arch-demo-options button{font-weight:400!important;font-size:14px}
+.arch-facts strong{font-family:"Ornek Geologica",sans-serif;font-weight:400;font-size:34px;letter-spacing:-.03em}
+.arch-section-title>p,.arch-how article p,.ornek-method>div>p,.ornek-faq details p{font-size:14px;line-height:1.8;letter-spacing:0}
+.arch-how h3{font-size:20px;font-weight:400!important}.ornek-method h2{font-size:34px!important;line-height:1.22!important}
+.ornek-method li{font-size:15px;font-weight:400}.ornek-method li span{font-size:13px;line-height:1.8}
+.ornek-faq summary{font-size:15px;font-weight:400}.ornek-faq h2{font-size:29px}
+.home-heading h1,.page-intro h1{font-size:32px!important;font-weight:400!important;letter-spacing:-.025em!important}
+.hero-copy h2{font-size:36px!important;font-weight:400!important;line-height:1.23!important}
+.hero-copy>p{font-size:14px;line-height:1.8}.subject h3{font-family:"Ornek Geologica",sans-serif!important;font-size:16px;font-weight:400!important;letter-spacing:-.015em!important}
+.subject p,.daily-caption,.testresult{font-size:13px;line-height:1.75}
+.subjectmeta,.questionlabels{font-size:12px;letter-spacing:0}
+.learning-summary strong,.goal-number strong,.stat strong{font-family:"Ornek Geologica",sans-serif!important;font-weight:400!important;letter-spacing:-.025em}
+.qtext,.qpaper .qtext,.reading-question h2{font-family:"Ornek Golos",sans-serif!important;font-weight:400!important;letter-spacing:0!important;line-height:1.8!important}
+.questionrow p,.reading-passage p,.reading-question p,.qpaper p{font-family:"Ornek Golos",sans-serif!important;letter-spacing:0!important}
+.option,.qpaper .option,.reading-option{font-family:"Ornek Golos",sans-serif!important;font-weight:400!important;letter-spacing:0!important;line-height:1.6}
+aside nav button{font-size:13px!important;font-weight:400!important;letter-spacing:0!important}
+aside nav button.active{font-weight:500!important}
+.testtile h2{font-weight:400!important;font-size:23px!important}.testtile button{font-weight:500!important}
+.ornek-dialog h2{font-size:27px!important}.ornek-dialog label{font-size:14px;font-weight:400}
+button{font-weight:500}.arch-card-bottom{font-size:13px}.arch-benefits{font-size:11px;letter-spacing:0}
+@media(max-width:850px){.arch-hero h1{font-size:clamp(35px,4.5vw,45px)!important}.hero-copy h2{font-size:32px!important}}
+@media(max-width:650px){
+.arch-hero{padding:30px 22px!important}
+.arch-hero h1{font-size:clamp(29px,8vw,42px)!important;line-height:1.17!important;letter-spacing:-.035em!important;margin:23px 0!important}
+.arch-hero-copy>p{font-size:15px!important;line-height:1.75!important}
+.arch-hero h1 em{display:inline}
+.arch-section-title h2,.arch-how h2{font-size:29px!important;line-height:1.23!important}
+.arch-subject h3{font-size:24px!important;font-weight:400!important;line-height:1.3!important}
+.arch-example h2{font-size:18px!important;line-height:1.5!important}.arch-benefits{font-size:10px}
+.arch-nav button{font-size:12px;font-weight:500!important}.arch-cta{font-size:14px;font-weight:500!important}
+.arch-coming h3{font-size:24px!important}
+.ornek-method h2{font-size:29px!important}
+.home-heading h1,.page-intro h1{font-size:27px!important}
+.hero-copy h2{font-size:29px!important;line-height:1.25!important}
+.qhero-actions button{font-size:12px!important}
+.learning-summary strong{font-size:25px!important}
+}
