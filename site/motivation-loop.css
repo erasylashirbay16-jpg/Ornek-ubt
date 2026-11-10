@@ -1,0 +1,6 @@
+.motivation-loop{width:100%;margin:18px auto 32px;overflow:hidden;cursor:grab;touch-action:pan-y;user-select:none;color:#7952cf;contain:layout paint}
+.motivation-loop.is-dragging{cursor:grabbing}
+.motivation-loop svg{display:block;width:100%;height:auto;overflow:hidden}
+.motivation-loop text{font-family:inherit;font-size:96px;font-weight:700;letter-spacing:0;fill:currentColor}
+@media(max-width:600px){.motivation-loop{width:calc(100% + 24px);margin-left:-12px;margin-top:22px;margin-bottom:26px}.motivation-loop svg{width:180%;max-width:none;margin-left:-40%}}
+@media print{.motivation-loop{display:none}}
