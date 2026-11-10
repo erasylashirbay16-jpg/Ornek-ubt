@@ -471,3 +471,40 @@
   window.addEventListener("pageshow", () => updateCounter());
   window.setInterval(() => updateCounter(), 250);
 })();
+
+
+/* Scroll glass navigation: keep links/logo crisp while text behind is blurred.
+   Applies to the public welcome header only, not the exercise/test interface. */
+(() => {
+  "use strict";
+  let scheduled = false;
+
+  function updateScrollGlass() {
+    scheduled = false;
+    const nav = document.body.classList.contains("on-welcome")
+      ? document.querySelector("#welcome > .arch-nav, #welcome > .welcome-nav")
+      : null;
+    if (!nav) return;
+    nav.classList.toggle("ornek-nav-scrolled", window.scrollY > 32);
+  }
+
+  function scheduleScrollGlass() {
+    if (scheduled) return;
+    scheduled = true;
+    window.requestAnimationFrame(updateScrollGlass);
+  }
+
+  if (typeof renderWelcome === "function") {
+    const priorRender = renderWelcome;
+    renderWelcome = function () {
+      const result = priorRender.apply(this, arguments);
+      scheduleScrollGlass();
+      return result;
+    };
+  }
+
+  window.addEventListener("scroll", scheduleScrollGlass, { passive: true });
+  window.addEventListener("resize", scheduleScrollGlass, { passive: true });
+  window.addEventListener("pageshow", scheduleScrollGlass);
+  scheduleScrollGlass();
+})();
