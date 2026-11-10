@@ -57,3 +57,34 @@ aside nav .ob-branch-shortcut button{min-height:36px;background:#6948e2;color:wh
 @media(prefers-reduced-motion:reduce){.ob-split-piece{opacity:1!important;transform:none!important;filter:none!important;transition:none!important}.ob-branch-panel,.ob-branch-trail,.ob-branch-tree:after,.ob-branch-chevron{transition:none!important}.ob-creative-ready .arch-hero:after,.ob-demo-decoration{animation:none!important}}
 .motion-paused .ob-split-piece{transition:none!important;opacity:1;filter:none;transform:none}
 .motion-paused .ob-creative-ready .arch-hero:after,.motion-paused .ob-demo-decoration{animation-play-state:paused}
+
+
+/* OptionWheel — replaces branched navigation; 200ms smoothing, six-degree tilt,
+   left-side focus marker, non-looping, draggable and keyboard accessible. */
+aside nav.ow-nav{position:relative;padding:0 1px 18px}
+.ow-shell{margin:22px 3px 10px;position:relative;isolation:isolate}
+.ow-topline{display:flex;align-items:center;gap:8px;margin:0 6px 5px;color:#9181ab;font-size:9px;letter-spacing:.14em;font-weight:650}
+.ow-live-dot{width:7px;height:7px;background:#8d68ef;border-radius:100%;box-shadow:0 0 0 4px #8d68ef18}
+.ow-count{margin-left:auto;color:#746297;font-variant-numeric:tabular-nums;letter-spacing:.05em}
+.ow-wheel{height:330px;position:relative;overflow:hidden;outline:none;touch-action:pan-x;user-select:none;-webkit-user-select:none;border-radius:17px;background:radial-gradient(ellipse at 0% 50%,#ece3ff7d,transparent 73%);perspective:550px}
+.ow-wheel:focus-visible{outline:2px solid #9e83f0;outline-offset:3px}
+.ow-wheel::before,.ow-wheel::after{content:"";position:absolute;left:0;right:0;height:68px;z-index:4;pointer-events:none}
+.ow-wheel::before{top:0;background:linear-gradient(#fdfdfb 2%,#fdfdfb00)}
+.ow-wheel::after{bottom:0;background:linear-gradient(#fdfdfb00,#fdfdfb 97%)}
+.ow-orbit{position:absolute;left:-276px;top:50%;width:310px;height:310px;border-radius:50%;transform:translateY(-50%);border:1px solid #b4a0e96b;box-shadow:0 0 0 17px #b4a0e908,0 0 0 45px #b4a0e90a;pointer-events:none}
+.ow-track{position:relative;top:50%;height:0;z-index:2}
+aside nav button.ow-item{display:flex;gap:12px;align-items:center;position:absolute;left:20px;top:-25px;width:calc(100% - 27px);min-height:50px;height:50px;max-height:50px;overflow:hidden;padding:8px 10px 8px 16px;text-align:left;border:0;background:transparent;color:#a6a6a6;border-radius:11px;font-size:12.5px!important;font-weight:500!important;line-height:1.35;transform:translate3d(var(--ow-x,0px),var(--ow-y,0px),0) rotateY(var(--ow-rotate,0deg)) scale(var(--ow-scale,1));transform-origin:left center;opacity:var(--ow-opacity,1);filter:blur(var(--ow-blur,0px));transition:transform 200ms cubic-bezier(.22,1,.36,1),opacity 200ms ease,filter 200ms ease,color 200ms ease,background 200ms ease;z-index:3;white-space:normal}
+aside nav button.ow-item .menu-glyph{width:24px;flex:0 0 24px;color:#ad9bcf;font-size:20px;text-align:center}
+aside nav button.ow-item[aria-selected="true"]{color:#fff;background:#6d47df;box-shadow:0 7px 17px #4e27a133;font-weight:650!important}
+aside nav button.ow-item[aria-selected="true"] .menu-glyph{color:#fff}
+aside nav button.ow-item:hover:not([aria-selected="true"]){background:#ede7fa;color:#6a4cb5}
+.ow-focus-line{position:absolute;left:0;right:0;top:50%;height:52px;transform:translateY(-50%);pointer-events:none;z-index:1}
+.ow-focus-line::before{content:"";position:absolute;left:8px;top:9px;bottom:9px;width:3px;border-radius:4px;background:#8e6ded;box-shadow:0 0 11px #906df267}
+.ow-focus-line>span{position:absolute;left:2px;top:50%;width:8px;height:8px;background:#a68aff;border:2px solid #f9f5ff;border-radius:50%;transform:translateY(-50%);z-index:3}
+.ow-bottom{display:flex;align-items:center;justify-content:space-between;gap:5px;padding:5px 5px 0;color:#a49cb3;font-size:8px;letter-spacing:.05em;white-space:nowrap}
+aside nav .ow-bottom button{width:36px;min-height:32px;height:32px;padding:0;border-radius:8px;border:1px solid #e5dcf9;background:#f5f1ff;color:#7d56d8;font-size:17px}
+aside nav .ow-bottom button:hover{background:#e9e1ff;color:#6542c5}
+.ow-wheel.ow-dragging button.ow-item{transition-duration:60ms}
+@media(max-width:850px){.ow-wheel{height:302px}.ow-shell{margin-top:15px}}
+@media(prefers-reduced-motion:reduce){aside nav button.ow-item{transition:none!important;filter:none!important}}
+.motion-paused aside nav button.ow-item{transition:none!important;filter:none!important}
