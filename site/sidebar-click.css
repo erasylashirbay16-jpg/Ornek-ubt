@@ -1,0 +1,7 @@
+aside nav .ornek-click-nav{display:grid;gap:5px;margin:16px 0 12px;position:relative}
+aside nav .ornek-click-nav button.ornek-nav-link{position:relative!important;inset:auto!important;display:flex!important;align-items:center;gap:12px;width:100%!important;min-height:48px!important;height:auto!important;max-height:none!important;margin:0!important;padding:12px 14px!important;transform:none!important;filter:none!important;opacity:1!important;visibility:visible!important;pointer-events:auto!important;white-space:normal!important;overflow:visible!important;text-align:left;border:1px solid transparent;border-radius:11px;background:transparent;color:#71667e;font-size:12px!important;line-height:1.5;cursor:pointer;touch-action:manipulation}
+aside nav .ornek-click-nav button:hover{background:#f0eafa;color:#6741ba}
+aside nav .ornek-click-nav button.active,aside nav .ornek-click-nav button[aria-current=page]{background:#ece3fb;color:#6841ba;font-weight:650!important;border-color:#e1d4f5}
+aside nav .ornek-click-nav .menu-glyph{width:23px;flex:0 0 23px;text-align:center;font-size:19px;pointer-events:none}
+aside nav .ornek-click-nav button:focus-visible{outline:3px solid #a58ad8;outline-offset:2px}
+aside{overflow-y:auto!important}
