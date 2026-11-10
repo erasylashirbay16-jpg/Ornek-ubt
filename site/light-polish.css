@@ -1,0 +1,21 @@
+/* Örnek: light paper, restrained violet, clear learning surfaces. */
+:root{color-scheme:light;--paper:#faf9f7;--canvas:#faf9f7;--ink:#292533;--muted:#797280;--line:#e7e2eb;--purple:#7952cf;--arch-purple:#7952cf}
+html,body,body.on-welcome,body:not(.on-welcome){background:#faf9f7!important;color:#292533}
+#ornek-lightfall{background:radial-gradient(ellipse at 55% 0%,#f0eaf9,transparent 65%)!important}
+#ornek-lightfall canvas{opacity:.16}
+body #welcome{background:transparent!important}
+body .arch-nav{background:transparent!important;border-bottom:1px solid #e7e2eb;border-radius:0;box-shadow:none}
+body .arch-hero,body #welcome .welcome-hero{background:linear-gradient(120deg,#f0eaf7,#f6f3fa 65%,#eeebf5)!important;border:1px solid #e8e1ef;border-radius:28px;box-shadow:none}
+body .arch-hero h1{color:#292533;line-height:1.1}
+body .arch-hero h1 em{color:#7952cf}
+body .arch-hero-copy>p{color:#797180}
+body .arch-example{background:#fff!important;border:1px solid #e9e3ef;box-shadow:0 18px 55px #4b356612!important;transform:rotate(1.5deg)}
+body .arch-demo-options button{background:#fcfbfe;border:1px solid #e9e4ef;color:#51475e;transition:background .18s,border-color .18s}
+body .arch-demo-options button:hover{background:#f1eafa;border-color:#b9a0df}
+body .arch-subject,body .arch-subject:nth-child(2){background:#fff!important;border:1px solid #e7e2eb!important;box-shadow:0 4px 18px #34224604;border-radius:22px;transition:transform .2s,box-shadow .2s,border-color .2s}
+body .arch-subject:hover{transform:translateY(-4px);border-color:#b7a0d9!important;box-shadow:0 14px 32px #49315f10}
+body .arch-nav button,body .arch-cta{background:#7952cf;color:#fff;border-radius:13px}
+body .arch-nav button:hover,body .arch-cta:hover{background:#6840bc}
+body .arch-quick-start,body .hero-quick-start{background:#ffffff9c;border-color:#e5deed;box-shadow:none}
+body .arch-facts{border-color:#e7e2eb}
+@media(prefers-reduced-motion:reduce){body .arch-subject{transition:none}body .arch-subject:hover{transform:none}}
