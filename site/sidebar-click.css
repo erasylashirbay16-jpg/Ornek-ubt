@@ -1,7 +1,13 @@
-aside nav .ornek-click-nav{display:grid;gap:5px;margin:16px 0 12px;position:relative}
-aside nav .ornek-click-nav button.ornek-nav-link{position:relative!important;inset:auto!important;display:flex!important;align-items:center;gap:12px;width:100%!important;min-height:48px!important;height:auto!important;max-height:none!important;margin:0!important;padding:12px 14px!important;transform:none!important;filter:none!important;opacity:1!important;visibility:visible!important;pointer-events:auto!important;white-space:normal!important;overflow:visible!important;text-align:left;border:1px solid transparent;border-radius:11px;background:transparent;color:#71667e;font-size:12px!important;line-height:1.5;cursor:pointer;touch-action:manipulation}
-aside nav .ornek-click-nav button:hover{background:#f0eafa;color:#6741ba}
-aside nav .ornek-click-nav button.active,aside nav .ornek-click-nav button[aria-current=page]{background:#ece3fb;color:#6841ba;font-weight:650!important;border-color:#e1d4f5}
-aside nav .ornek-click-nav .menu-glyph{width:23px;flex:0 0 23px;text-align:center;font-size:19px;pointer-events:none}
-aside nav .ornek-click-nav button:focus-visible{outline:3px solid #a58ad8;outline-offset:2px}
+aside nav .ornek-click-nav{--line-accent:#a855f7;display:grid;gap:20px;margin:24px 0 20px;position:relative;padding:0 6px 0 0}
+aside nav .ornek-click-nav button.ornek-nav-link{position:relative!important;inset:auto!important;display:flex!important;align-items:center;gap:10px;width:100%!important;min-height:44px!important;height:auto!important;max-height:none!important;margin:0!important;padding:8px 2px!important;transform:none!important;filter:none!important;opacity:1!important;visibility:visible!important;pointer-events:auto!important;white-space:normal!important;overflow:visible!important;text-align:left;border:0;border-radius:0;background:transparent;color:#806399;font-size:1.1rem!important;line-height:1.4;cursor:pointer;touch-action:manipulation;font-weight:500!important}
+aside nav .ornek-click-nav .line-sidebar-index{font-size:10px;letter-spacing:.04em;color:#a88bbf;flex:0 0 18px;font-variant-numeric:tabular-nums}
+aside nav .ornek-click-nav .line-sidebar-marker{height:2px;flex:0 0 60px;background:#b990d5;transform:scaleX(var(--line-scale,.5));transform-origin:left center;transition:transform 100ms ease,background 100ms ease;pointer-events:none}
+aside nav .ornek-click-nav button .menu-glyph{display:none!important}
+aside nav .ornek-click-nav button{column-gap:0!important;transition:color 100ms ease!important}
+aside nav .ornek-click-nav button .line-sidebar-marker{margin-right:calc(var(--line-shift,0px) - 20px);transition:transform 100ms ease,margin-right 100ms ease,background 100ms ease}
+aside nav .ornek-click-nav button:hover,aside nav .ornek-click-nav button.active,aside nav .ornek-click-nav button[aria-current=page]{color:#9333ea;background:transparent!important;box-shadow:none!important}
+aside nav .ornek-click-nav button.active .line-sidebar-marker,aside nav .ornek-click-nav button[aria-current=page] .line-sidebar-marker{background:var(--line-accent);transform:scaleX(1)}
+aside nav .ornek-click-nav button.active .line-sidebar-index{color:#9333ea}
+aside nav .ornek-click-nav button:focus-visible{outline:2px solid var(--line-accent);outline-offset:5px;border-radius:4px}
 aside{overflow-y:auto!important}
+@media(prefers-reduced-motion:reduce){aside nav .ornek-click-nav *{transition:none!important}}
