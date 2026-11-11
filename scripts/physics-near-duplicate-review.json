@@ -1,0 +1,382 @@
+{
+  "screen": "Within-topic character TF-IDF after masking numeric values; similarity >= 0.78 flags manual review, not an equivalence verdict.",
+  "flaggedFinal": 41,
+  "reviewed": 41,
+  "draftRevisions": [
+    "phys-topic-06-057: redundant mean-energy calculation replaced with statistical sampling objective",
+    "phys-topic-10-027: repeated zero-field implication replaced with potential-reference invariance",
+    "phys-topic-21-086: repeated time-dilation task replaced with two-photon invariant system energy"
+  ],
+  "decisions": [
+    {
+      "id": "phys-topic-01-012",
+      "similarTo": "phys-topic-01-011",
+      "score": 0.788,
+      "prompt": "Түзусызықты қозғалыста v мен a бағыттас болса не болады?",
+      "otherPrompt": "Түзусызықты қозғалыста v мен a қарсы бағытталса не болады?",
+      "decision": "retain_distinct_physical_case",
+      "reason": "Үдеу бағытының екі физикалық шарты салыстырылады; жылдамдықтың өзгерістері қарама-қарсы."
+    },
+    {
+      "id": "phys-topic-07-004",
+      "similarTo": "phys-topic-07-003",
+      "score": 0.85,
+      "prompt": "Изобара p(V) диаграммасында қалай көрінеді?",
+      "otherPrompt": "Изохора p(V) диаграммасында қалай көрінеді?",
+      "decision": "retain_distinct_physical_case",
+      "reason": "Процесс түрі, тұрақты шама немесе график осьтері басқа."
+    },
+    {
+      "id": "phys-topic-07-006",
+      "similarTo": "phys-topic-07-005",
+      "score": 0.896,
+      "prompt": "Изохора p(T) диаграммасында Кельвин шкаласымен қандай түзу?",
+      "otherPrompt": "Изобара V(T) диаграммасында Кельвин шкаласымен қандай түзу?",
+      "decision": "retain_distinct_physical_case",
+      "reason": "Процесс түрі, тұрақты шама немесе график осьтері басқа."
+    },
+    {
+      "id": "phys-topic-08-015",
+      "similarTo": "phys-topic-08-014",
+      "score": 0.875,
+      "prompt": "Бірінші текті мәңгі қозғалтқыш қай заңға қайшы?",
+      "otherPrompt": "Екінші текті мәңгі қозғалтқыш қай заңға қайшы?",
+      "decision": "retain_distinct_physical_case",
+      "reason": "Термодинамикалық шектеу немесе тексерілетін заң басқа."
+    },
+    {
+      "id": "phys-topic-08-027",
+      "similarTo": "phys-topic-08-026",
+      "score": 0.929,
+      "prompt": "Біратомды идеал газ үшін Cp мәні?",
+      "otherPrompt": "Біратомды идеал газ үшін Cv мәні?",
+      "decision": "retain_distinct_physical_case",
+      "reason": "Термодинамикалық шектеу немесе тексерілетін заң басқа."
+    },
+    {
+      "id": "phys-topic-08-059",
+      "similarTo": "phys-topic-08-058",
+      "score": 0.782,
+      "prompt": "Біратомды 2 моль газ изобарада 30 К қызды. R = 8,3. Қажет жылу?",
+      "otherPrompt": "Біратомды 3 моль газ изохорада 20 К қызды. R = 8,3. Қажет жылу?",
+      "decision": "retain_distinct_physical_case",
+      "reason": "Термодинамикалық шектеу немесе тексерілетін заң басқа."
+    },
+    {
+      "id": "phys-topic-09-013",
+      "similarTo": "phys-topic-09-012",
+      "score": 0.895,
+      "prompt": "Шыныдағы сынап менискісі әдетте қандай?",
+      "otherPrompt": "Шыныдағы су менискісі әдетте қандай?",
+      "decision": "retain_distinct_physical_case",
+      "reason": "Фаза, сұйық не жұғу шарты басқа; физикалық нәтижелері бөлек."
+    },
+    {
+      "id": "phys-topic-09-015",
+      "similarTo": "phys-topic-09-014",
+      "score": 0.813,
+      "prompt": "Капиллярда жұқпайтын сұйық деңгейі қалай орналасады?",
+      "otherPrompt": "Капиллярда жұғатын сұйық деңгейі қалай орналасады?",
+      "decision": "retain_distinct_physical_case",
+      "reason": "Фаза, сұйық не жұғу шарты басқа; физикалық нәтижелері бөлек."
+    },
+    {
+      "id": "phys-topic-09-025",
+      "similarTo": "phys-topic-09-024",
+      "score": 0.819,
+      "prompt": "Қайнау сұйықтың қай бөлігінде өтеді?",
+      "otherPrompt": "Булану сұйықтың қай бөлігінде өтеді?",
+      "decision": "retain_distinct_physical_case",
+      "reason": "Фаза, сұйық не жұғу шарты басқа; физикалық нәтижелері бөлек."
+    },
+    {
+      "id": "phys-topic-10-003",
+      "similarTo": "phys-topic-10-002",
+      "score": 0.924,
+      "prompt": "Әр аттас зарядтар қалай әсерлеседі?",
+      "otherPrompt": "Бір аттас зарядтар қалай әсерлеседі?",
+      "decision": "retain_distinct_physical_case",
+      "reason": "Заряд таңбасы немесе конденсатордың геометриялық факторы басқа."
+    },
+    {
+      "id": "phys-topic-10-006",
+      "similarTo": "phys-topic-10-001",
+      "score": 0.835,
+      "prompt": "Электрон зарядының таңбасы?",
+      "otherPrompt": "Электр зарядының екі таңбасы?",
+      "decision": "retain_distinct_physical_case",
+      "reason": "Заряд таңбасы немесе конденсатордың геометриялық факторы басқа."
+    },
+    {
+      "id": "phys-topic-10-015",
+      "similarTo": "phys-topic-10-014",
+      "score": 0.895,
+      "prompt": "Теріс нүктелік заряд өрісі қалай бағытталады?",
+      "otherPrompt": "Оң нүктелік заряд өрісі қалай бағытталады?",
+      "decision": "retain_distinct_physical_case",
+      "reason": "Заряд таңбасы немесе конденсатордың геометриялық факторы басқа."
+    },
+    {
+      "id": "phys-topic-10-051",
+      "similarTo": "phys-topic-10-050",
+      "score": 0.837,
+      "prompt": "Жазық конденсаторда аралық артса C қалай өзгереді?",
+      "otherPrompt": "Жазық конденсаторда аудан артса C қалай өзгереді?",
+      "decision": "retain_distinct_physical_case",
+      "reason": "Заряд таңбасы немесе конденсатордың геометриялық факторы басқа."
+    },
+    {
+      "id": "phys-topic-11-037",
+      "similarTo": "phys-topic-11-036",
+      "score": 0.932,
+      "prompt": "Ток бірдейде R артса, P қалай өзгереді?",
+      "otherPrompt": "Кернеу бірдейде R артса, P қалай өзгереді?",
+      "decision": "retain_distinct_physical_case",
+      "reason": "Тұрақты ұсталатын электр шамасы не теориялық/сандық сұрағы басқа."
+    },
+    {
+      "id": "phys-topic-11-056",
+      "similarTo": "phys-topic-11-027",
+      "score": 0.784,
+      "prompt": "Бірдей 4 батарея параллель, әр r = 0,8 Ом. Балама ішкі r?",
+      "otherPrompt": "Екі бірдей батарея параллель болса, балама ішкі кедергі қандай?",
+      "decision": "retain_distinct_physical_case",
+      "reason": "Тұрақты ұсталатын электр шамасы не теориялық/сандық сұрағы басқа."
+    },
+    {
+      "id": "phys-topic-12-019",
+      "similarTo": "phys-topic-12-018",
+      "score": 0.949,
+      "prompt": "Кремнийге үш валентті қоспа енгізсе, негізгі тип қандай?",
+      "otherPrompt": "Кремнийге бес валентті қоспа енгізсе, негізгі тип қандай?",
+      "decision": "retain_distinct_physical_case",
+      "reason": "Қоспа түрі, тасымалдаушы, электрод немесе өріс түрі басқа."
+    },
+    {
+      "id": "phys-topic-12-021",
+      "similarTo": "phys-topic-12-020",
+      "score": 0.989,
+      "prompt": "p-типте азшылық тасымалдаушылар кімдер?",
+      "otherPrompt": "n-типте азшылық тасымалдаушылар кімдер?",
+      "decision": "retain_distinct_physical_case",
+      "reason": "Қоспа түрі, тасымалдаушы, электрод немесе өріс түрі басқа."
+    },
+    {
+      "id": "phys-topic-12-042",
+      "similarTo": "phys-topic-12-041",
+      "score": 0.914,
+      "prompt": "Электролиттегі теріс иондар қай электродқа ұмтылады?",
+      "otherPrompt": "Электролиттегі оң иондар қай электродқа ұмтылады?",
+      "decision": "retain_distinct_physical_case",
+      "reason": "Қоспа түрі, тасымалдаушы, электрод немесе өріс түрі басқа."
+    },
+    {
+      "id": "phys-topic-12-044",
+      "similarTo": "phys-topic-12-043",
+      "score": 0.864,
+      "prompt": "Электролиз кезінде анодта қандай процесс жүреді?",
+      "otherPrompt": "Электролиз кезінде катодта қандай процесс жүреді?",
+      "decision": "retain_distinct_physical_case",
+      "reason": "Қоспа түрі, тасымалдаушы, электрод немесе өріс түрі басқа."
+    },
+    {
+      "id": "phys-topic-12-060",
+      "similarTo": "phys-topic-12-059",
+      "score": 0.853,
+      "prompt": "Электрондық сәуле магнит өрісінде ауытқи ма?",
+      "otherPrompt": "Электрондық сәуле электр өрісінде ауытқи ма?",
+      "decision": "retain_distinct_physical_case",
+      "reason": "Қоспа түрі, тасымалдаушы, электрод немесе өріс түрі басқа."
+    },
+    {
+      "id": "phys-topic-12-088",
+      "similarTo": "phys-topic-12-084",
+      "score": 0.811,
+      "prompt": "Бір ионның заряды 3e. e = 1,6·10⁻¹⁹ Кл. Заряд модулі?",
+      "otherPrompt": "Бір ион заряды 2e. 6·10²³ ион үшін толық заряд модулі қанша? e = 1,6·10⁻¹⁹ Кл.",
+      "decision": "retain_distinct_physical_case",
+      "reason": "Қоспа түрі, тасымалдаушы, электрод немесе өріс түрі басқа."
+    },
+    {
+      "id": "phys-topic-13-037",
+      "similarTo": "phys-topic-13-036",
+      "score": 0.92,
+      "prompt": "Циклотрон жиілігі B артқанда қалай өзгереді?",
+      "otherPrompt": "Циклотрон жиілігі масса артқанда қалай өзгереді?",
+      "decision": "retain_distinct_physical_case",
+      "reason": "Өріс геометриясы, материал типі не тәуелсіз айнымалы басқа."
+    },
+    {
+      "id": "phys-topic-13-053",
+      "similarTo": "phys-topic-13-052",
+      "score": 0.847,
+      "prompt": "Парамагнетик сыртқы өрісті қалай өзгертеді?",
+      "otherPrompt": "Диамагнетик сыртқы өрісті қалай өзгертеді?",
+      "decision": "retain_distinct_physical_case",
+      "reason": "Өріс геометриясы, материал типі не тәуелсіз айнымалы басқа."
+    },
+    {
+      "id": "phys-topic-13-087",
+      "similarTo": "phys-topic-13-081",
+      "score": 0.827,
+      "prompt": "H = 1000 А/м, μr = 100, μ₀ = 1,26·10⁻⁶. B қанша?",
+      "otherPrompt": "Ұзын сым тогы 10 А, r = 0,1 м. μ₀ = 4π·10⁻⁷ Гн/м. B қанша?",
+      "decision": "retain_distinct_physical_case",
+      "reason": "Өріс геометриясы, материал типі не тәуелсіз айнымалы басқа."
+    },
+    {
+      "id": "phys-topic-13-088",
+      "similarTo": "phys-topic-13-087",
+      "score": 0.793,
+      "prompt": "Параллель сымдар арасы 0,1 м, I₁ = I₂ = 5 А, l = 1 м. μ₀/(2π) = 2·10⁻⁷. Күш модулі?",
+      "otherPrompt": "H = 1000 А/м, μr = 100, μ₀ = 1,26·10⁻⁶. B қанша?",
+      "decision": "retain_distinct_physical_case",
+      "reason": "Өріс геометриясы, материал типі не тәуелсіз айнымалы басқа."
+    },
+    {
+      "id": "phys-topic-14-081",
+      "similarTo": "phys-topic-14-073",
+      "score": 0.852,
+      "prompt": "U₂ = 110 В, N₂ = 500, U₁ = 220 В. N₁ қанша?",
+      "otherPrompt": "Идеал трансформаторда N₁ = 1000, N₂ = 200, U₁ = 220 В. U₂ қанша?",
+      "decision": "retain_distinct_physical_case",
+      "reason": "Трансформатор қатынасында табылатын шама басқа; жай сандарды алмастыру емес."
+    },
+    {
+      "id": "phys-topic-15-009",
+      "similarTo": "phys-topic-15-008",
+      "score": 0.898,
+      "prompt": "Фазалар айырымы π болса, тербелістер қандай?",
+      "otherPrompt": "Фазалар айырымы 2π болса, тербелістер қандай фазада?",
+      "decision": "retain_distinct_physical_case",
+      "reason": "Фазалық шарт немесе табылатын жиілік/период әртүрлі."
+    },
+    {
+      "id": "phys-topic-15-069",
+      "similarTo": "phys-topic-15-068",
+      "score": 0.889,
+      "prompt": "Жиіліктері 50 және 50,5 Гц тербелістердің соғу периоды?",
+      "otherPrompt": "Жиіліктері 100 және 103 Гц тербелістердің соғу жиілігі?",
+      "decision": "retain_distinct_physical_case",
+      "reason": "Фазалық шарт немесе табылатын жиілік/период әртүрлі."
+    },
+    {
+      "id": "phys-topic-15-071",
+      "similarTo": "phys-topic-15-070",
+      "score": 0.825,
+      "prompt": "Қарсы фазалы тербелістер амплитудалары 7 және 2 см. Қосынды амплитуда?",
+      "otherPrompt": "Екі бірдей фазалы тербелістің амплитудалары 3 және 5 см. Қосынды амплитуда?",
+      "decision": "retain_distinct_physical_case",
+      "reason": "Фазалық шарт немесе табылатын жиілік/период әртүрлі."
+    },
+    {
+      "id": "phys-topic-16-002",
+      "similarTo": "phys-topic-16-001",
+      "score": 0.817,
+      "prompt": "LC-контурда катушка қандай энергия жинайды?",
+      "otherPrompt": "LC-контурда конденсатор қандай энергия жинайды?",
+      "decision": "retain_distinct_physical_case",
+      "reason": "Энергия орны, реактив элемент, фазалық белгі немесе қуат түрі бөлек."
+    },
+    {
+      "id": "phys-topic-16-024",
+      "similarTo": "phys-topic-16-023",
+      "score": 0.852,
+      "prompt": "Конденсатор реактив кедергісі жиілікпен қалай өзгереді?",
+      "otherPrompt": "Катушка реактив кедергісі жиілікпен қалай өзгереді?",
+      "decision": "retain_distinct_physical_case",
+      "reason": "Энергия орны, реактив элемент, фазалық белгі немесе қуат түрі бөлек."
+    },
+    {
+      "id": "phys-topic-16-036",
+      "similarTo": "phys-topic-16-035",
+      "score": 1.0,
+      "prompt": "RLC тізбегінде XL < XC болса, ток кернеуден не істейді?",
+      "otherPrompt": "RLC тізбегінде XL > XC болса, ток кернеуден не істейді?",
+      "decision": "retain_distinct_physical_case",
+      "reason": "Энергия орны, реактив элемент, фазалық белгі немесе қуат түрі бөлек."
+    },
+    {
+      "id": "phys-topic-16-040",
+      "similarTo": "phys-topic-16-039",
+      "score": 0.786,
+      "prompt": "Реактив қуаттың бірлігі?",
+      "otherPrompt": "Толық қуаттың бірлігі?",
+      "decision": "retain_distinct_physical_case",
+      "reason": "Энергия орны, реактив элемент, фазалық белгі немесе қуат түрі бөлек."
+    },
+    {
+      "id": "phys-topic-18-003",
+      "similarTo": "phys-topic-18-002",
+      "score": 1.0,
+      "prompt": "Айнымалы магнит өрісі электр өрісін тудыра ма?",
+      "otherPrompt": "Айнымалы электр өрісі магнит өрісін тудыра ма?",
+      "decision": "retain_distinct_physical_case",
+      "reason": "Қоздыратын өріс немесе спектрлік өлшем әртүрлі."
+    },
+    {
+      "id": "phys-topic-18-020",
+      "similarTo": "phys-topic-18-019",
+      "score": 0.878,
+      "prompt": "Спектрде радиодан гаммаға қарай толқын ұзындығы қалай өзгереді?",
+      "otherPrompt": "Спектрде радиодан гаммаға қарай жиілік қалай өзгереді?",
+      "decision": "retain_distinct_physical_case",
+      "reason": "Қоздыратын өріс немесе спектрлік өлшем әртүрлі."
+    },
+    {
+      "id": "phys-topic-19-007",
+      "similarTo": "phys-topic-19-006",
+      "score": 0.988,
+      "prompt": "Жол айырымы λ/2 болса, фазалар айырымы қандай?",
+      "otherPrompt": "Жол айырымы λ болса, фазалар айырымы қандай?",
+      "decision": "retain_distinct_physical_case",
+      "reason": "Жол айырымының физикалық фазалық шарты немесе пластина түрі бөлек."
+    },
+    {
+      "id": "phys-topic-19-070",
+      "similarTo": "phys-topic-19-069",
+      "score": 0.88,
+      "prompt": "Жарты толқынды пластина қандай фазалық айырма жасайды?",
+      "otherPrompt": "Ширек толқынды пластина қандай фазалық айырма жасайды?",
+      "decision": "retain_distinct_physical_case",
+      "reason": "Жол айырымының физикалық фазалық шарты немесе пластина түрі бөлек."
+    },
+    {
+      "id": "phys-topic-21-005",
+      "similarTo": "phys-context-21-1",
+      "score": 0.851,
+      "prompt": "Лоренц коэффициенті v = 0 кезінде қандай?",
+      "otherPrompt": "Лоренц коэффициенті γ қандай?",
+      "decision": "retain_distinct_physical_case",
+      "reason": "Шектік күй, сақталатын шама не сұралатын физикалық қатынас басқа."
+    },
+    {
+      "id": "phys-topic-21-041",
+      "similarTo": "phys-topic-21-040",
+      "score": 0.907,
+      "prompt": "Импульс сақталуы релятивистік процестерде орындала ма?",
+      "otherPrompt": "Энергия сақталуы релятивистік процестерде орындала ма?",
+      "decision": "retain_distinct_physical_case",
+      "reason": "Шектік күй, сақталатын шама не сұралатын физикалық қатынас басқа."
+    },
+    {
+      "id": "phys-topic-23-031",
+      "similarTo": "phys-topic-23-030",
+      "score": 0.982,
+      "prompt": "Альфа-ыдырауда Z қалай өзгереді?",
+      "otherPrompt": "Альфа-ыдырауда A қалай өзгереді?",
+      "decision": "retain_distinct_physical_case",
+      "reason": "Альфа ыдырауында нуклон саны мен заряд саны бөлек тексеріледі."
+    },
+    {
+      "id": "phys-topic-24-030",
+      "similarTo": "phys-topic-24-029",
+      "score": 0.858,
+      "prompt": "Кванттық қабатта еркін қозғалыс негізінен неше бағытта?",
+      "otherPrompt": "Кванттық сымда еркін қозғалыс негізінен неше бағытта?",
+      "decision": "retain_distinct_physical_case",
+      "reason": "Кванттық сым мен қабаттың шектелу өлшемділігі әртүрлі."
+    }
+  ],
+  "limitations": "Automated lexical review cannot prove universal semantic uniqueness; retained contrasts deliberately assess distinct conditions, quantities, or physical models."
+}

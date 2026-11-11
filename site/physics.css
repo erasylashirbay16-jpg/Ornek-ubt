@@ -10,3 +10,10 @@
 .physics-options label{overflow-wrap:anywhere}.physics-source{font-size:12px;line-height:1.6}
 @media(max-width:850px){.physics-topic-map{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:650px){.arch-profile-grid,.physics-topic-map{grid-template-columns:minmax(0,1fr)!important}}
+
+.physics-short{border:0;padding:0;margin:20px 0;min-width:0}
+.physics-short legend{font-weight:600;margin-bottom:10px}
+.physics-short label{display:block;color:#665d79;font-size:14px;margin-bottom:10px;line-height:1.6}
+.physics-short input,.physics-short textarea{display:block;box-sizing:border-box;width:100%;max-width:100%;padding:14px;border:1px solid #c9bfd9;border-radius:12px;background:#fff;color:#292334;font:inherit;line-height:1.6}
+.physics-short textarea{resize:vertical;min-height:90px}
+.physics-short :focus-visible{outline:3px solid #7762c4;outline-offset:3px}
