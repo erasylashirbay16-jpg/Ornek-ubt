@@ -81,7 +81,7 @@
       button.setAttribute('aria-label', t.settings);
       button.setAttribute('title', t.settings);
       const span = button.querySelector('span');
-      if (span) span.textContent = t.settings;
+      if (span && span.textContent !== t.settings) span.textContent = t.settings;
     });
   }
 
