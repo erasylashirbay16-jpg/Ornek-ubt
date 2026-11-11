@@ -17,3 +17,11 @@
 .physics-short input,.physics-short textarea{display:block;box-sizing:border-box;width:100%;max-width:100%;padding:14px;border:1px solid #c9bfd9;border-radius:12px;background:#fff;color:#292334;font:inherit;line-height:1.6}
 .physics-short textarea{resize:vertical;min-height:90px}
 .physics-short :focus-visible{outline:3px solid #7762c4;outline-offset:3px}
+
+/* Keep standalone subject artwork complete and equally sized. */
+.arch-profile-grid .subject-art{aspect-ratio:3/2;flex:0 0 auto;background:#eee8fb}
+.arch-profile-grid .subject-art img{inset:0;width:100%!important;height:100%!important;max-width:100%!important;object-fit:contain;object-position:center;transform:none!important;animation:none!important}
+.arch-profile-grid .profile-math-art{background:#c5dafa}
+.arch-profile-grid .physics-art{background:#c6b1eb}
+.arch-profile-grid .arch-subject>p{margin-bottom:22px;min-height:52px}
+.arch-profile-grid .arch-subject .arch-card-bottom{margin-top:auto}
