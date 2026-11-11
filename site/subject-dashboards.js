@@ -43,6 +43,10 @@
     }
     if (![5,10,20,30].includes(Number(state.target))) state.target = 10;
     state.target = Number(state.target);
+    if(subject==='reading'){
+      const target=Number(studyPlan().target);
+      if([5,10,20,30].includes(target))state.target=target;
+    }
     let changed = false;
     const config = subjects[subject];
     const results = config.results();
