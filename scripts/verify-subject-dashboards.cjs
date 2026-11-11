@@ -41,6 +41,8 @@ const file=p=>run(fs.readFileSync(path.join(root,p),'utf8'));
  checkReadingPractice(practiceButton,rq.id);checkReadingPractice(practiceButton,rq.id);`);
  assert.equal(run('dashboard.snapshot("reading").summary.done'),1);
  assert.equal(run('dashboard.snapshot("reading").state.days[dashboard.dateKey()]'),1,'Repeated check click must not double count');
+ run(`var rp=studyPlan();rp.target=30;writeStore('ornek-reading-plan-v1',rp);`);
+ assert.equal(run('dashboard.loadState("reading").target'),30,'Existing reading planner and dashboard must share a goal');
  run(`readingRun={number:1,pos:0,answers:{}};finishReading();`);
  assert.equal(run('dashboard.loadState("reading").days[dashboard.dateKey()]'),1,'Cancel finish must not add work');
  run(`var shared=physicsBank.find(q=>physicsVariants.filter(v=>v.questions.some(x=>x.id===q.id)).length>1&&q.kind==='single');
