@@ -12,6 +12,8 @@
 .subject-dashboard .practice-links button small{display:block}
 .subject-goal-dialog form{display:grid;gap:20px}
 .subject-goal-dialog label{display:grid;gap:12px}
-.subject-goal-dialog select{width:100%;min-height:48px;padding:12px;border:1px solid #aa88d750;border-radius:10px;background:#21192d;color:inherit;font:inherit}
+.subject-goal-dialog select{width:100%;min-height:48px;padding:12px;border:1px solid #aa88d750;border-radius:10px;background:#faf8ff;color:#665d79;font:inherit}
 @media(max-width:1100px){.subject-dashboard .study-columns{grid-template-columns:minmax(0,1fr)}.subject-dashboard .study-rail{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px}.subject-dashboard .rail-note{grid-column:1/-1}}
 @media(max-width:600px){.subject-dashboard .study-rail{grid-template-columns:minmax(0,1fr)}.subject-dashboard .learning-summary{flex-wrap:wrap;gap:18px}.subject-dashboard .learning-summary>div{flex:1 1 40%}.subject-dashboard .qsectionhead h2{font-size:23px}.subject-dashboard .practice-links{grid-template-columns:minmax(0,1fr)}.subject-dashboard .subject{gap:12px!important}.subject-dashboard .subject h3{font-size:16px!important}}
+
+body.premium-ui .subject-goal-dialog select{background:#21192d;color:inherit}
