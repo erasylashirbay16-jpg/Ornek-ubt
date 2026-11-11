@@ -93,7 +93,10 @@
       return {total:items.length, done:records.length, correct:graded.filter(r=>r.correct).length,
         graded:graded.length, wrong:graded.filter(r=>!r.correct).length};
     }
-    return {state,questions,topics:[...groups.values()],metrics,summary:metrics(questions)};
+    const topics=[...groups.values()];
+    if(subject==='physics')topics.sort((a,b)=>Number(a.key)-Number(b.key));
+    if(subject==='history')topics.sort((a,b)=>b.questions.length-a.questions.length||a.name.localeCompare(b.name,'kk'));
+    return {state,questions,topics,metrics,summary:metrics(questions)};
   }
   function weekHTML(state) {
     const days = qLanguage === 'ru' ? ['Вс','Пн','Вт','Ср','Чт','Пт','Сб'] : ['Жс','Дс','Сс','Ср','Бс','Жм','Сб'];
@@ -134,6 +137,7 @@
     if (currentSubject==='reading') {
       const input=app.querySelector('input[type="search"]'); if(input) input.value=topic.name;
       filterReadingRows(topic.name);
+      const count=app.querySelector('.page-intro .muted');if(count)count.textContent=topic.questions.length+' '+t('сұрақ')+' · '+t('Оқу сауаттылығы');
     }
   }
   function editGoal() {
@@ -192,6 +196,11 @@
       article.querySelector('details>button').onclick=function(){window[handler](this,q.id)};
       host.append(article);
     });
+    const heading=app.querySelector('.page-intro');
+    const intro=heading?.querySelector('.muted');
+    if(intro)intro.textContent=t('Тест нәтижелері, сақталған сұрақтар және жаттығудағы қателер.');
+    const emptyMessages=['Әзірге сәйкес сұрақ жоқ. Басқа сөзбен іздеп көр немесе тестті орында.','Сәйкес тапсырма жоқ.'];
+    for(const p of app.querySelectorAll('p')){if(emptyMessages.includes(p.textContent.trim()))p.hidden=true}
     app.append(host);
   }
   function wrapSection(original,subject) {
@@ -228,6 +237,7 @@
     'Тақырыпты қайталап, тапсырмаларды орында.':'Повтори тему и выполни задания.',
     'Мәтінді оқып, сұрақтарға жауап бер.':'Прочитай текст и ответь на вопросы.',
     'Тестті аяқта немесе жаттығуда жауабыңды тексер.':'Заверши тест или проверь ответ в тренировке.',
+    'Тест нәтижелері, сақталған сұрақтар және жаттығудағы қателер.':'Результаты тестов, сохранённые вопросы и ошибки в тренировках.',
     'Жаттығудағы қателер':'Ошибки в тренировках','Соңғы тексерілген жауаптарыңды қайта орында.':'Повтори задания с ошибками в последних ответах.',
     'Уақытпен дайындал':'Тренируйся с таймером','орындалды':'выполнено','жауап':'ответов'
   });
