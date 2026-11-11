@@ -241,5 +241,11 @@
     'Жаттығудағы қателер':'Ошибки в тренировках','Соңғы тексерілген жауаптарыңды қайта орында.':'Повтори задания с ошибками в последних ответах.',
     'Уақытпен дайындал':'Тренируйся с таймером','орындалды':'выполнено','жауап':'ответов'
   });
+  const previousLanguage=setQLanguage;
+  setQLanguage=function(...args){
+    const result=previousLanguage.apply(this,args);
+    if(app.querySelector('.subject-dashboard'))refresh();
+    return result;
+  };
   window.OrnekSubjectDashboard={openTopic,editGoal,showAll(){shownTopics=Infinity;refresh()},snapshot,loadState,dateKey};
 })();
