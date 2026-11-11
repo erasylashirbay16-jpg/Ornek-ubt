@@ -19,9 +19,11 @@ for(const v of data.variants){
 const baseline=JSON.parse(fs.readFileSync(path.join(__dirname,'physics-topics/baseline.json'),'utf8'));
 assert.deepStrictEqual(data.variants,baseline.variants,'Existing variants and IDs stay unchanged');
 assert.equal(used.size,baseline.bank.length);
-assert.equal(data.bank.length,2500);
-for(let topic=1;topic<=25;topic++)assert.equal(data.bank.filter(q=>q.topicId===topic).length,100);
-assert.equal(data.bank.filter(q=>q.kind==='short').length,2017);
+const review=JSON.parse(fs.readFileSync(path.join(__dirname,'physics-duplicate-removals.json'),'utf8'));
+assert.equal(data.bank.length,2500-review.removals.length);
+for(const item of review.removals){assert(!bankMap.has(item.removedId));assert(bankMap.has(item.keptId));}
+for(let topic=1;topic<=25;topic++)assert(data.bank.some(q=>q.topicId===topic));
+assert.equal(data.bank.filter(q=>q.kind==='short').length,2017-review.removals.length);
 for(const q of data.bank.filter(q=>q.kind==='short')){assert(typeof q.a==='string'&&q.a.trim());assert(q.t.trim()&&q.e.trim());if(typeof q.value==='number')assert(Number.isFinite(q.value));}
 const storage=new Map(),ctx={console,Date,JSON,Math,Number,Set,Array,Object,String,physicsVariants:data.variants,physicsBank:data.bank,physicsTopics:data.topics,ornekAccount:{user:null},localStorage:{getItem:k=>storage.get(k)||null,setItem:(k,v)=>storage.set(k,v)},clearInterval, setInterval:()=>1,stopHistory(){},stopReading(){},stopProfile(){},stop(){},roomModeExit(){},run:null,confirm:()=>true,window:{scrollTo(){}},document:{querySelectorAll:()=>[],getElementById:()=>null},app:{innerHTML:''},escapeText:s=>String(s).replace(/[&<>"']/g,''),page:(...args)=>ctx.lastPage=args,shuffle:a=>a};
 vm.createContext(ctx);vm.runInContext(fs.readFileSync(path.join(root,'physics.js'),'utf8'),ctx);
@@ -31,10 +33,10 @@ ctx.finishPhysics(true);assert.equal(ctx.physicsResults()[1].correct,40);assert.
 ctx.startPhysics(50);ctx.jumpPhysics(25);assert(ctx.app.innerHTML.includes('КОНТЕКСТ'));ctx.resumePhysics();assert(ctx.app.innerHTML.includes('26 / 40'));
 ctx.physicsWrite('draft',{number:50,pos:999,end:Date.now()+1000,answers:{}});ctx.resumePhysics();assert.equal(ctx.physicsRead('draft',null),null);
 assert.equal(ctx.physicsAll().length,data.bank.length);
-assert.equal(ctx.physicsAll().filter(q=>q.number===0).length,2017);
+assert.equal(ctx.physicsAll().filter(q=>q.number===0).length,2017-review.removals.length);
 for(let topic=1;topic<=25;topic++){
  vm.runInContext(`physicsTopic='${topic}';physicsMode='library';physicsBankPage=0;physicsRenderBank()`,ctx);
- assert.equal(ctx.lastPage[1],'100 бөлек тапсырма');
+ assert.equal(ctx.lastPage[1],data.bank.filter(q=>q.topicId===topic).length+' бөлек тапсырма');
  assert(ctx.lastPage[2].includes('1 / 5'));
 }
 const numeric=data.bank.find(q=>q.kind==='short'&&q.value===0.006);
@@ -54,7 +56,7 @@ ctx.physicsCheckPractice({parentElement:{querySelector:()=>({value:'өз жау�
 assert(feedback.textContent.includes(written.a));
 assert(!feedback.textContent.includes('Қате'));
 
-ctx.physicsSection('planner');assert(ctx.lastPage[2].includes('Космология'));assert.equal((ctx.lastPage[2].match(/100 бөлек тапсырма/g)||[]).length,25);ctx.physicsSection('analytics');assert(ctx.lastPage[2].includes('40 / 40'));
+ctx.physicsSection('planner');assert(ctx.lastPage[2].includes('Космология'));assert.equal((ctx.lastPage[2].match(/бөлек тапсырма/g)||[]).length,25);ctx.physicsSection('analytics');assert(ctx.lastPage[2].includes('40 / 40'));
 for(const q of data.bank){assert(ctx.physicsCorrect(q,q.a));if(q.kind==='match')assert(!ctx.physicsAnswered(q,q.rows.map(()=>-1)));}
 const architecture=fs.readFileSync(path.join(root,'architecture.js'),'utf8');assert(architecture.includes("else if(currentSubject==='physics')physicsSection(key)"));assert(architecture.includes("openSubject('physics')"));
 const boot=fs.readFileSync(path.join(root,'boot.js'),'utf8');assert(boot.indexOf("'physics.js'")<boot.indexOf("'architecture.js'"));assert(boot.includes("if(src==='physics-data.js')await physicsDataReady"));

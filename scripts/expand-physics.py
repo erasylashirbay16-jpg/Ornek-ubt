@@ -22,10 +22,21 @@ for topic in range(1,26):assert sum(q['topicId']==topic for q in bank)==100
 # Explicitly declared model-answer exercises avoid fabricated multiple-choice distractors.
 # Existing 50 variants and their IDs are untouched, so saved answers remain valid.
 data={**baseline,'bank':bank,'schemaVersion':2}
+removal_path=ROOT/'scripts/physics-duplicate-removals.json'
+if removal_path.exists():
+ review=json.loads(removal_path.read_text())
+ removed={item['removedId'] for item in review['removals']}
+ assert len(removed)==len(review['removals'])
+ assert removed<={q['id'] for q in bank}
+ assert not removed&{q['id'] for v in baseline['variants'] for q in v['questions']}
+ bank=[q for q in bank if q['id'] not in removed]
+ assert all(item['keptId'] in {q['id'] for q in bank} for item in review['removals'])
+ data={**data,'bank':bank,'deduplication':{'removedCount':len(removed),'reviewFile':'scripts/physics-duplicate-removals.json'}}
 raw=json.dumps(data,ensure_ascii=False,separators=(',',':')).encode();encoded=base64.b64encode(gzip.compress(raw,mtime=0)).decode()
-(ROOT/'site/physics-data.js').write_text('/* 25 physics topics, exactly 100 distinct authored/source-reviewed exercises each. */\nlet physicsVariants=[],physicsBank=[],physicsTopics=[];\nconst physicsDataReady=(async()=>{const raw=atob('+json.dumps(encoded)+');const bytes=Uint8Array.from(raw,c=>c.charCodeAt(0));const data=JSON.parse(await new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream("gzip"))).text());physicsVariants=data.variants;physicsBank=data.bank;physicsTopics=data.topics;})();\n')
+(ROOT/'site/physics-data.js').write_text('/* 25 physics topics; reviewed duplicate exercises excluded. */\nlet physicsVariants=[],physicsBank=[],physicsTopics=[];\nconst physicsDataReady=(async()=>{const raw=atob('+json.dumps(encoded)+');const bytes=Uint8Array.from(raw,c=>c.charCodeAt(0));const data=JSON.parse(await new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream("gzip"))).text());physicsVariants=data.variants;physicsBank=data.bank;physicsTopics=data.topics;})();\n')
 report={'topicCount':25,'itemsPerTopic':100,'bankItems':2500,'retainedItems':len(baseline['bank']),'newItems':len(allnew),'shortAnswerNewItems':len(allnew),'unchangedVariants':50,'retainedVariantQuestions':2000,'counts':[{'topicId':i,'topic':baseline['topics'][i-1],'count':sum(q['topicId']==i for q in bank)} for i in range(1,26)],'semanticReview':'Author-written distinct prompts; numeric-normalized near-duplicate review in physics-near-duplicate-review.json. Reusing physical laws is necessary; changing only numbers is not used as a question-generation method.','sources':['Uploaded A-TOK, 2018 and 2026 physics specification','https://www.nano.gov/about-nanotechnology/what-is-so-special-about-nano/','https://science.nasa.gov/universe/the-big-bang/','https://science.nasa.gov/universe/glossary/','https://science.nasa.gov/mission/hubble/science/science-behind-the-discoveries/hubble-cosmological-redshift/']}
+report.update(bankItems=len(bank),itemsPerTopic=None,newItems=sum(q['kind']=='short' for q in bank),shortAnswerNewItems=sum(q['kind']=='short' for q in bank),removedDuplicates=data.get('deduplication',{}).get('removedCount',0),semanticReview='Confirmed repeated tasks removed according to physics-duplicate-removals.json; different physical conditions and unknowns retained.')
 (ROOT/'scripts/physics-topic-expansion-audit.json').write_text(json.dumps(report,ensure_ascii=False,indent=2))
 # Retain the uncompressed bank as a reviewable source, not only an encoded asset.
 (folder/'expanded-bank.json').write_text(json.dumps(data,ensure_ascii=False,indent=2))
-print(json.dumps({'bank':2500,'new':len(allnew),'eachTopic':100,'assetBytes':len(encoded),'extraCandidates':len(extras)},ensure_ascii=False))
+print(json.dumps({'bank':len(bank),'removedDuplicates':data.get('deduplication',{}).get('removedCount',0),'assetBytes':len(encoded),'extraCandidates':len(extras)},ensure_ascii=False))

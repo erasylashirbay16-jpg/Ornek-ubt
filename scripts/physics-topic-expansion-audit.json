@@ -1,10 +1,10 @@
 {
   "topicCount": 25,
-  "itemsPerTopic": 100,
-  "bankItems": 2500,
+  "itemsPerTopic": null,
+  "bankItems": 2472,
   "retainedItems": 483,
-  "newItems": 2017,
-  "shortAnswerNewItems": 2017,
+  "newItems": 1989,
+  "shortAnswerNewItems": 1989,
   "unchangedVariants": 50,
   "retainedVariantQuestions": 2000,
   "counts": [
@@ -21,7 +21,7 @@
     {
       "topicId": 3,
       "topic": "Статика",
-      "count": 100
+      "count": 97
     },
     {
       "topicId": 4,
@@ -31,27 +31,27 @@
     {
       "topicId": 5,
       "topic": "Сұйықтар мен газдардың механикасы",
-      "count": 100
+      "count": 99
     },
     {
       "topicId": 6,
       "topic": "Молекулалы-кинетикалық теория",
-      "count": 100
+      "count": 97
     },
     {
       "topicId": 7,
       "topic": "Газ заңдары",
-      "count": 100
+      "count": 98
     },
     {
       "topicId": 8,
       "topic": "Термодинамика",
-      "count": 100
+      "count": 99
     },
     {
       "topicId": 9,
       "topic": "Сұйық және қатты денелер",
-      "count": 100
+      "count": 96
     },
     {
       "topicId": 10,
@@ -76,27 +76,27 @@
     {
       "topicId": 14,
       "topic": "Электромагниттік индукция",
-      "count": 100
+      "count": 99
     },
     {
       "topicId": 15,
       "topic": "Механикалық тербелістер",
-      "count": 100
+      "count": 97
     },
     {
       "topicId": 16,
       "topic": "Электромагниттік тербелістер және айнымалы ток",
-      "count": 100
+      "count": 97
     },
     {
       "topicId": 17,
       "topic": "Толқындық қозғалыс",
-      "count": 100
+      "count": 99
     },
     {
       "topicId": 18,
       "topic": "Электромагниттік толқындар",
-      "count": 100
+      "count": 99
     },
     {
       "topicId": 19,
@@ -111,17 +111,17 @@
     {
       "topicId": 21,
       "topic": "Салыстырмалылық теориясы",
-      "count": 100
+      "count": 98
     },
     {
       "topicId": 22,
       "topic": "Атомдық және кванттық физика",
-      "count": 100
+      "count": 99
     },
     {
       "topicId": 23,
       "topic": "Атом ядросының физикасы",
-      "count": 100
+      "count": 99
     },
     {
       "topicId": 24,
@@ -131,15 +131,16 @@
     {
       "topicId": 25,
       "topic": "Космология",
-      "count": 100
+      "count": 99
     }
   ],
-  "semanticReview": "Author-written distinct prompts; numeric-normalized near-duplicate review in physics-near-duplicate-review.json. Reusing physical laws is necessary; changing only numbers is not used as a question-generation method.",
+  "semanticReview": "Confirmed repeated tasks removed according to physics-duplicate-removals.json; different physical conditions and unknowns retained.",
   "sources": [
     "Uploaded A-TOK, 2018 and 2026 physics specification",
     "https://www.nano.gov/about-nanotechnology/what-is-so-special-about-nano/",
     "https://science.nasa.gov/universe/the-big-bang/",
     "https://science.nasa.gov/universe/glossary/",
     "https://science.nasa.gov/mission/hubble/science/science-behind-the-discoveries/hubble-cosmological-redshift/"
-  ]
+  ],
+  "removedDuplicates": 28
 }
