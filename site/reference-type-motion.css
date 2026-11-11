@@ -1,0 +1,23 @@
+/* Screenshot-led typography and restrained controls; preserve the existing theme. */
+@font-face{font-family:'Ornek Inter';src:url('assets/inter-variable.woff2') format('woff2');font-style:normal;font-weight:100 900;font-display:swap}
+:root{--ornek-reference-font:'Ornek Inter','Ornek Golos',sans-serif;--ornek-motion-ease:cubic-bezier(.22,1,.36,1)}
+html{scroll-behavior:smooth}
+html body.premium-ui.premium-ui.premium-ui,
+html body.premium-ui.premium-ui.premium-ui :is(button,input,select,textarea,p,a,summary,label,legend,li,span,strong,b,h1,h2,h3,h4,h5,h6,.qtext,.option,.reading-option,.architecture-lobby):not(.katex *,.MathJax *,math *){font-family:var(--ornek-reference-font)!important;font-optical-sizing:auto;-webkit-font-smoothing:antialiased}
+html body.premium-ui.premium-ui.premium-ui :is(h1,h2,h3,h4,h5,h6){font-weight:700!important;letter-spacing:-.035em!important}
+html body.premium-ui.premium-ui.premium-ui :is(.arch-hero h1,.hero-copy h2,.home-heading h1,.page-intro h1){font-weight:750!important;line-height:1.12!important;letter-spacing:-.045em!important}
+html body.premium-ui.premium-ui.premium-ui :is(p,.qtext,.reading-passage,.option,.reading-option){letter-spacing:-.012em!important}
+html body.premium-ui.premium-ui.premium-ui :is(button,.arch-cta){font-weight:600!important;letter-spacing:-.015em!important;transition:background-color .24s ease,border-color .24s ease,box-shadow .24s ease,transform .3s var(--ornek-motion-ease)}
+/* Main actions borrow the reference's solid, rounded rectangle silhouette. */
+html body.premium-ui.premium-ui.premium-ui :is(#welcome .arch-cta,.qhero-actions>button:first-child,.subject-banner>button,.testtile>button:first-of-type,.reading-start,.primary-button){border-radius:12px!important;background:#a58aff!important;color:#1b1230!important;border:1px solid #b8a2ff!important;box-shadow:0 4px 14px #7b57cb20!important;min-height:48px;transition:background-color .24s ease,box-shadow .24s ease,transform .3s var(--ornek-motion-ease)}
+html body.premium-ui.premium-ui.premium-ui :is(#welcome .arch-cta,.qhero-actions>button:first-child,.subject-banner>button,.testtile>button:first-of-type,.reading-start,.primary-button):hover:not(:disabled){background:#b8a2ff!important;box-shadow:0 7px 20px #7b57cb30!important;transform:translateY(-1px)}
+html body.premium-ui.premium-ui.premium-ui :is(#welcome .arch-cta,.qhero-actions>button:first-child,.subject-banner>button,.testtile>button:first-of-type,.reading-start,.primary-button):active:not(:disabled){transform:translateY(1px);box-shadow:0 2px 7px #7b57cb20!important}
+html body.premium-ui.premium-ui.premium-ui :is(.ornek-v3-login,.workspace-account){border-radius:12px!important;box-shadow:none!important}
+/* Run once on informational sections; never animate timed test questions. */
+.ornek-soft-entry{animation:ornek-soft-entry .58s var(--ornek-motion-ease) both}
+@keyframes ornek-soft-entry{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes ornek-soft-dropdown{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+html body.premium-ui :is(.ornek-v3-popover:not([hidden]),#ornek-v3-mobile-menu:not([hidden]),.workspace-menu-panel,details[open]>:not(summary)){animation:ornek-soft-dropdown .24s var(--ornek-motion-ease) both}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.ornek-soft-entry,html body.premium-ui :is(.ornek-v3-popover:not([hidden]),#ornek-v3-mobile-menu:not([hidden]),.workspace-menu-panel,details[open]>:not(summary)){animation:none!important}html body.premium-ui.premium-ui.premium-ui :is(button,.arch-cta){transition:none!important}}
+
+html body.premium-ui.premium-ui.premium-ui .arch-hero h1 em{font-weight:inherit!important}
