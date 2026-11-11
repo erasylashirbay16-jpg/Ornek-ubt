@@ -1,5 +1,6 @@
 /* Native scrolling stays intact: only presentational sections receive one entry. */
 (()=>{
+  document.body.classList.add('ornek-reference-type');
   const reduce=matchMedia('(prefers-reduced-motion: reduce)');
   if(reduce.matches||!('IntersectionObserver' in window))return;
   const seen=new WeakSet();
