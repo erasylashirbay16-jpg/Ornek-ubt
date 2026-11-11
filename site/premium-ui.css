@@ -182,3 +182,14 @@ html body.premium-ui.premium-ui.premium-ui .ornek-chip{background:#a58aff10!impo
 html body.premium-ui.premium-ui.premium-ui .language-control{background:#1f172b!important;border:1px solid #ffffff13!important;box-shadow:none!important}html body.premium-ui.premium-ui.premium-ui .language-control button{background:transparent!important;color:#9c83af!important}html body.premium-ui.premium-ui.premium-ui .language-control button[aria-pressed=true]{background:#39254d!important;color:#d8c0f2!important}
 html body.premium-ui.premium-ui.premium-ui .workspace-account{background:#21172e!important;color:#cbb2e0!important;border:1px solid #ffffff1a!important;box-shadow:none!important}
 html body.premium-ui.premium-ui.premium-ui .ornek-holo-logo canvas{display:none!important}html body.premium-ui.premium-ui.premium-ui .ornek-holo-logo>img{opacity:1!important}
+/* Reading contrast and secondary controls across every learning mode. */
+html body.premium-ui.premium-ui.premium-ui :is(.questionrow p,.questionrow details>p,.reading-passage p,.reading-question-text,.history-context p,.review b,.review p,.testintro p){color:#d6c5e6!important}
+html body.premium-ui.premium-ui.premium-ui :is(.reading-passage,.history-context,.reading-top,.reading-number-grid,.reading-move){background:#17131f!important;color:#e4d4f1!important;border-color:#ffffff17!important}
+html body.premium-ui.premium-ui.premium-ui .reading-passage h2{color:#eee1fa!important}
+html body.premium-ui.premium-ui.premium-ui .room-dock :is(.dock-explain,.dock-next,.dock-prev,.icon-button){background:#291d36!important;color:#d4bce7!important;border:1px solid #ffffff17!important}
+html body.premium-ui.premium-ui.premium-ui .room-dock .dock-ask{background:#a58aff!important;color:#21142e!important;border:1px solid #bfa6ff!important}
+html body.premium-ui.premium-ui.premium-ui :is(.op-banner,.op-dialog){background:#1b1425!important;color:#e8d9f6!important;border:1px solid #a58aff30!important;box-shadow:0 20px 70px #0007!important}
+html body.premium-ui.premium-ui.premium-ui :is(.op-banner p,.op-dialog p){color:#b7a2c8!important}
+html body.premium-ui.premium-ui.premium-ui :is(.op-banner a,.op-dialog a){color:#c2a6ee!important}
+html body.premium-ui.premium-ui.premium-ui .op-button{background:#281c36!important;color:#d9c2eb!important;border-color:#ffffff1b!important}
+html body.premium-ui.premium-ui.premium-ui .op-button.op-primary{background:#a58aff!important;color:#21142e!important;border-color:#b99dff!important}
