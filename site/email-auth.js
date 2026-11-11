@@ -6,7 +6,7 @@ window.ornekApi=async function(path,options={}){
   if(!user)return Response.json({user:null});
   const {data,error}=await ornekSupabase.from('ornek_profiles').select('display_name').eq('user_id',user.id).maybeSingle();
   if(error)throw error;
-  return Response.json({user:{id:user.id,name:data?.display_name||user.user_metadata?.display_name||user.email,registered:!!data}});
+  return Response.json({user:{id:user.id,name:data?.display_name||user.user_metadata?.display_name||user.email||'Пайдаланушы',registered:!!data}});
  }
  if(!user)return Response.json({error:'sign_in_required'},{status:401});
  if(path==='/api/register'){
