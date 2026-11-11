@@ -17,7 +17,7 @@ const file=p=>run(fs.readFileSync(path.join(root,p),'utf8'));
  function writeStore(k,v){localStorage.setItem((ornekAccount.user?.id||'guest')+':'+k,JSON.stringify(v))};
  function studyPlan(){return readStore('ornek-reading-plan-v1',{target:10,days:{}})};
  function readingAll(){return readingVariants.flatMap(v=>v.passages.flatMap((p,pi)=>p.questions.map(q=>({...q,title:p.title,pi,number:v.number}))))};
- function readingSection(){};var qArrow='',currentSubject='reading';
+ function readingSection(){};function setQLanguage(lang){qLanguage=lang};var qArrow='',currentSubject='reading';
  var ornekLocal={removeItem(){}};function page(){};function roomModeExit(){};function stop(){};
  function checkReadingPractice(button,id){};
  `);
