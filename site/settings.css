@@ -1,0 +1,77 @@
+/* Örnek settings: scoped, white/violet, mobile-friendly. */
+.ornek-settings-trigger{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  min-height:42px;padding:0 13px;border:1px solid #e4d9fc;border-radius:14px;
+  background:#f5f0ff;color:#7041ce;font:650 13px/1.2 inherit;
+  white-space:nowrap;cursor:pointer;box-shadow:none;
+}
+.ornek-settings-trigger svg{flex-shrink:0}
+.ornek-settings-trigger:hover{background:#ebe2ff;border-color:#ccbbfa}
+.ornek-settings-trigger:focus-visible{outline:3px solid #a78bfa;outline-offset:3px}
+body.on-welcome #welcome .ornek-header-v3 .ornek-settings-trigger{
+  background:#f5f0ff!important;color:#7041ce!important;
+  border:1px solid #e4d9fc!important;min-height:43px!important;
+  padding:0 11px!important;box-shadow:none!important;font-size:13px!important;
+}
+.ornek-settings-dialog{
+  position:fixed;inset:0;margin:auto;width:min(470px,calc(100vw - 24px));
+  max-height:min(92dvh,680px);padding:0;overflow:auto;border:1px solid #e7dffb;
+  border-radius:24px;background:#fff;color:#243150;
+  box-shadow:0 26px 90px rgba(34,28,80,.25);font:15px/1.5 Inter,Ornek,system-ui,sans-serif;
+  z-index:2147483647;
+}
+.ornek-settings-dialog::backdrop{background:rgba(24,18,53,.50);backdrop-filter:blur(5px)}
+.ornek-settings-dialog button{cursor:pointer;font:inherit}
+.ornek-settings-dialog .os-heading{display:flex;align-items:start;justify-content:space-between;gap:16px;padding:27px 27px 14px}
+.ornek-settings-dialog .os-heading h2{margin:0;color:#202d48;font-size:24px;letter-spacing:-.6px;font-weight:800}
+.ornek-settings-dialog .os-heading p{margin:4px 0 0;color:#718098;font-size:13px}
+.ornek-settings-dialog .os-x{border:0;border-radius:12px;background:#f4f0ff;color:#6950a9;font-size:24px;line-height:1;width:37px;height:37px;padding:0}
+.ornek-settings-dialog .os-content{padding:4px 27px 20px}
+.ornek-settings-dialog .os-label{margin:16px 0 9px;font-size:12px;font-weight:800;letter-spacing:.04em;color:#7752cf;text-transform:uppercase}
+.ornek-settings-dialog .os-separator{margin-top:25px}
+.ornek-settings-dialog .os-languages{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.ornek-settings-dialog .os-languages button{border:1px solid #e7e1f2;border-radius:12px;background:#faf9fd;padding:11px;color:#3b4160;font-size:14px}
+.ornek-settings-dialog .os-languages button.is-active{border-color:#9b76ed;background:#f1eaff;color:#6435c5;font-weight:750}
+.ornek-settings-dialog .os-option{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:13px 0;border-bottom:1px solid #f0ecf9;cursor:pointer}
+.ornek-settings-dialog .os-option span{display:grid;gap:2px}
+.ornek-settings-dialog .os-option strong{font-size:14px;color:#23314b}
+.ornek-settings-dialog .os-option small{font-size:12px;color:#7c879a}
+.ornek-settings-dialog input[type=checkbox]{appearance:none;flex:0 0 42px;width:42px;height:25px;margin:0;border:1px solid #d9d7e2;border-radius:99px;background:#dcdde4;position:relative;cursor:pointer}
+.ornek-settings-dialog input[type=checkbox]::before{content:"";position:absolute;left:3px;top:3px;width:17px;height:17px;background:#fff;border-radius:50%;box-shadow:0 1px 3px #0002;transition:transform .2s}
+.ornek-settings-dialog input[type=checkbox]:checked{background:#7c4de4;border-color:#7c4de4}
+.ornek-settings-dialog input[type=checkbox]:checked::before{transform:translateX(17px)}
+.ornek-settings-dialog .os-note{margin:16px 0 0;color:#7a8597;font-size:12px}
+.ornek-settings-dialog .os-footer{display:flex;gap:10px;justify-content:space-between;padding:16px 27px 24px}
+.ornek-settings-dialog .os-footer button{border-radius:12px;padding:12px 18px;font-weight:700;font-size:13px}
+.ornek-settings-dialog .os-reset{border:1px solid #e7e0f2;color:#69548e;background:#fff}
+.ornek-settings-dialog .os-done{border:1px solid #7545df;color:#fff;background:#7545df}
+.ornek-settings-dialog button:focus-visible,.ornek-settings-dialog input:focus-visible{outline:3px solid #b99df4;outline-offset:3px}
+html[data-ornek-text=large] body{font-size:18px}
+html[data-ornek-text=large] .intro p{font-size:20px}
+html[data-ornek-text=large] .speciality h2{font-size:21px}
+html[data-ornek-text=large] .speciality .tags,
+html[data-ornek-text=large] .speciality .count{font-size:14px}
+html[data-ornek-text=large] #app,
+html[data-ornek-text=large] #welcome{font-size:1.1em}
+html[data-ornek-motion=off] *,
+html[data-ornek-motion=off] *::before,
+html[data-ornek-motion=off] *::after{animation-duration:0.01ms!important;animation-iteration-count:1!important;transition-duration:0.01ms!important;scroll-behavior:auto!important}
+html[data-ornek-motion=off] #ornek-lightfall{display:none!important}
+html[data-ornek-contrast=high] body{color:#17223c}
+html[data-ornek-contrast=high] .speciality,
+html[data-ornek-contrast=high] .intro,
+html[data-ornek-contrast=high] #filters{border-color:#8e76c0}
+html[data-ornek-contrast=high] .muted,
+html[data-ornek-contrast=high] .intro p,
+html[data-ornek-contrast=high] #result-count{color:#4d5771}
+@media(max-width:960px){
+  body.on-welcome #welcome .ornek-header-v3 .ornek-settings-trigger{padding:0!important;width:43px!important;flex:0 0 43px}
+  body.on-welcome #welcome .ornek-header-v3 .ornek-settings-trigger span{display:none}
+}
+@media(max-width:760px){
+  .ornek-settings-trigger{width:39px;min-width:39px;padding:0!important}
+  .ornek-settings-trigger span{display:none}
+  .ornek-settings-dialog .os-heading{padding:20px 18px 10px}
+  .ornek-settings-dialog .os-content{padding:4px 18px 16px}
+  .ornek-settings-dialog .os-footer{padding:12px 18px 18px}
+}
