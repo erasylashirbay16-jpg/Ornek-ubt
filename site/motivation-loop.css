@@ -1,6 +1,16 @@
-.motivation-loop{width:100%;margin:18px auto 32px;overflow:hidden;user-select:none;color:#fff;contain:layout paint}
-.motivation-loop svg{display:block;width:100%;height:300px;overflow:hidden}
-.motivation-loop .loop-ribbon{fill:none;stroke:#5227FF;stroke-width:86;stroke-linecap:butt}
-.motivation-loop text{font-family:inherit;font-size:46px;font-weight:800;letter-spacing:2px;fill:currentColor;text-transform:uppercase}
-@media(max-width:600px){.motivation-loop{width:calc(100% + 24px);margin-left:-12px;margin-top:22px;margin-bottom:26px}}
+/* Kazakhstan university marquee, replacing the motivational wave. */
+.motivation-loop{width:100%;margin:20px auto 32px;padding:22px 0;border:1px solid #e2e7f1;border-radius:28px;background:#f8faff;overflow:hidden;contain:layout paint;position:relative}
+.university-marquee-track{display:flex;width:max-content;animation:ornek-university-scroll 48s linear infinite}
+.university-marquee-group{display:flex;align-items:center;gap:20px;padding-right:20px;flex-shrink:0}
+.university-pill{display:flex;align-items:center;gap:16px;flex:none;min-height:92px;padding:18px 26px;border:1px solid #e1e6f0;border-radius:999px;background:#fff;color:#171c2a!important;font-family:inherit;font-size:20px;font-weight:700;line-height:1.25;white-space:nowrap;text-decoration:none!important;box-shadow:0 12px 28px #273b6610;transition:border-color .2s,box-shadow .2s}
+.university-pill:hover{border-color:#b8a4ff;box-shadow:0 12px 28px #5227ff16}
+.university-pill:focus-visible{outline:3px solid #7654ff;outline-offset:3px}
+.university-logo{display:grid;place-items:center;width:54px;height:54px;flex:none;border:1px solid #e8edfa;border-radius:17px;background:white;padding:7px}
+.university-logo img{display:block;width:100%;height:100%;object-fit:contain}
+.motivation-loop:before,.motivation-loop:after{content:"";position:absolute;inset:0 auto 0 0;width:48px;z-index:1;pointer-events:none;background:linear-gradient(90deg,#f8faff,transparent)}
+.motivation-loop:after{left:auto;right:0;transform:rotate(180deg)}
+.motivation-loop:hover .university-marquee-track,.motivation-loop:focus-within .university-marquee-track{animation-play-state:paused}
+@keyframes ornek-university-scroll{to{transform:translateX(-50%)}}
+@media(max-width:600px){.motivation-loop{margin:20px auto 26px;padding:16px 0;border-radius:22px}.university-pill{min-height:74px;padding:12px 20px;gap:12px;font-size:17px}.university-logo{width:46px;height:46px;border-radius:14px}.university-marquee-group{gap:14px;padding-right:14px}.motivation-loop:before,.motivation-loop:after{width:24px}}
+@media(prefers-reduced-motion:reduce){.university-marquee-track{animation:none}.motivation-loop{overflow-x:auto}.motivation-loop:before,.motivation-loop:after{display:none}.university-marquee-group[aria-hidden]{display:none}}
 @media print{.motivation-loop{display:none}}
