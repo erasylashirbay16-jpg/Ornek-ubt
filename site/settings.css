@@ -2,7 +2,7 @@
 .ornek-settings-trigger{
   display:inline-flex;align-items:center;justify-content:center;gap:8px;
   min-height:42px;padding:0 13px;border:1px solid #e4d9fc;border-radius:14px;
-  background:#f5f0ff;color:#7041ce;font:650 13px/1.2 inherit;
+  background:#f5f0ff;color:#7041ce;font-size:13px;font-weight:650;line-height:1.2;
   white-space:nowrap;cursor:pointer;box-shadow:none;
 }
 .ornek-settings-trigger svg{flex-shrink:0}
