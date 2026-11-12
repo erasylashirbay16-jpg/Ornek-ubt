@@ -1,0 +1,30 @@
+name: Verify physics content
+on:
+  push:
+    paths:
+      - 'site/physics*.js'
+      - 'site/physics*.css'
+      - 'scripts/verify-physics*.cjs'
+      - 'scripts/physics-topics/**'
+      - '.github/workflows/verify-physics.yml'
+  pull_request:
+    paths:
+      - 'site/physics*.js'
+      - 'site/physics*.css'
+      - 'scripts/verify-physics*.cjs'
+      - 'scripts/physics-topics/**'
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - name: Check syntax
+        run: |
+          node --check site/physics.js
+          node --check site/physics-elite-bank.js
+          node --check site/physics-elite-round.js
+          node --check site/physics-depth-prompts.js
+      - name: Verify 50 variants and advanced physics rounds
+        run: node scripts/verify-physics.cjs
