@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="kk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#f8f7fc">
+  <meta name="description" content="Örnek мамандықтар каталогы: Қазақстандағы 163 бағдарлама және нұсқа, ҰБТ пәндері, оқу мазмұны мен мамандық бағыттары. Ресми дереккөздерге сілтемелер.">
+  <title>Мамандықтар — Örnek</title>
+  <link rel="canonical" href="https://ornek-ubt.vercel.app/specialities">
+  <link rel="icon" href="/assets/ornek-icon.svg" type="image/svg+xml">
+  <link rel="preload" href="/assets/inter-variable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/specialities-v2.css?v=20261112">
+</head>
+<body class="sp-page">
+  <header class="sp-topbar">
+    <a class="sp-brand" href="/" aria-label="Örnek — Басты бет"><img src="/assets/ornek-icon.svg" alt="" width="39" height="39">Örnek<b>.</b></a>
+    <nav aria-label="Негізгі навигация"><a href="/">ҰБТ</a><a href="/specialities" aria-current="page" id="sp-nav">Мамандықтар</a></nav>
+    <button id="sp-lang" class="sp-lang" type="button" aria-label="Сайт тілін ауыстыру">Рус</button>
+  </header>
+  <main class="sp-shell">
+    <div id="sp-catalog">
+      <section class="sp-hero">
+        <div class="sp-hero-copy">
+          <span class="sp-hero-eyebrow" id="sp-hero-eyebrow">ӨЗ ЖОЛЫҢДЫ ТАП</span>
+          <h1 id="sp-hero-title">Болашағыңның <em>бағытын таңда.</em></h1>
+          <p id="sp-hero-description">ҰБТ пәндері, мамандықтың мазмұны және қайда жұмыс істеуге болатыны — бір жерде.</p>
+          <div class="sp-hero-stat"><strong id="sp-counter-total">163</strong><span>Örnek · білім беру бағдарламалары және арнайы нұсқалар</span></div>
+        </div>
+        <div class="sp-hero-art" aria-hidden="true">
+          <span class="sp-float one">B044 · Business</span>
+          <span class="sp-float two">B057 · Tech</span>
+          <span class="sp-float three">BM086 · Health</span>
+        </div>
+      </section>
+      <div class="sp-controls" role="search" aria-label="Мамандықтар сүзгісі">
+        <div class="sp-control"><label for="sp-search" id="sp-search-label">Мамандықты іздеу</label><input id="sp-search" type="search" autocomplete="off" placeholder="Мысалы: қаржы, IT, B044"></div>
+        <div class="sp-control"><label for="sp-pair" id="sp-pair-label">Бейіндік пәндер</label><select id="sp-pair"><option value="">Барлық пәндер</option></select></div>
+        <div class="sp-control"><label for="sp-cat" id="sp-cat-label">Сала</label><select id="sp-cat"><option value="">Барлық салалар</option></select></div>
+        <button class="sp-reset" id="sp-reset" type="button">Тазарту</button>
+      </div>
+      <div class="sp-results-top">
+        <p id="sp-results-count" role="status" aria-live="polite"></p>
+        <label class="sp-saved-filter"><input type="checkbox" id="sp-saved"><span id="sp-saved-label">Таңдаулылар</span></label>
+      </div>
+      <div class="sp-card-grid" id="sp-cards"></div>
+      <p class="sp-empty" id="sp-empty" hidden>Сәйкес мамандық жоқ.</p>
+    </div>
+    <article id="sp-detail" hidden></article>
+  </main>
+  <footer class="sp-footer">
+    <p id="sp-footer-note">Ақпараттық каталог. Жұмыс орындары — ықтимал бағыттар; диплом мен кәсіби рұқсат талаптары бөлек тексеріледі.</p>
+    <div class="sp-footer-info">
+      <a href="https://testcenter.kz/?page_id=23360" target="_blank" rel="noopener noreferrer">Ұлттық тестілеу орталығы · ҰБТ пәндері</a>
+      <a href="https://prod.testcenter.kz/?page_id=23112" target="_blank" rel="noopener noreferrer">ҰТО · Мемлекеттік гранттар</a>
+      <a href="https://adilet.zan.kz/rus/docs/V1700015173/compare" target="_blank" rel="noopener noreferrer">ҚР ҰБТ қағидалары</a>
+      <a href="/">© Örnek</a>
+    </div>
+  </footer>
+  <script src="/specialities-official.js?v=20261112"></script>
+  <script src="/specialities-profiles.js?v=20261112"></script>
+  <script src="/specialities-v2.js?v=20261112"></script>
+</body>
+</html>
