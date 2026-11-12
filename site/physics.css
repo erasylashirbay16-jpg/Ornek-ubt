@@ -25,3 +25,24 @@
 .arch-profile-grid .physics-art{background:#c6b1eb}
 .arch-profile-grid .arch-subject>p{margin-bottom:22px;min-height:52px}
 .arch-profile-grid .arch-subject .arch-card-bottom{margin-top:auto}
+
+/* Deeper physics reasoning stays legible on phone and desktop. */
+.physics-reasoning{
+  margin:22px 0 24px;padding:18px;border:1px solid #d9c9f6;
+  border-radius:18px;background:linear-gradient(135deg,#f8f4ff,#fff);min-width:0
+}
+.physics-reasoning legend{padding:0 9px;color:#5b36a8;font-weight:700}
+.physics-reasoning p,.physics-depth-task{font-size:14px;line-height:1.75;color:#3a3060}
+.physics-reasoning label,.physics-practice-reasoning{display:grid;gap:9px;font-size:14px;font-weight:600;color:#352b51}
+.physics-reasoning textarea,.physics-practice-reasoning textarea{
+  width:100%;max-width:100%;box-sizing:border-box;resize:vertical;min-height:100px;
+  padding:13px 15px;border-radius:12px;border:1px solid #c6b5e5;
+  background:white;color:#252038;font:inherit;line-height:1.6
+}
+.physics-reasoning small{display:block;margin-top:10px;color:#6d6282;line-height:1.6}
+.physics-depth-task{padding:13px 16px;border-left:3px solid #8862df;border-radius:0 10px 10px 0;background:#f6f1ff}
+.physics-practice-reasoning{margin:15px 0}
+.physics-reasoning textarea:focus-visible,.physics-practice-reasoning textarea:focus-visible{
+ outline:3px solid #a98bff;outline-offset:2px
+}
+@media(max-width:650px){.physics-reasoning{padding:14px}}
