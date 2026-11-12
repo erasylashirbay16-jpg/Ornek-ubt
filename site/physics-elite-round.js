@@ -14,7 +14,7 @@ function physicsEliteVariant(number){
  const items=qs.map((q,i)=>'<article class="panel physics-elite-item">'+
   '<span class="badge">'+(i+1)+' · '+physicsDifficultyName(q.l)+'</span>'+
   '<p class="muted">'+escapeText(q.topic)+'</p>'+
-  '<h3>'+escapeText(q.t)+'</h3>'+
+  '<h3>'+escapeText(q.t)+'</h3>'+'<p class="physics-depth-task">'+escapeText(physicsDepthTask(q))+'</p>'+
   '<label>Сандық жауап ('+escapeText(q.unit||'өлшемсіз')+')'+
   '<input type="text" inputmode="decimal" data-physics-elite-value value="'+escapeText(values[q.id]||'')+'" placeholder="Жауапты енгіз"></label>'+
   '<button onclick="physicsEliteCheck(this,\''+q.id+'\','+number+')">Тексеру</button>'+
