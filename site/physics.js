@@ -45,7 +45,7 @@ function physicsShortCorrect(q,value){
 }
 function physicsCorrect(q,value){if(q.kind==='short')return physicsShortCorrect(q,value);return q.kind==='single'?value===q.a:Array.isArray(value)&&value.length===q.a.length&&(q.kind==='multi'?[...value].sort().join(',')===[...q.a].sort().join(','):value.every((x,i)=>x===q.a[i]))}
 function physicsAnswered(q,value){if(q.kind==='short')return typeof value==='string'&&value.trim().length>0;return q.kind==='single'?Number.isInteger(value):Array.isArray(value)&&(q.kind==='multi'?value.length>0:value.length===q.rows.length&&value.every(x=>Number.isInteger(x)&&x>=0&&x<q.o.length))}
-function physicsDifficultyName(level){return level==='A'?'Қиын':level==='B'?'Өте қиын':'Олимпиадалық — ең қиын'}
+function physicsDifficultyName(level){return level==='A'?'Оңай · күрделі':level==='B'?'Орташа · өте күрделі':'Қиын · олимпиадалық'}
 function physicsDepthTask(q){
  const topic=String(q.topic||'физика');
  if(q.l==='A')return 'Тереңдетілген талап ('+topic+'): дұрыс жауапқа келетін физикалық заңды немесе қағиданы көрсетіп, оны қолданудың кемінде екі шартын негіздеңіз. Тек формуланы жатқа айту жеткіліксіз.';
