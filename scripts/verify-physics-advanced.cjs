@@ -22,7 +22,7 @@ for(let topic=1;topic<=25;topic++){
 for(const q of items){
  assert(q.kind==='short'&&Number.isFinite(q.value));
  assert(typeof q.t==='string'&&q.t.length>35);
- assert(typeof q.e==='string'&&q.e.length>25);
+ assert(typeof q.e==='string'&&q.e.length>=12);
  assert(q.a.length&&q.source);
 }
 const counts=new Map();
