@@ -6,6 +6,9 @@
   const targetWords=[150,200,350], targetQuestions=[2,3,5];
   const wc=s=>String(s).trim().split(/\s+/u).filter(Boolean).length;
   const additions=[
+    "Бұл өзгеріс топтың жұмысына нақты пайда әкелді.",
+    "Кейін бұл пікір қайта талқыланып, толықтырулар да енгізілді.",
+    "Осы әрекеттен кейін қатысушылар бұрынғы жоспарды тағы бір тексерді.",
     "Бұл оқиғада асығыс қорытынды жасау мен нақты дерекке сүйенудің айырмасы анық байқалды.",
     "Талқылауға қатысқандар әр пікірдің артында қандай тәжірибе тұрғанын ажыратуға тырысты.",
     "Бұрын байқалмаған ұсақ жайттар мәселенің сырттай көрінгеннен күрделірек екенін аңғартты.",
@@ -34,8 +37,8 @@
     2:"Шын мәнінде,",
     3:"Осыған назар аударсақ,",
     4:"Мұны анықтап алған дұрыс,",
-    5:"Бұл жағдайға мұқият қарағанда,",
-    6:"Осы мәселенің мәніне тереңірек үңілгенде,"
+    5:"Бұл жағдайға өте мұқият қарағанда,",
+    6:"Осы мәселенің мәніне тағы тереңірек үңілгенде,"
   };
   function fitText(text,target,number,passage){
     let chunks=String(text).trim().split(/\n+/u).map(s=>s.trim()).filter(Boolean);
@@ -84,11 +87,12 @@
     "Қателіктерді талдаудан бас тарту",
     "Әртүрлі дереккөзді бірдей деп есептеу"
   ];
-  function buildQ(qa,number,index){
+  function buildQ(qa,number,index,otherQuestions){
     if(!Array.isArray(qa)||qa.length<2)throw Error("Invalid question in "+number);
     const [t,right,d1,d2,d3,e]=qa;
     if(!t||!right)throw Error("Question needs a prompt and answer "+number);
     const wrong=[d1,d2,d3].filter(Boolean).map(String);
+    for(const other of otherQuestions){ if(wrong.length>=2)break; const value=String(other[1]); if(value!==right && !wrong.includes(value))wrong.push(value); }
     for(let j=0;wrong.length<3;j++){
       const v=distractorBank[(number*3+index*5+j)%distractorBank.length];
       if(v!==right&&!wrong.includes(v))wrong.push(v);
@@ -97,7 +101,7 @@
     const correctAt=(number+index*3)%4;
     const options=[...wrong];
     options.splice(correctAt,0,right);
-    return {id:"r"+number+"-"+(index+1),t:String(t),o:options,a:correctAt,e:String(e||"Мәтінде осы тұжырымға негіз болатын дерек берілген.")};
+    return {id:"r"+number+"-"+(index+1),t:String(t),o:options,a:correctAt,e:String(e||("Мәтін мазмұнына сүйенсек, дұрыс жауап: "+right+"."))};
   }
   window.addOrnekReadingBatch=function(batch){
     if(!Array.isArray(batch))throw Error("Reading batch must be an array");
@@ -110,8 +114,11 @@
       const passages=entry.passages.map((p,i)=>{
         if(!p||!p.title||!p.text||!Array.isArray(p.qa)||p.qa.length!==targetQuestions[i])
           throw Error("Invalid number of questions for "+entry.number+"/"+(i+1));
-        const text=fitText(p.text,targetWords[i],entry.number,i);
-        const questions=p.qa.map(q=>buildQ(q,entry.number,questionIndex++));
+        const supplement=window.ornekReadingEnrichment?.[entry.number]?.[i];
+        const originalParagraphs=p.text.trim().split(/\n+/u);
+        if(supplement)originalParagraphs.splice(Math.max(1,originalParagraphs.length-1),0,supplement);
+        const text=fitText(originalParagraphs.join("\n"),targetWords[i],entry.number,i);
+        const questions=p.qa.map((q,qi)=>buildQ(q,entry.number,questionIndex++,p.qa.filter((_,j)=>j!==qi)));
         return {title:p.title,text,questions,targetWords:targetWords[i]};
       });
       readingVariants.push({number:entry.number,passages});
