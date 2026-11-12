@@ -61,3 +61,5 @@ for(const q of data.bank){assert(ctx.physicsCorrect(q,q.a));if(q.kind==='match')
 const architecture=fs.readFileSync(path.join(root,'architecture.js'),'utf8');assert(architecture.includes("else if(currentSubject==='physics')physicsSection(key)"));assert(architecture.includes("openSubject('physics')"));
 const boot=fs.readFileSync(path.join(root,'boot.js'),'utf8');assert(boot.indexOf("'physics.js'")<boot.indexOf("'architecture.js'"));assert(boot.includes("if(src==='physics-data.js')await physicsDataReady"));
 console.log(JSON.stringify({passed:true,variants:50,placements:2000,uniqueItems:data.bank.length,topics:25,allCorrectFlow:'40/40',draftResume:true,topicNavigation:true,crossVariantReuse:true}));
+
+require('./verify-physics-advanced.cjs');
