@@ -47,6 +47,9 @@ function physicsCorrect(q,value){if(q.kind==='short')return physicsShortCorrect(
 function physicsAnswered(q,value){if(q.kind==='short')return typeof value==='string'&&value.trim().length>0;return q.kind==='single'?Number.isInteger(value):Array.isArray(value)&&(q.kind==='multi'?value.length>0:value.length===q.rows.length&&value.every(x=>Number.isInteger(x)&&x>=0&&x<q.o.length))}
 function physicsDifficultyName(level){return level==='A'?'Оңай · күрделі':level==='B'?'Орташа · өте күрделі':'Қиын · олимпиадалық'}
 function physicsDepthTask(q){
+ const instructions=window.physicsDepthByTopic?.[Number(q.topicId)-1];
+ const levelIndex=q.l==='A'?0:q.l==='B'?1:2;
+ if(instructions?.[levelIndex])return instructions[levelIndex];
  const topic=String(q.topic||'физика');
  if(q.l==='A')return 'Тереңдетілген талап ('+topic+'): дұрыс жауапқа келетін физикалық заңды немесе қағиданы көрсетіп, оны қолданудың кемінде екі шартын негіздеңіз. Тек формуланы жатқа айту жеткіліксіз.';
  if(q.l==='B')return 'Күрделі талап ('+topic+'): шешу жолын кезең-кезеңімен шығарып, берілген шарттардың бірі өзгерсе қорытынды қалай өзгеретінін талдаңыз. Мүмкін болса, балама тәсілмен тексеріңіз.';
