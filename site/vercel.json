@@ -38,5 +38,11 @@
       "source": "/specialities",
       "destination": "/specialities-v2.html"
     }
-  ]
+  ],
+  "proxy": {
+    "entrypoint": "proxy.js",
+    "matcher": [
+      "/(.*)"
+    ]
+  }
 }
