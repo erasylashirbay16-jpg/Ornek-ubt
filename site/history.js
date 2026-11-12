@@ -3,7 +3,7 @@ let historyRun = null, historyTimer = null, historyBankPage = 0, historyBankQuer
 const historyDuration = 40 * 60 * 1000;
 function historyAll() { return historyVariants.flatMap(v => historyItems(v).map(q => ({...q, number:v.number}))); }
 function historyItems(v) { return [...v.questions.map(q => ({...q, context:null})), ...v.contexts.flatMap((c, ci) => c.questions.map(q => ({...q, context:ci})))]; }
-function historyResults() { return readStore('ornek-history-results-v1', {}); }
+function historyResults() { return readStore('ornek-history-results-v2', {}); }
 function historyBookmarks() { return readStore('ornek-history-bookmarks-v1', []); }
 function stopHistory() { clearInterval(historyTimer); historyTimer = null; }
 function historySource(source) { return source ? escapeText(source.file.startsWith('ilide.info-1-')?'Қазақстан тарихы: 2000 сұрақ (2019)':source.file.startsWith('22_')?'Қазақстан тарихы: тест спецификациясы':source.file.startsWith('Қазақстан-тарихы-2')?'Ұсынылатын оқулықтар тізімі':'Қазақстан тарихы: тапсырмалар жинағы') + ' · PDF ' + Number(source.page) + '-бет' : ''; }
@@ -12,12 +12,13 @@ function historySection(key) {
   if(key === 'datesQuiz') return window.OrnekHistoryDatesQuiz.open();
   if(key === 'testsPage') return historyTestsPage();
   const results = historyResults(), done = Object.values(results), correct = done.reduce((n,r) => n+r.correct,0);
+  const previousResults=readStore('ornek-history-results-v1',{});
   if(key === 'home') {
-    page('Қазақстан тарихы', 'Ежелгі дәуірден тәуелсіз Қазақстанға дейін.', `<section class="subject-banner"><span class="ornek-chip">50 НҰСҚА · 1 000 СҰРАҚ</span><h2>Тарихты түсін.<br>Оқиғаларды байланыстыр.</h2><p>Әр нұсқада 10 жеке сұрақ және екі контекст бойынша 10 сұрақ. Уақыт — 40 минут.</p><button onclick="subjectNavigate('testsPage')">Нұсқаларды ашу →</button></section><div class="stats"><div class="stat">Нұсқалар<strong>${historyVariants.length}</strong></div><div class="stat">Аяқталған нұсқа<strong>${done.length} / 50</strong></div><div class="stat">Дұрыс жауап<strong>${done.length?Math.round(correct/(done.length*20)*100)+'%':'—'}</strong></div></div><div class="subject-shortcuts"><button onclick="subjectNavigate('datesQuiz')">100 дата · интерактивті Quiz →</button><button onclick="subjectNavigate('library')">Сұрақтар банкі →</button><button onclick="subjectNavigate('collection')">Сақталғандар мен қателер →</button><button onclick="subjectNavigate('planner')">Оқу жоспары →</button></div><p class="notice">Жіберілген материалдар мен 2026 жылдан қолданылатын спецификация негізіндегі жаттығулар. Деңгейлер — оқу мақсатындағы бағалау. Ресми емтихан сұрақтары емес.</p>`);
+    page('Қазақстан тарихы', 'Ежелгі дәуірден тәуелсіз Қазақстанға дейін.', `<section class="subject-banner"><span class="ornek-chip">50 НҰСҚА · 1 000 СҰРАҚ</span><h2>Тарихты түсін.<br>Оқиғаларды байланыстыр.</h2><p>Әр нұсқада 10 жеке сұрақ және екі контекст бойынша 10 сұрақ. Уақыт — 40 минут.</p><button onclick="subjectNavigate('testsPage')">Нұсқаларды ашу →</button></section><div class="stats"><div class="stat">Нұсқалар<strong>${historyVariants.length}</strong></div><div class="stat">Аяқталған нұсқа<strong>${done.length} / 50</strong></div><div class="stat">Дұрыс жауап<strong>${done.length?Math.round(correct/(done.length*20)*100)+'%':'—'}</strong></div></div><div class="history-difficulty-notice" role="note"><strong>ЖАҢАРТЫЛҒАН КҮРДЕЛІЛІК · 2026</strong><p>A — бұрынғы қиын сұрақтар деңгейі; B — бірнеше тарихи деректі байланыстыру; C — төрт тұжырымды салыстыру арқылы өте күрделі талдау. Алдыңғы нәтиже бөлек сақталады.</p></div><div class="subject-shortcuts"><button onclick="subjectNavigate('datesQuiz')">100 дата · интерактивті Quiz →</button><button onclick="subjectNavigate('library')">Сұрақтар банкі →</button><button onclick="subjectNavigate('collection')">Сақталғандар мен қателер →</button><button onclick="subjectNavigate('planner')">Оқу жоспары →</button></div><p class="notice">Жіберілген материалдар мен 2026 жылдан қолданылатын спецификация негізіндегі жаттығулар. Деңгейлер — оқу мақсатындағы бағалау. Ресми емтихан сұрақтары емес.</p>`);
     return;
   }
   if(key === 'analytics') {
-    page('Қазақстан тарихы: статистика','Әр нұсқаның соңғы нәтижесі.',`<div class="stats"><div class="stat">Аяқталған нұсқа<strong>${done.length} / 50</strong></div><div class="stat">Дұрыс жауап<strong>${correct} / ${done.length*20}</strong></div></div><div class="panel">${done.length?Object.entries(results).map(([n,r])=>`<div class="review row"><span>${Number(n)}-нұсқа · ${new Date(r.date).toLocaleDateString('kk-KZ')}</span><b>${r.correct} / 20</b><button onclick="historyReview(${Number(n)})">Талдауды ашу</button></div>`).join(''):'<p>Бір нұсқаны аяқтаған соң нәтижең осында көрінеді.</p><button onclick="historyTestsPage()">Нұсқаларды ашу</button>'}</div>`);
+    page('Қазақстан тарихы: статистика','Әр нұсқаның соңғы нәтижесі.',`<div class="stats"><div class="stat">Аяқталған нұсқа<strong>${done.length} / 50</strong></div><div class="stat">Дұрыс жауап<strong>${correct} / ${done.length*20}</strong></div></div><div class="panel">${done.length?Object.entries(results).map(([n,r])=>`<div class="review row"><span>${Number(n)}-нұсқа · ${new Date(r.date).toLocaleDateString('kk-KZ')}</span><b>${r.correct} / 20</b><button onclick="historyReview(${Number(n)})">Талдауды ашу</button></div>`).join(''):'<p>Бір нұсқаны аяқтаған соң нәтижең осында көрінеді.</p><button onclick="historyTestsPage()">Нұсқаларды ашу</button>'}</div>${Object.keys(previousResults).length?`<details class="history-prior-results"><summary>Бұрынғы күрделілік нәтижелері · ${Object.keys(previousResults).length} нұсқа (архив)</summary><p>Бұл нәтижелер ескі тапсырмаларға қатысты, сондықтан жаңа тест бағасына араластырылмайды.</p>${Object.entries(previousResults).map(([n,r])=>`<div class="review row"><span>${Number(n)}-нұсқа</span><b>${Number(r.correct) || 0} / 20</b></div>`).join('')}</details>`:''}`);
     return;
   }
   if(key === 'planner') {
@@ -28,14 +29,14 @@ function historySection(key) {
 }
 function historyTestsPage() {
   stopHistory(); historyRun=null;
-  const results=historyResults(), draft=readStore('ornek-history-draft-v1',null);
-  page('Қазақстан тарихы: тест нұсқалары','50 нұсқа · әрқайсысы 20 сұрақ · 40 минут',`${draft?'<div class="draftbanner"><div><strong>Аяқталмаған тарих тесті сақталды</strong><p>Таймер үзіліс кезінде де жүреді.</p></div><button onclick="resumeHistory()">Жалғастыру →</button></div>':''}<div class="testintro"><p>10 жеке тапсырма + әрқайсысында 5 сұрақ бар 2 контекст. Бір дұрыс жауап. Әр нұсқада A — 10, B — 6, C — 4 тапсырма.</p><p>Жауаптар мен түсіндірмелер тест аяқталғанда ашылады. Барлық сұрақтар қазақ тілінде.</p></div><label class="reading-search">Нұсқа нөмірін іздеу<input type="search" inputmode="numeric" placeholder="Мысалы: 25" oninput="filterHistoryVariants(this.value)"></label><div class="testgrid">${historyVariants.map(v=>{const r=results[v.number];return `<section class="testtile" data-history-number="${v.number}"><div class="testtilerow"><h2>${String(v.number).padStart(2,'0')}-нұсқа</h2><span class="teststate ${r?'completed':''}">${r?'Аяқталған':'Орындалмаған'}</span></div><p>20 сұрақ · 2 контекст · 40 минут</p><div class="testlevels"><span>A · 10</span><span>B · 6</span><span>C · 4</span></div><div class="testresult">${r?`Соңғы нәтиже: <b>${r.correct} / 20</b>`:'Ежелгі дәуір, хандықтар, жаңа заман және қазіргі тарих.'}</div><button onclick="startHistory(${v.number})">${r?'Қайта орындау':'Тестті бастау'} →</button>${r?`<button class="secondary" onclick="historyReview(${v.number})">Жауаптарды талдау</button>`:''}</section>`}).join('')}</div><p id="history-variant-empty" hidden>Сәйкес нұсқа табылмады.</p>`);
+  const results=historyResults(), draft=readStore('ornek-history-draft-v2',null);
+  page('Қазақстан тарихы: тест нұсқалары','50 нұсқа · әрқайсысы 20 сұрақ · 40 минут',`${draft?'<div class="draftbanner"><div><strong>Аяқталмаған тарих тесті сақталды</strong><p>Таймер үзіліс кезінде де жүреді.</p></div><button onclick="resumeHistory()">Жалғастыру →</button></div>':''}<div class="testintro"><p>10 жеке тапсырма + әрқайсысында 5 сұрақ бар 2 контекст. Бір дұрыс жауап. Әр нұсқада A — 10 (бұрынғы қиын), B — 6 (терең талдау), C — 4 (өте күрделі, төрт дерек).</p><p>Жауаптар мен түсіндірмелер тест аяқталғанда ашылады. 1000 тапсырманың күрделілігі жаңартылды; бұрынғы нәтижелер бөлек сақталады.</p></div><label class="reading-search">Нұсқа нөмірін іздеу<input type="search" inputmode="numeric" placeholder="Мысалы: 25" oninput="filterHistoryVariants(this.value)"></label><div class="testgrid">${historyVariants.map(v=>{const r=results[v.number];return `<section class="testtile" data-history-number="${v.number}"><div class="testtilerow"><h2>${String(v.number).padStart(2,'0')}-нұсқа</h2><span class="teststate ${r?'completed':''}">${r?'Аяқталған':'Орындалмаған'}</span></div><p>20 сұрақ · 2 контекст · 40 минут</p><div class="testlevels"><span>A · 10</span><span>B · 6</span><span>C · 4</span></div><div class="testresult">${r?`Соңғы нәтиже: <b>${r.correct} / 20</b>`:'Ежелгі дәуір, хандықтар, жаңа заман және қазіргі тарих.'}</div><button onclick="startHistory(${v.number})">${r?'Қайта орындау':'Тестті бастау'} →</button>${r?`<button class="secondary" onclick="historyReview(${v.number})">Жауаптарды талдау</button>`:''}</section>`}).join('')}</div><p id="history-variant-empty" hidden>Сәйкес нұсқа табылмады.</p>`);
 }
 function filterHistoryVariants(query) { let count=0;document.querySelectorAll('[data-history-number]').forEach(el=>{el.hidden=!el.dataset.historyNumber.startsWith(query.trim().replace(/^0+(?=\d)/,''));if(!el.hidden)count++;});document.getElementById('history-variant-empty').hidden=count>0; }
-function saveHistoryDraft() { if(historyRun) writeStore('ornek-history-draft-v1',historyRun); }
+function saveHistoryDraft() { if(historyRun) writeStore('ornek-history-draft-v2',historyRun); }
 function startHistory(number) {
   const v=historyVariants.find(v=>v.number===number); if(!v)return;
-  const draft=readStore('ornek-history-draft-v1',null);
+  const draft=readStore('ornek-history-draft-v2',null);
   if(draft && !confirm('Сақталған тарих тестін жаңасымен ауыстырасың ба?'))return;
   stopHistory();stopReading();stop();roomModeExit();run=null;
   historyRun={number,pos:0,answers:{},end:Date.now()+historyDuration};saveHistoryDraft();renderHistory();historyTimer=setInterval(historyClock,1000);
@@ -47,8 +48,8 @@ function validHistoryDraft(d) {
   return Object.entries(d.answers).every(([id,a])=>ids.has(id)&&Number.isInteger(a)&&a>=0&&a<4);
 }
 function resumeHistory() {
-  const d=readStore('ornek-history-draft-v1',null);
-  if(!validHistoryDraft(d)){ornekLocal.removeItem('ornek-history-draft-v1');historyTestsPage();return;}
+  const d=readStore('ornek-history-draft-v2',null);
+  if(!validHistoryDraft(d)){ornekLocal.removeItem('ornek-history-draft-v2');historyTestsPage();return;}
   stopHistory();stopReading();stop();roomModeExit();run=null;historyRun=d;
   if(Date.now()>=d.end){finishHistory(true);return;}
   renderHistory();historyTimer=setInterval(historyClock,1000);
@@ -80,7 +81,7 @@ function finishHistory(expired=false) {
   const v=historyVariants.find(v=>v.number===historyRun.number),items=historyItems(v),answered=items.filter(q=>Number.isInteger(historyRun.answers[q.id])).length;
   if(!expired&&answered<20&&!confirm(`Жауапсыз ${20-answered} сұрақ бар. Тестті аяқтайсың ба?`))return;
   stopHistory();const r={correct:items.filter(q=>historyRun.answers[q.id]===q.a).length,answers:{...historyRun.answers},date:new Date().toISOString(),expired};
-  const results=historyResults();results[v.number]=r;writeStore('ornek-history-results-v1',results);ornekLocal.removeItem('ornek-history-draft-v1');historyRun=null;historyReview(v.number);
+  const results=historyResults();results[v.number]=r;writeStore('ornek-history-results-v1',results);ornekLocal.removeItem('ornek-history-draft-v2');historyRun=null;historyReview(v.number);
 }
 function historyReview(number) {
   const v=historyVariants.find(v=>v.number===number),r=historyResults()[number];if(!v||!r)return;

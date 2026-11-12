@@ -1,1 +1,13 @@
 .history-workspace{max-width:900px;margin:24px auto}.history-workspace.with-context{max-width:none;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px;align-items:start}.history-context{background:#f5f1ff;border:1px solid #e5ddf7;border-radius:22px;padding:28px;line-height:1.9;overflow-wrap:anywhere}.history-context h2{font-size:24px;line-height:1.4;margin:14px 0 20px}.history-context p{font-size:16px;white-space:pre-line}.history-question{min-width:0}.history-question h1{font-size:24px;line-height:1.6;letter-spacing:0}.history-number-grid{grid-template-columns:repeat(10,minmax(0,1fr))}.history-number-grid button{min-width:0;min-height:40px}.history-source{display:block;overflow-wrap:anywhere;color:#716682;line-height:1.7;margin:16px 0}.history-finish{margin-top:18px}.history-search{margin:24px 0}.history-search>div{display:flex;gap:12px;margin-top:10px}.history-search input{width:100%;min-width:0}.testtile[data-history-number]>button{margin-top:10px}.testtile[data-history-number][hidden]{display:none}#history-clock{font-variant-numeric:tabular-nums;color:#6745ed;font-size:23px}.history-workspace :focus-visible,.history-search :focus-visible{outline:3px solid #9478f9;outline-offset:3px}@media(max-width:950px){.history-workspace.with-context{grid-template-columns:1fr}.history-context{padding:22px}.history-number-grid{grid-template-columns:repeat(5,minmax(0,1fr))}}@media(prefers-reduced-motion:reduce){.history-workspace *{scroll-behavior:auto!important}}
+
+/* Қазақстан тарихы: 2026 жылғы күрделілік баспалдағы. */
+.history-difficulty-notice{max-width:1080px;margin:18px auto 22px;border:1px solid #ded0ff;background:linear-gradient(115deg,#f8f4ff,#fff);border-radius:17px;padding:17px 22px;color:#493275}
+.history-difficulty-notice strong{font-size:12px;letter-spacing:.06em;color:#704ad8}
+.history-difficulty-notice p{font-size:14px;line-height:1.65;margin:7px 0 0}
+.history-prior-results{border:1px solid #e5dcf8;border-radius:17px;padding:18px 22px;margin-top:20px;background:#faf8ff}
+.history-prior-results summary{font-weight:750;color:#6547be;cursor:pointer}
+.history-question .reading-question-text,.history-question h1,.history-question .reading-option span,.questionrow>h3{white-space:pre-line;overflow-wrap:anywhere}
+.history-question .reading-question-text{font-size:clamp(18px,2.1vw,22px);line-height:1.62}
+.history-question .reading-options .reading-option{min-height:57px;height:auto;text-align:left}
+.history-question .reading-option span{line-height:1.55}
+.history-workspace.with-context .history-question .reading-question-text{font-size:clamp(17px,1.7vw,20px)}
