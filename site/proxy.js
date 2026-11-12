@@ -34,6 +34,17 @@ async function isValidSession(token, secret) {
 
 export default async function proxy(request) {
   const pathname = new URL(request.url).pathname;
+
+  // Örnek is a public exam preparation platform.
+  // The previous shared site-access code is off by default; no files or
+  // account protection are deleted. To re-enable this legacy gate, set
+  // SITE_ACCESS_GATE_ENABLED=true in Vercel environment variables.
+  if (process.env.SITE_ACCESS_GATE_ENABLED !== 'true') {
+    if (pathname === '/gate.html') {
+      return Response.redirect(new URL('/', request.url), 302);
+    }
+    return next();
+  }
   // Only the code-entry page and verification endpoint are public.
   if (pathname === '/gate.html' || pathname === '/api/gate-verify') {
     return next();
