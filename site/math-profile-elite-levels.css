@@ -1,0 +1,13 @@
+/* Profile maths: preserve paragraph breaks in advanced multi-stage problems. */
+.reading-question.history-question .reading-question-text,
+.questionrow h3,
+.profile-matching label > span,
+.history-context p {
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+.reading-question.history-question .reading-question-text {
+  line-height: 1.7;
+  font-size: clamp(1rem, 1.45vw, 1.2rem);
+}
+.profile-matching label > span { line-height: 1.65; }
