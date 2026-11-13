@@ -4,11 +4,13 @@ on:
     paths:
       - 'site/**'
       - 'scripts/site-health.cjs'
+      - 'scripts/verify-*.cjs'
       - '.github/workflows/site-health.yml'
   pull_request:
     paths:
       - 'site/**'
       - 'scripts/site-health.cjs'
+      - 'scripts/verify-*.cjs'
       - '.github/workflows/site-health.yml'
   schedule:
     - cron: '17 */6 * * *'
@@ -32,6 +34,13 @@ jobs:
           persist-credentials: false
       - name: Check source files, scripts, and syntax
         run: node scripts/site-health.cjs local
+      - name: Verify math, reading, history, physics and dashboards
+        run: |
+          node scripts/verify-math-bank.cjs
+          node scripts/verify-literacy-fresh-800.cjs
+          node scripts/verify-history-difficulty.cjs
+          node scripts/verify-physics.cjs
+          node scripts/verify-subject-dashboards.cjs
 
   live-smoke:
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
