@@ -3,7 +3,7 @@
 'use strict';
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let modal=null,room=null;
-const pages={};
+const pages={},bankAnswerCache=Object.create(null);
 function timePicker(title,defaultMin,callback){
   if(modal)modal.close();
   const prev=document.activeElement,oldOverflow=document.body.style.overflow;
@@ -114,14 +114,33 @@ function openQuestion(type,id){
   if(!ids.includes(id))ids.push(id);
   room={type,ids,id};renderQuestion();
 }
+function saveBankAnswers(){
+  if(!room)return;
+  const practice=document.querySelector('.oe-bank-practice');if(!practice)return;
+  bankAnswerCache[room.type+':'+room.id]={
+    values:[...practice.querySelectorAll('input,select,textarea')].map(el=>({value:el.value,checked:el.checked})),
+    feedback:practice.querySelector('.oe-bank-feedback')?.textContent||''
+  };
+}
+function restoreBankAnswers(){
+  if(!room)return;
+  const state=bankAnswerCache[room.type+':'+room.id];if(!state)return;
+  const practice=document.querySelector('.oe-bank-practice');if(!practice)return;
+  [...practice.querySelectorAll('input,select,textarea')].forEach((el,i)=>{
+    if(!state.values[i])return;
+    if(el.type==='radio'||el.type==='checkbox')el.checked=state.values[i].checked;
+    else el.value=state.values[i].value;
+  });
+  const feedback=practice.querySelector('.oe-bank-feedback');if(feedback)feedback.textContent=state.feedback;
+}
 function backToBank(){
-  if(!room)return;const type=room.type;room=null;
+  if(!room)return;saveBankAnswers();const type=room.type;room=null;
   banks[type].back();window.scrollTo(0,0);
 }
 function nextQuestion(offset){
   if(!room)return;const idx=room.ids.indexOf(room.id)+offset;
   if(idx<0||idx>=room.ids.length)return;
-  room.id=room.ids[idx];renderQuestion();
+  saveBankAnswers();room.id=room.ids[idx];renderQuestion();
 }
 function renderQuestion(){
   if(!room)return;
@@ -142,6 +161,7 @@ function renderQuestion(){
     '<div class="oe-bank-footer"><button type="button" class="oe-bank-prev" '+(idx===0?'disabled':'')+'>← Алдыңғы</button>'+
     '<button type="button" class="oe-bank-save" aria-pressed="'+saved+'">'+(saved?'Сақталған ✓':'Сақтап қою')+'</button>'+
     '<button type="button" class="oe-bank-next" '+(idx===ids.length-1?'disabled':'')+'>Келесі →</button></div></section></div>';
+  restoreBankAnswers();
   app.querySelector('.oe-bank-back').addEventListener('click',backToBank);
   app.querySelector('.oe-bank-prev').addEventListener('click',()=>nextQuestion(-1));
   app.querySelector('.oe-bank-next').addEventListener('click',()=>nextQuestion(1));
