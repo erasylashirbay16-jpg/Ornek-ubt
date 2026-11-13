@@ -6,6 +6,9 @@ on:
       - 'scripts/audit-profile-math.cjs'
       - 'site/math-profile-data.js'
       - 'site/math-profile-elite-levels.js'
+      - 'site/math-profile-curated-cases.js'
+      - 'site/math-profile-diversity-v3.js'
+      - 'scripts/verify-profile-diversity-v3.cjs'
   workflow_dispatch:
 jobs:
   audit:
@@ -17,3 +20,4 @@ jobs:
         with:
           node-version: '22'
       - run: node scripts/audit-profile-math.cjs
+      - run: node scripts/verify-profile-diversity-v3.cjs
