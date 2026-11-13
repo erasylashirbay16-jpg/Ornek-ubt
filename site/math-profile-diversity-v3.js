@@ -152,9 +152,14 @@
   profileVariants = legacy.map((v,i)=>{
     const variant=i+1;
     const unused=shuffle(models,hash('unused|'+variant));
+    // Reserve four different answer codes for each matching item before
+    // allocating the other question types, which need no such constraint.
+    const picked=Array(40);
+    for(const slot of [35,36,37,38,39,...Array.from({length:35},(_,i)=>i)])
+      picked[slot]=choose(variant,slot,unused);
     const questions=[];
     for(let slot=0;slot<40;slot++){
-      const sourceTasks=choose(variant,slot,unused);
+      const sourceTasks=picked[slot];
       const kind=slot<30?'single':slot<35?'multi':'match';
       const level=slot<20?'A':slot<32?'B':'C';
       const pair=kind==='single'?optionsSingle(sourceTasks,variant,slot):
