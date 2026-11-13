@@ -31,7 +31,7 @@ const file=p=>run(fs.readFileSync(path.join(root,p),'utf8'));
   if(s.topics.reduce((n,t)=>n+t.questions.length,0)!==s.questions.length)throw Error('Topic accounting '+id);
  }
  var hv=historyVariants[0],hq=historyItems(hv);
- writeStore('ornek-history-results-v1',{[hv.number]:{date:new Date().toISOString(),answers:{[hq[0].id]:hq[0].a,[hq[1].id]:(hq[1].a+1)%4}}});
+ writeStore('ornek-history-results-v2',{[hv.number]:{date:new Date().toISOString(),answers:{[hq[0].id]:hq[0].a,[hq[1].id]:(hq[1].a+1)%4}}});
  `);
  let state=run('dashboard.snapshot("history")');
  assert.equal(state.summary.done,2);assert.equal(state.summary.correct,1);assert.equal(state.summary.wrong,1);
