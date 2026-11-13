@@ -53,6 +53,11 @@ const run=file=>vm.runInContext(fs.readFileSync(path.join(dir,file),'utf8'),cont
     }
   }
  }
+ const boot=fs.readFileSync(path.join(dir,'boot.js'),'utf8');
+ assert(boot.includes("'math-profile-data.js','math-profile-elite-levels.js','math-profile-curated-cases.js','math-profile-diversity-v3.js','math-profile.js'"),'Math overlay must load before profile engine');
+ const profileUI=fs.readFileSync(path.join(dir,'math-profile.js'),'utf8');
+ assert(profileUI.includes("'ornek-profile-diverse-v3:'"),'New results need version 3 storage namespace');
+ assert(profileUI.includes("'ornek-profile-elite-v2:'"),'Archived results must remain readable');
  console.log('MATH_DIVERSITY_V3_PASS '+JSON.stringify({
   authored:stats.authored,archivedSourceQuestions:4840,legacyTemplates:stats.legacyMeanings,
   activeQuestions:entire.size,perVariant:40,variants:121,duplicateCombinations:0,

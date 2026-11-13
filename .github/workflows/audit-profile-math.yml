@@ -8,6 +8,8 @@ on:
       - 'site/math-profile-elite-levels.js'
       - 'site/math-profile-curated-cases.js'
       - 'site/math-profile-diversity-v3.js'
+      - 'site/boot.js'
+      - 'site/math-profile.js'
       - 'scripts/verify-profile-diversity-v3.cjs'
   workflow_dispatch:
 jobs:
