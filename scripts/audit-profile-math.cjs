@@ -2,7 +2,7 @@
 'use strict';
 const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict'),path=require('node:path');
 const root=path.resolve(__dirname,'..','site');
-const ctx=vm.createContext({console,Math,Map,Set,JSON,Array,Number,String,Error,
+const ctx=vm.createContext({window:{},console,Math,Map,Set,JSON,Array,Number,String,Error,
   Uint8Array,atob,Response,Blob,DecompressionStream});
 function run(n){return vm.runInContext(fs.readFileSync(path.join(root,n),'utf8'),ctx,{filename:n})}
 function canonical(s){
