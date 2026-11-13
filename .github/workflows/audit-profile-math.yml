@@ -1,0 +1,19 @@
+name: Audit profile mathematics repeated question meanings
+on:
+  push:
+    paths:
+      - '.github/workflows/audit-profile-math.yml'
+      - 'scripts/audit-profile-math.cjs'
+      - 'site/math-profile-data.js'
+      - 'site/math-profile-elite-levels.js'
+  workflow_dispatch:
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node scripts/audit-profile-math.cjs
