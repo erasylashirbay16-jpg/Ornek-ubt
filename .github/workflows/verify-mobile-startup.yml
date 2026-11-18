@@ -8,6 +8,10 @@ on:
       - '.github/workflows/verify-mobile-startup.yml'
   workflow_dispatch:
 
+concurrency:
+  group: ornek-mobile-e2e-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 

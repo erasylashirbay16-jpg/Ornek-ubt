@@ -57,6 +57,7 @@ for(let i=0;i<scripts.length;i++){
  primeAsset(i+preloadAhead);
  const src=scripts[i];
  startupProgress(i,src);
+ if(i%4===0)console.info('Örnek boot step',i,src);
  let loaded=false;
  for(let attempt=0;attempt<2&&!loaded;attempt++){
   try{

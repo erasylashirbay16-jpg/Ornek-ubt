@@ -23,7 +23,9 @@ async function waitServer(){
   for(const queuedSubject of [null,'profile']){
    const context=await browser.newContext({viewport:{width:393,height:852},deviceScaleFactor:2,isMobile:true,hasTouch:true,locale:'kk-KZ'});
    const page=await context.newPage();
-   const errors=[];
+   const errors=[],network=[];
+   page.on('requestfinished',req=>{network.push(req.url().split('/').pop());if(network.length>40)network.shift()});
+   page.on('requestfailed',req=>errors.push('Failed request '+req.url().split('/').pop()));
    page.on('pageerror',err=>errors.push(err.message));
    page.on('console',msg=>{if(msg.type()==='error')errors.push(msg.text())});
    await page.goto(addr,{waitUntil:'domcontentloaded',timeout:30000});
@@ -42,19 +44,8 @@ async function waitServer(){
        !document.querySelector('#ornek-startup') &&
        typeof window.openSubject==='function' &&
        document.getElementById('welcome')?.children.length>0;
-   },null,{timeout:28000});}catch(e){
-     const state=await page.evaluate(()=>({
-       bodyClass:document.body.className,
-       startupText:document.getElementById('ornek-start-progress')?.textContent,
-       startupError:document.getElementById('ornek-startup')?.dataset.error,
-       startupReady:window.ornekStartupReady,
-       welcomeChildren:document.getElementById('welcome')?.children.length,
-       subjectType:typeof window.openSubject,
-       loadedScripts:[...document.querySelectorAll('body>script[src]')].map(x=>x.src.split('/').pop()).slice(-12),
-       bootError:document.getElementById('boot-status')?.textContent?.slice(0,300),
-       appText:document.getElementById('app')?.textContent?.slice(0,300)
-     }));
-     console.error('MOBILE_STARTUP_DIAGNOSTIC '+JSON.stringify({state,errors:errors.slice(0,25)}));
+   },null,{timeout:33000});}catch(e){
+     console.error('MOBILE_STARTUP_DIAGNOSTIC '+JSON.stringify({errors:errors.slice(-35),lastAssets:network.slice(-35)}));
      throw e;
    }
    assert(!errors.some(x=>x.includes('Örnek startup error')),'Startup crash: '+errors.join('; '));
