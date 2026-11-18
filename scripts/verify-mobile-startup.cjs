@@ -10,6 +10,9 @@ const assert=require('node:assert/strict');
 const root=path.resolve(__dirname,'../site');
 const addr='http://127.0.0.1:8765/';
 const child=spawn('python3',['-m','http.server','8765','--bind','127.0.0.1','--directory',root],{stdio:'ignore'});
+const globalTrace={steps:[],errors:[],requests:[]};
+const watchdog=setTimeout(()=>{console.error('MOBILE_WATCHDOG '+JSON.stringify(globalTrace));process.exit(5)},70000);
+
 async function waitServer(){
  for(let i=0;i<25;i++){try{const r=await fetch(addr);if(r.ok)return}catch{}
  await new Promise(resolve=>setTimeout(resolve,200))}
@@ -24,10 +27,10 @@ async function waitServer(){
    const context=await browser.newContext({viewport:{width:393,height:852},deviceScaleFactor:2,isMobile:true,hasTouch:true,locale:'kk-KZ'});
    const page=await context.newPage();
    const errors=[],network=[];
-   page.on('requestfinished',req=>{network.push(req.url().split('/').pop());if(network.length>40)network.shift()});
+   page.on('requestfinished',req=>{const n=req.url().split('/').pop();network.push(n);if(network.length>40)network.shift();globalTrace.requests=network.slice(-25)});
    page.on('requestfailed',req=>errors.push('Failed request '+req.url().split('/').pop()));
-   page.on('pageerror',err=>errors.push(err.message));
-   page.on('console',msg=>{if(msg.type()==='error')errors.push(msg.text())});
+   page.on('pageerror',err=>{errors.push(err.message);globalTrace.errors=errors.slice(-20)});
+   page.on('console',msg=>{const m=msg.text();if(m.includes('Örnek boot step')){globalTrace.steps.push(m);if(globalTrace.steps.length>30)globalTrace.steps.shift();}if(msg.type()==='error'){errors.push(m);globalTrace.errors=errors.slice(-20)}});
    await page.goto(addr,{waitUntil:'domcontentloaded',timeout:30000});
    const startup=page.locator('#ornek-startup');
    const visible=await startup.isVisible();
@@ -64,5 +67,5 @@ async function waitServer(){
   }
   console.log('MOBILE_STARTUP_PASS '+JSON.stringify(captures));
  }finally{await browser.close()}
-})().catch(err=>{console.error('MOBILE_STARTUP_FAIL',err);process.exitCode=1})
- .finally(()=>child.kill('SIGTERM'));
+})().catch(err=>{console.error('MOBILE_STARTUP_FAIL',err);console.error('MOBILE_FINAL_TRACE '+JSON.stringify(globalTrace));process.exitCode=1})
+ .finally(()=>{clearTimeout(watchdog);child.kill('SIGTERM')});
