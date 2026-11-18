@@ -44,6 +44,45 @@
 <link rel="stylesheet" href="settings.css?v=1">
 <link rel="stylesheet" href="exam-interactions.css?v=20261113-exam-interactions-v1">
 <style>
+
+/* Mobile-first startup screen: always visible before all question-bank scripts execute. */
+body.ornek-loading{background:#f8f7fd!important}
+body.ornek-loading>#ornek-startup{display:block!important;position:fixed!important;inset:0!important;z-index:2147483000!important;width:100%!important;height:100dvh!important;overflow-y:auto!important;overscroll-behavior:contain;background:#f8f7fd!important;color:#28243c!important;transform:none!important;margin:0!important;padding:0!important;box-sizing:border-box!important}
+body:not(.ornek-loading)>#ornek-startup{display:none!important}
+body.ornek-loading>#boot-status{display:none!important}
+#ornek-startup,#ornek-startup *{box-sizing:border-box}
+.ornek-start-bar{height:78px;background:#fff;border-bottom:1px solid #e9e4f5;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 max(24px,calc((100% - 1080px)/2))}
+.ornek-start-mark{display:flex;align-items:center;gap:12px;font-size:24px;letter-spacing:-.07em;color:#4d328a;font-weight:800}
+.ornek-start-symbol{width:37px;height:37px;display:grid;place-items:center;background:#7350d2;color:#fff;border-radius:12px;font-size:21px;font-weight:700;letter-spacing:0}
+.ornek-start-suffix{color:#6d6480;font-size:12px;font-weight:600;letter-spacing:0}
+.ornek-start-inner{max-width:1080px;margin:0 auto;padding:clamp(36px,7vw,80px) 24px 60px}
+.ornek-start-kicker{font-size:12px;letter-spacing:.13em;color:#7150c1;font-weight:800;margin:0 0 20px}
+#ornek-startup h1{font-size:clamp(32px,5.5vw,62px)!important;line-height:1.1!important;letter-spacing:-.055em!important;max-width:750px!important;margin:0!important;color:#27223c!important;font-weight:820!important}
+#ornek-startup h1 span{color:#7451d0}
+.ornek-start-description{max-width:610px;font-size:clamp(15px,2vw,18px);line-height:1.7;color:#675d7b;margin:23px 0 32px}
+.ornek-start-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;max-width:960px}
+.ornek-start-choice{min-height:112px;padding:21px 20px!important;background:#fff!important;color:#312849!important;border:1px solid #e9e4f5!important;border-radius:17px!important;box-shadow:0 5px 18px #4d3e7c0a!important;text-align:left!important;cursor:pointer!important;display:flex!important;flex-direction:column!important;justify-content:space-between!important;transition:border-color .15s,transform .15s!important}
+.ornek-start-choice:hover,.ornek-start-choice[aria-pressed="true"]{border-color:#997bea!important;background:#f4efff!important}
+.ornek-start-choice strong{font-size:16px;font-weight:750;line-height:1.35}
+.ornek-start-choice small{font-size:12px;color:#867d9a}
+.ornek-start-state{margin:31px 0 0;max-width:620px;font-size:13px;line-height:1.6;color:#746783;display:flex;gap:12px;align-items:center}
+.ornek-start-indicator{display:inline-block;flex:none;width:17px;height:17px;border:2px solid #cfc4ed;border-top-color:#7955d6;border-radius:50%;animation:ornek-early-spin .9s linear infinite}
+@keyframes ornek-early-spin{to{transform:rotate(360deg)}}
+#ornek-startup[aria-busy="false"] .ornek-start-indicator{display:none}
+.ornek-start-retry{display:none!important;cursor:pointer!important;background:#7152c9!important;color:#fff!important;margin-top:16px!important;border:0!important;border-radius:11px!important;padding:12px 21px!important;font-size:14px!important;font-weight:650!important}
+#ornek-startup[data-error="true"] .ornek-start-retry{display:inline-flex!important}
+@media(max-width:700px){
+.ornek-start-bar{height:66px;padding:0 20px}
+.ornek-start-suffix{display:none}
+.ornek-start-inner{padding:42px 20px 44px}
+.ornek-start-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.ornek-start-choice{min-height:102px;padding:16px!important}
+.ornek-start-choice strong{font-size:14px}
+.ornek-start-description{margin:17px 0 25px}
+}
+@media(max-width:360px){.ornek-start-grid{grid-template-columns:1fr}.ornek-start-choice{min-height:76px}}
+@media(prefers-reduced-motion:reduce){.ornek-start-indicator{animation:none}}
+
 #boot-status{position:fixed;top:44%;left:50%;transform:translate(-50%,-50%);z-index:100;width:min(420px,calc(100% - 32px));background:#ffffffed;border:1px solid #e8e1f5;border-radius:20px;box-shadow:0 20px 75px #63539025;line-height:1.65}
 #boot-status p{font-size:13px;color:#7c7392;margin:7px 0 0}
 #boot-status.ornek-boot-error{padding:28px!important}
@@ -56,6 +95,33 @@
 <!-- The original Lightfall source is retained; its GPU animation is paused to prioritize a responsive website. -->
   <aside aria-label="Негізгі навигация"><div class="logo"></div><nav></nav></aside>
   <main id="main-content"><header class="top"><div class="topbrand"></div><div class="toptools"></div></header><div id="app"></div><footer class="site-footer" data-ornek-privacy-footer></footer></main>
+<section id="ornek-startup" role="region" aria-label="Örnek сайты жүктелуде" aria-busy="true">
+  <div class="ornek-start-bar"><div class="ornek-start-mark"><span class="ornek-start-symbol" aria-hidden="true">Ö</span><span>Örnek</span></div><span class="ornek-start-suffix">ҰБТ-ға дайындық платформасы</span></div>
+  <div class="ornek-start-inner">
+    <p class="ornek-start-kicker">ҚАЗАҚСТАН · ҰБТ 2026</p>
+    <h1>Біліміңді <span>өрнекте.</span><br>Мақсатыңа жақында.</h1>
+    <p class="ornek-start-description">Математика, физика, Қазақстан тарихы және сауаттылық пәндері бойынша тесттер мен түсіндірмелі тапсырмалар.</p>
+    <div class="ornek-start-grid" aria-label="Пәнді таңдау">
+      <button class="ornek-start-choice" type="button" data-start-subject="math" onclick="ornekStartupSelect('math')"><strong>Математикалық сауаттылық</strong><small>ҰБТ · тапсырмалар</small></button>
+      <button class="ornek-start-choice" type="button" data-start-subject="reading" onclick="ornekStartupSelect('reading')"><strong>Оқу сауаттылығы</strong><small>Мәтін мен талдау</small></button>
+      <button class="ornek-start-choice" type="button" data-start-subject="history" onclick="ornekStartupSelect('history')"><strong>Қазақстан тарихы</strong><small>Даталар мен тесттер</small></button>
+      <button class="ornek-start-choice" type="button" data-start-subject="profile" onclick="ornekStartupSelect('profile')"><strong>Математика</strong><small>121 нұсқа</small></button>
+      <button class="ornek-start-choice" type="button" data-start-subject="physics" onclick="ornekStartupSelect('physics')"><strong>Физика</strong><small>50 нұсқа</small></button>
+    </div>
+    <p class="ornek-start-state" role="status" aria-live="polite"><span class="ornek-start-indicator" aria-hidden="true"></span><span id="ornek-start-progress">Оқу материалдары жүктелуде…</span></p>
+    <button class="ornek-start-retry" type="button" onclick="window.location.reload()">Қайта жүктеу</button>
+  </div>
+</section>
+<script>
+window.ornekStartupSelect=function(subject){
+  window.ornekStartupRequestedSubject=subject;
+  document.querySelectorAll('[data-start-subject]').forEach(function(b){b.setAttribute('aria-pressed',String(b.getAttribute('data-start-subject')===subject))});
+  var target=document.getElementById('ornek-start-progress');
+  if(target)target.textContent='Пән таңдалды. Материалдар жүктелгеннен кейін автоматты түрде ашылады…';
+  if(window.ornekStartupReady && typeof window.openSubject==='function')window.openSubject(subject);
+};
+</script>
+
 <div id="boot-status" role="status" aria-live="polite" style="padding:28px;text-align:center;color:#665d89"><strong>Örnek жүктелуде…</strong><p>Пәндер мен сұрақтар дайындалып жатыр.</p></div>
 <script src="supabase.js"></script><script src="email-auth.js"></script>
 <script src="boot.js?v=20261113-math-diverse-v3"></script>

@@ -2,10 +2,47 @@
 (async()=>{
 const scripts=['questions-hard.js','questions-hard-extra.js','questions-hard-next.js','questions-new.js','questions-materials.js','questions-2026-400.js','questions-diverse.js','questions-expanded.js','questions-quality.js','math-literacy-fresh-800.js','app.js','features.js','polish.js','qadam.js','test-variants.js','tests.js','workspace.js','question-room.js','reading-data.js','reading-short-passages.js','reading-extra-enrich-11-20.js','reading-extra-enrich-21-30.js','reading-extra-enrich-31-40.js','reading-extra-core.js','reading-extra-11-15.js','reading-extra-16-20.js','reading-extra-21-25.js','reading-extra-26-30.js','reading-extra-31-35.js','reading-extra-36-40.js','reading.js','welcome.js','locale.js','math-ru.js','hard60-ru.js','math-solutions-ru.js','new100-ru.js','extra100-ru.js','extra-second100-ru.js','next-first100-ru.js','next-second100-ru.js','reading-ru-core.js','reading-ru-v1.js','reading-ru-v2.js','reading-ru-v3.js','reading-ru-v4.js','reading-ru-v5.js','reading-ru-v6.js','reading-ru-v7.js','reading-ru-v8.js','reading-ru-v9.js','reading-ru-v10.js','reading-short-ru.js','ornek.js','history-data.js','history-difficulty-v2.js','history.js','history-dates-data.js','history-dates-quiz.js','math-profile-data.js','math-profile-elite-levels.js','math-profile-curated-cases.js','math-profile-diversity-v3.js','math-profile.js','physics-data.js','physics-elite-bank.js','physics-depth-prompts.js','physics.js','physics-elite-round.js','architecture.js','email-account.js','phone-auth.js','study-features.js','formula-guide.js','formula-ru.js','ornek-qa-fixes.js','editorial.js','visual-refresh.js','subject-picker.js','ornek-creative-ui.js','gemini-chat.js','subject-dashboards.js','exam-interactions.js'];
 // Bound concurrent preloads so large question banks do not monopolize startup.
-const assetVersion='20261113-math-diverse-v3',preloadAhead=9;
+const assetVersion='20261118-mobile-startup-v1',preloadAhead=8;
 function primeAsset(index){if(index>=scripts.length)return;const preload=document.createElement('link');preload.rel='preload';preload.as='script';preload.href=scripts[index]+'?v='+assetVersion;document.head.append(preload)}
 for(let i=0;i<Math.min(preloadAhead,scripts.length);i++)primeAsset(i);
 function bootDeadline(promise,ms){let timer;return Promise.race([Promise.resolve(promise),new Promise((_,reject)=>{timer=setTimeout(()=>reject(Error('network startup timed out')),ms)})]).finally(()=>clearTimeout(timer))}
+const startupPanel=document.getElementById('ornek-startup');
+const startupLabel=document.getElementById('ornek-start-progress');
+let coreReady=false;
+function startupProgress(loaded,src){
+ if(!startupLabel||coreReady)return;
+ const percent=Math.min(99,Math.round(loaded/scripts.length*100));
+ startupLabel.textContent='Пәндер мен сұрақтар дайындалып жатыр · '+percent+'%';
+ if(window.ornekStartupRequestedSubject)
+   startupLabel.textContent+=' · Таңдаған пәнің жүктелгенде ашылады';
+}
+function startupReveal(){
+ if(coreReady)return;
+ const readyPage=document.getElementById('welcome');
+ if(!readyPage||!readyPage.children.length||typeof window.openSubject!=='function')return;
+ coreReady=true;
+ window.ornekStartupReady=true;
+ document.body.classList.remove('ornek-loading');
+ startupPanel?.remove();
+ document.getElementById('boot-status')?.remove();
+ const destination=window.ornekStartupRequestedSubject;
+ if(destination&&['math','reading','history','profile','physics'].includes(destination)){
+   try{window.openSubject(destination)}catch(error){console.error('Örnek startup navigation',error)}
+ }
+}
+function startupFailed(error){
+ console.error('Örnek startup error',error);
+ document.body.classList.remove('ornek-loading');
+ if(!coreReady&&startupPanel){
+   document.body.classList.add('ornek-loading');
+   startupPanel.dataset.error='true';
+   startupPanel.setAttribute('aria-busy','false');
+   if(startupLabel)startupLabel.textContent='Сайт толық жүктелмеді. Интернетті тексеріп, «Қайта жүктеу» түймесін бас.';
+ }
+ const el=document.getElementById('boot-status');
+ if(el&&!coreReady){el.className='ornek-boot-error';el.innerHTML='<h2>Өрнек жүктелмеді</h2><p>Жүктеу кезінде қате шықты. Бетті қайта ашып көріңіз.</p><button type="button" onclick="location.reload()">Қайта жүктеу</button>'}
+}
+const optionalScripts=new Set(['editorial.js','visual-refresh.js','subject-picker.js','ornek-creative-ui.js','gemini-chat.js','subject-dashboards.js','exam-interactions.js']);
 
 const keys=['qadam-hard-v1-progress','qadam-hard-v1-bookmarks','qadam-hard-v1-history','qadam-hard-v1-plan','qadam-ai-help-history-v1','qadam-reader-large','qadam-hard-variant-results-v2','qadam-hard-draft-v2','ornek-reading-results-v1','ornek-reading-draft-v1','ornek-reading-bookmarks-v1','ornek-history-results-v1','ornek-history-draft-v1','ornek-history-results-v2','ornek-history-draft-v2','ornek-history-bookmarks-v1','ornek-reading-history-v1','ornek-reading-plan-v1'];
 let user=null,syncError=false;try{const response=await bootDeadline(ornekApi('/api/me',{cache:'no-store'}),3500);if(response.ok)user=(await response.json()).user}catch{syncError=true}
@@ -19,14 +56,39 @@ window.addEventListener('online',flush);
 for(let i=0;i<scripts.length;i++){
  primeAsset(i+preloadAhead);
  const src=scripts[i];
- await new Promise((resolve,reject)=>{
-  const script=document.createElement('script');
-  const timer=setTimeout(()=>reject(Error('Asset load timeout: '+src)),30000);
-  script.src=src+'?v='+assetVersion;
-  script.onload=()=>{clearTimeout(timer);resolve()};
-  script.onerror=()=>{clearTimeout(timer);reject(Error('Asset failed: '+src))};
-  document.body.append(script);
- }).then(async()=>{if(src==='math-profile-data.js')await bootDeadline(profileDataReady,20000);if(src==='physics-data.js')await bootDeadline(physicsDataReady,20000)});
+ startupProgress(i,src);
+ let loaded=false;
+ for(let attempt=0;attempt<2&&!loaded;attempt++){
+  try{
+   await new Promise((resolve,reject)=>{
+    const script=document.createElement('script');
+    let finished=false;
+    const settle=(error)=>{
+     if(finished)return;
+     finished=true;clearTimeout(timer);
+     if(error){script.remove();reject(error)}else resolve();
+    };
+    const timer=setTimeout(()=>settle(Error('Asset load timeout: '+src)),21000);
+    script.async=false;
+    script.src=src+'?v='+assetVersion+(attempt?'&retry=1':'');
+    script.onload=()=>settle();
+    script.onerror=()=>settle(Error('Asset failed: '+src));
+    document.body.append(script);
+   });
+   loaded=true;
+  }catch(error){
+   if(attempt===1){
+    if(optionalScripts.has(src)){console.warn('Örnek optional script unavailable',src);loaded=true}
+    else throw error;
+   }
+  }
+ }
+ if(src==='math-profile-data.js')await bootDeadline(profileDataReady,25000);
+ if(src==='physics-data.js')await bootDeadline(physicsDataReady,25000);
+ startupProgress(i+1,src);
 }
-document.getElementById('boot-status')?.remove();document.body.classList.remove('ornek-loading');
-})().catch(error=>{console.error('Örnek startup error',error);document.body.classList.remove('ornek-loading');const el=document.getElementById('boot-status');if(el){el.className='ornek-boot-error';el.innerHTML='<h2>Өрнек жүктелмеді</h2><p>Жүктеу кезінде қате шықты. Бетті қайта ашып көріңіз.</p><button type="button" onclick="location.reload()">Қайта жүктеу</button>'}});
+startupReveal();
+if(!coreReady)throw Error('Örnek: welcome page was not initialized');
+document.getElementById('boot-status')?.remove();
+document.body.classList.remove('ornek-loading');
+})().catch(startupFailed);
