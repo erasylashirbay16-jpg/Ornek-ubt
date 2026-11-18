@@ -316,5 +316,13 @@ qRussian['Оқу банкіндегі есептер мен шешімдер қ�
 const qRenderBase=renderQ;renderQ=function(){qRenderBase();document.querySelector('.room-top-group:last-child')?.insertAdjacentHTML('afterbegin',languageControl());};
 const qPageBase=page;page=function(...args){qPageBase(...args);};
 const qNativeConfirm=window.confirm.bind(window);window.confirm=message=>qNativeConfirm(qLanguage==='ru'&&message==='Жаттығудан шығасыз ба? Сақталған жауаптар прогресте қалады.'?'Выйти из тренировки? Сохранённые ответы останутся в прогрессе.':qTr(String(message)));
-qLocaleObserver=new MutationObserver(()=>applyQLanguage());
+let qLocaleUpdateQueued=false;
+qLocaleObserver=new MutationObserver(records=>{
+ // The entry screen and the question-bank loader change repeatedly during
+ // startup. Translating after each tiny mutation can starve the main thread.
+ if(document.body.classList.contains('ornek-loading')||qLocaleUpdateQueued)return;
+ if(records.every(r=>r.target.nodeType===1&&r.target.closest?.('#ornek-startup,#boot-status')))return;
+ qLocaleUpdateQueued=true;
+ requestAnimationFrame(()=>{qLocaleUpdateQueued=false;applyQLanguage()});
+});
 showWelcome();applyQLanguage();

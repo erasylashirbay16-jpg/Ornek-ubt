@@ -1,8 +1,24 @@
 /* Guest data remains local; signed-in data is namespaced and synced only to its owner. */
+function ornekHandleStartupFailure(error){
+ console.error('Örnek startup error',error);
+ const splash=document.getElementById('ornek-startup');
+ if(!window.ornekStartupReady && splash){
+   document.body.classList.add('ornek-loading');
+   splash.dataset.error='true';
+   splash.setAttribute('aria-busy','false');
+   const status=document.getElementById('ornek-start-progress');
+   if(status)status.textContent='Жүктелу қатесі. Интернетті тексеріп, «Қайта жүктеу» батырмасын бас.';
+ }
+ const status=document.getElementById('boot-status');
+ if(status&&!window.ornekStartupReady){
+   status.className='ornek-boot-error';
+   status.innerHTML='<h2>Өрнек жүктелмеді</h2><p>Жүктеу кезінде қате шықты. Бетті қайта ашып көріңіз.</p><button type="button" onclick="location.reload()">Қайта жүктеу</button>';
+ }
+}
 (async()=>{
 const scripts=['questions-hard.js','questions-hard-extra.js','questions-hard-next.js','questions-new.js','questions-materials.js','questions-2026-400.js','questions-diverse.js','questions-expanded.js','questions-quality.js','math-literacy-fresh-800.js','app.js','features.js','polish.js','qadam.js','test-variants.js','tests.js','workspace.js','question-room.js','reading-data.js','reading-short-passages.js','reading-extra-enrich-11-20.js','reading-extra-enrich-21-30.js','reading-extra-enrich-31-40.js','reading-extra-core.js','reading-extra-11-15.js','reading-extra-16-20.js','reading-extra-21-25.js','reading-extra-26-30.js','reading-extra-31-35.js','reading-extra-36-40.js','reading.js','welcome.js','locale.js','math-ru.js','hard60-ru.js','math-solutions-ru.js','new100-ru.js','extra100-ru.js','extra-second100-ru.js','next-first100-ru.js','next-second100-ru.js','reading-ru-core.js','reading-ru-v1.js','reading-ru-v2.js','reading-ru-v3.js','reading-ru-v4.js','reading-ru-v5.js','reading-ru-v6.js','reading-ru-v7.js','reading-ru-v8.js','reading-ru-v9.js','reading-ru-v10.js','reading-short-ru.js','ornek.js','history-data.js','history-difficulty-v2.js','history.js','history-dates-data.js','history-dates-quiz.js','math-profile-data.js','math-profile-elite-levels.js','math-profile-curated-cases.js','math-profile-diversity-v3.js','math-profile.js','physics-data.js','physics-elite-bank.js','physics-depth-prompts.js','physics.js','physics-elite-round.js','architecture.js','email-account.js','phone-auth.js','study-features.js','formula-guide.js','formula-ru.js','ornek-qa-fixes.js','editorial.js','visual-refresh.js','subject-picker.js','ornek-creative-ui.js','gemini-chat.js','subject-dashboards.js','exam-interactions.js'];
 // Bound concurrent preloads so large question banks do not monopolize startup.
-const assetVersion='20261118-mobile-startup-v1',preloadAhead=8;
+const assetVersion='20261118-mobile-startup-v2',preloadAhead=8;
 function primeAsset(index){if(index>=scripts.length)return;const preload=document.createElement('link');preload.rel='preload';preload.as='script';preload.href=scripts[index]+'?v='+assetVersion;document.head.append(preload)}
 for(let i=0;i<Math.min(preloadAhead,scripts.length);i++)primeAsset(i);
 function bootDeadline(promise,ms){let timer;return Promise.race([Promise.resolve(promise),new Promise((_,reject)=>{timer=setTimeout(()=>reject(Error('network startup timed out')),ms)})]).finally(()=>clearTimeout(timer))}
@@ -29,18 +45,6 @@ function startupReveal(){
  if(destination&&['math','reading','history','profile','physics'].includes(destination)){
    try{window.openSubject(destination)}catch(error){console.error('Örnek startup navigation',error)}
  }
-}
-function startupFailed(error){
- console.error('Örnek startup error',error);
- document.body.classList.remove('ornek-loading');
- if(!coreReady&&startupPanel){
-   document.body.classList.add('ornek-loading');
-   startupPanel.dataset.error='true';
-   startupPanel.setAttribute('aria-busy','false');
-   if(startupLabel)startupLabel.textContent='Сайт толық жүктелмеді. Интернетті тексеріп, «Қайта жүктеу» түймесін бас.';
- }
- const el=document.getElementById('boot-status');
- if(el&&!coreReady){el.className='ornek-boot-error';el.innerHTML='<h2>Өрнек жүктелмеді</h2><p>Жүктеу кезінде қате шықты. Бетті қайта ашып көріңіз.</p><button type="button" onclick="location.reload()">Қайта жүктеу</button>'}
 }
 const optionalScripts=new Set(['editorial.js','visual-refresh.js','subject-picker.js','ornek-creative-ui.js','gemini-chat.js','subject-dashboards.js','exam-interactions.js']);
 
@@ -90,6 +94,7 @@ for(let i=0;i<scripts.length;i++){
 }
 startupReveal();
 if(!coreReady)throw Error('Örnek: welcome page was not initialized');
+if(typeof applyQLanguage==='function')applyQLanguage();
 document.getElementById('boot-status')?.remove();
 document.body.classList.remove('ornek-loading');
-})().catch(startupFailed);
+})().catch(ornekHandleStartupFailure);
