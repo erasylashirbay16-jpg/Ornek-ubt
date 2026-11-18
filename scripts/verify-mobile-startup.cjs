@@ -41,13 +41,16 @@ async function waitServer(){
     assert(!await page.locator('#boot-status').isVisible(),'Old clipped loading modal must be hidden');
     if(queuedSubject)await page.locator('[data-start-subject="'+queuedSubject+'"]').click();
    }
-   try{await page.waitForFunction(()=>{
+   try{await page.waitForFunction(selected=>{
      const b=document.body;
-     return !b.classList.contains('ornek-loading') &&
+     const baseReady=!b.classList.contains('ornek-loading') &&
        !document.querySelector('#ornek-startup') &&
-       typeof window.openSubject==='function' &&
-       document.getElementById('welcome')?.children.length>0;
-   },null,{timeout:33000});}catch(e){
+       typeof window.openSubject==='function';
+     if(!baseReady)return false;
+     if(selected)return !b.classList.contains('on-welcome') &&
+       (document.querySelector('#app')?.textContent?.trim()?.length||0)>30;
+     return (document.getElementById('welcome')?.children.length||0)>0;
+   },queuedSubject,{timeout:33000});}catch(e){
      console.error('MOBILE_STARTUP_DIAGNOSTIC '+JSON.stringify({errors:errors.slice(-35),lastAssets:network.slice(-35)}));
      throw e;
    }
