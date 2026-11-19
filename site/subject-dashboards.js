@@ -134,6 +134,10 @@
   }
   function openTopic(index) {
     const topic = activeTopics[index]; if (!topic) return;
+    if(window.OrnekExamInteractions?.openDirect){
+      window.OrnekExamInteractions.openDirect(currentSubject,topic.questions.map(q=>String(q.id)));
+      return;
+    }
     subjectNavigate('library');
     if (currentSubject==='physics') { physicsTopic=topic.key; physicsBankPage=0; physicsRenderBank(); }
     if (currentSubject==='profile') { profileQuery=topic.name; profileBankPage=0; profileRenderBank(); }
