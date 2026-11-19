@@ -12,3 +12,93 @@ body.in-question{background:#fff}body.in-question main{padding:0;max-width:none}
 @media(max-width:380px){.question-grid{grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}}
 
 @media(min-width:851px) and (max-width:1150px){.room-dock{left:212px}.study-sheet{left:calc(50% + 106px);width:min(760px,calc(100% - 248px))}}
+
+
+/* Bank question map: difficulty owns the tile color; answer state owns the icon.
+   This makes green/yellow/red levels visible even before a question is answered. */
+.study-sheet .question-grid .question-cell{
+  position:relative;isolation:isolate;display:flex;align-items:center;justify-content:center;
+  border-width:1.5px!important;border-style:solid!important;
+  transition:transform .15s ease,box-shadow .15s ease,border-color .15s ease;
+}
+.study-sheet .question-grid .question-cell.oe-difficulty-A{
+  background:#dcf7e5!important;border-color:#83d7a1!important;color:#17653c!important;
+}
+.study-sheet .question-grid .question-cell.oe-difficulty-B{
+  background:#fff0b8!important;border-color:#eec45f!important;color:#81520f!important;
+}
+.study-sheet .question-grid .question-cell.oe-difficulty-C{
+  background:#ffe0e1!important;border-color:#ed9b9e!important;color:#962e3a!important;
+}
+.study-sheet .question-grid .question-cell.oe-difficulty-unknown{
+  background:#eeeaf4!important;border-color:#c8bfd4!important;color:#5b5070!important;
+}
+.study-sheet .question-cell .oe-cell-index{
+  display:block;font-size:clamp(12px,2vw,15px);font-weight:800;letter-spacing:-.025em;
+  font-variant-numeric:tabular-nums;line-height:1;padding:3px 3px 0;
+}
+.study-sheet .question-cell .oe-cell-status{
+  position:absolute;top:-6px;right:-6px;width:19px;height:19px;box-sizing:border-box;
+  display:grid;place-items:center;border:2px solid #fff;border-radius:50%;
+  color:#fff;background:#697386;font-size:12px;font-weight:900;line-height:1;z-index:2;
+  box-shadow:0 1px 3px #20163033;
+}
+.study-sheet .question-cell.oe-state-correct .oe-cell-status,
+.study-sheet .question-cell.oe-state-retried .oe-cell-status{background:#14804a}
+.study-sheet .question-cell.oe-state-wrong .oe-cell-status{background:#d42f42;font-size:15px}
+.study-sheet .question-cell.oe-state-new .oe-cell-status,
+.study-sheet .question-cell.oe-state-saved .oe-cell-status{background:#5a6170}
+.study-sheet .question-cell.oe-state-answered .oe-cell-status{background:#6c50b7}
+.study-sheet .question-cell .oe-cell-bookmark{
+  position:absolute;bottom:-5px;right:-5px;width:17px;height:17px;box-sizing:border-box;
+  display:grid;place-items:center;border-radius:5px;border:2px solid white;
+  color:white;background:#7e49c5;font-size:10px;line-height:1;z-index:3;
+}
+.study-sheet .question-cell .oe-cell-retried{
+  position:absolute;bottom:-5px;left:-5px;width:17px;height:17px;box-sizing:border-box;
+  display:grid;place-items:center;border-radius:5px;border:2px solid white;
+  color:white;background:#bb7b1a;font-size:12px;line-height:1;z-index:3;
+}
+.study-sheet .question-grid .question-cell.is-current{
+  outline:3px solid #7447e5!important;outline-offset:3px;
+  box-shadow:0 0 0 3px #7447e522!important;
+}
+.study-sheet .question-grid .question-cell:hover:not(:disabled){transform:translateY(-2px)}
+.study-sheet .question-grid .question-cell:focus-visible{
+  outline:3px solid #6235d7!important;outline-offset:3px;
+}
+.study-sheet .oe-map-legend{
+  display:flex;flex-direction:column;align-items:stretch;gap:12px;
+  padding:16px 21px 19px;border-top:1px solid #e8e2ef;
+}
+.study-sheet .oe-map-legend-section{
+  display:flex;flex-wrap:wrap;align-items:center;gap:9px 15px;
+  font-size:11px;line-height:1.4;
+}
+.study-sheet .oe-map-legend-section>strong{
+  min-width:84px;font-size:11px;letter-spacing:.02em;color:inherit;
+}
+.study-sheet .oe-map-legend-section>span{
+  display:inline-flex;align-items:center;gap:6px;white-space:nowrap;
+}
+.study-sheet .oe-map-legend-section .oe-swatch{
+  display:inline-block;width:15px;height:15px;border-radius:5px;border:1px solid transparent;
+}
+.study-sheet .oe-map-legend-section .oe-swatch.level-a{background:#dcf7e5;border-color:#83d7a1}
+.study-sheet .oe-map-legend-section .oe-swatch.level-b{background:#fff0b8;border-color:#eec45f}
+.study-sheet .oe-map-legend-section .oe-swatch.level-c{background:#ffe0e1;border-color:#ed9b9e}
+.study-sheet .oe-map-legend-section .oe-legend-mark{
+  display:inline-grid;place-items:center;width:16px;height:16px;border-radius:50%;
+  color:white;font-weight:800;font-size:12px;line-height:1;background:#697386;
+}
+.study-sheet .oe-map-legend-section .oe-legend-mark.good{background:#14804a}
+.study-sheet .oe-map-legend-section .oe-legend-mark.bad{background:#d42f42;font-size:15px}
+.study-sheet .oe-map-legend-section .oe-legend-mark.retry{background:#bb7b1a;border-radius:5px}
+.study-sheet .oe-map-legend-section .oe-legend-mark.kept{background:#7e49c5;border-radius:5px;font-size:10px}
+.study-sheet .oe-map-legend-section .oe-legend-mark.pending{background:#6c50b7}
+@media(max-width:620px){
+  .study-sheet .oe-map-legend{padding:13px 16px 17px;gap:10px}
+  .study-sheet .oe-map-legend-section{gap:8px 12px}
+  .study-sheet .oe-map-legend-section>strong{width:100%;min-width:0}
+  .study-sheet .question-grid .question-cell .oe-cell-status{width:18px;height:18px}
+}
