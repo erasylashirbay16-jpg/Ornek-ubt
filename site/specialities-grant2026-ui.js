@@ -13,7 +13,7 @@ const entFormat="https://testcenter.kz/?page_id=23360";
 const esc=x=>String(x??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const rec=r=>Array.isArray(data[r.base])?data[r.base]:null;
 const number=v=>Number.isInteger(v)?String(v):"—";
-const link=r=>"https://grantkz.com/"+encodeURIComponent(r.base.toLowerCase())+"/";
+const link=r=>rec(r)?"https://grantkz.com/"+encodeURIComponent(r.base.toLowerCase())+"/":grantIndex;
 const min=r=>r.category==="Педагогикалық ғылымдар"||r.base==="B049"?75:r.category==="Медицина және денсаулық"?70:50;
 const text=ru=>ru?{
  p2026:"Грант 2026",threshold:"Мин. ЕНТ",heading:"Гранты и вузы",tag:"ПОСТУПЛЕНИЕ · 2026–2027",
