@@ -74,6 +74,11 @@ wrapStart('startVariant',n=>'Математикалық сауаттылық · 
 wrapStart('startMixed','Математикалық сауаттылық · Аралас тест',20,m=>{if(typeof run!=='undefined'&&run&&run.mixed)applyTime(run,m,null,clock);});
 
 const banks={
+  reading:{title:'Оқу сауаттылығы',all:()=>readingAll(),back:()=>readingSection('library'),
+    save:id=>saveReadingQuestion(id),saved:id=>readingSaved().includes(id),check:'checkReadingPractice',
+    context:q=>{const v=readingVariants.find(v=>v.number===q.number);const p=v?.passages?.[q.pi];return p?'<p>'+esc(p.text)+'</p>':'';},
+    input:q=>'<fieldset><legend>Жауабыңды таңда</legend>'+q.o.map((o,i)=>'<label class="reading-practice-option"><input type="radio" name="oe-reading-answer" value="'+i+'"> '+esc(o)+'</label>').join('')+'</fieldset>',
+    extra:()=>''},
   history:{title:'Қазақстан тарихы',all:()=>historyAll(),back:()=>historyRenderBank(),
     save:id=>saveHistoryQuestion(id),saved:id=>historyBookmarks().includes(id),check:'checkHistoryPractice',
     context:q=>q.context===null?'':historyContextMarkup(historyVariants.find(v=>v.number===q.number).contexts[q.context]),
@@ -134,8 +139,10 @@ function restoreBankAnswers(){
   const feedback=practice.querySelector('.oe-bank-feedback');if(feedback)feedback.textContent=state.feedback;
 }
 function backToBank(){
-  if(!room)return;saveBankAnswers();const type=room.type;room=null;
-  banks[type].back();window.scrollTo(0,0);
+  if(!room)return;saveBankAnswers();const type=room.type,direct=room.direct;room=null;
+  if(direct && typeof subjectNavigate==='function')subjectNavigate('home');
+  else banks[type].back();
+  window.scrollTo(0,0);
 }
 function nextQuestion(offset){
   if(!room)return;const idx=room.ids.indexOf(room.id)+offset;
@@ -145,12 +152,12 @@ function nextQuestion(offset){
 function renderQuestion(){
   if(!room)return;
   const type=room.type,id=room.id,ids=room.ids,b=banks[type];
-  const q=b.all().find(q=>String(q.id)===String(id));
+  const q=room.questions?.get(String(id)) || b.all().find(q=>String(q.id)===String(id));
   if(!q){backToBank();return;}
   const idx=ids.indexOf(id),app=document.getElementById('app');
   if(!app)return;
   const context=b.context(q),saved=b.saved(id);
-  app.innerHTML='<div class="oe-bank-toolbar"><button type="button" class="oe-bank-back">← Сұрақтар банкі</button><span>'+esc(b.title)+' · Жаттығу</span></div>'+
+  app.innerHTML='<div class="oe-bank-toolbar"><button type="button" class="oe-bank-back">'+(room.direct?'← Пән беті':'← Сұрақтар банкі')+'</button><span>'+esc(b.title)+' · Жаттығу</span></div>'+
     '<div class="oe-bank-workspace">'+(context?'<aside class="oe-bank-context"><small>КОНТЕКСТ</small>'+context+'</aside>':'')+
     '<section class="oe-bank-question"><div class="oe-bank-meta"><span>'+(idx+1)+' / '+ids.length+' сұрақ</span><span>'+esc(q.l)+' деңгей · '+esc(q.topic)+'</span></div>'+
     '<div class="oe-bank-progress"><i style="width:'+Math.round((idx+1)/ids.length*100)+'%"></i></div>'+
@@ -172,5 +179,43 @@ function renderQuestion(){
   app.querySelector('.oe-bank-check').addEventListener('click',e=>{const check=window[b.check];if(typeof check==='function')check(e.currentTarget,id);});
   window.scrollTo(0,0);
 }
-window.OrnekExamInteractions={timePicker,openQuestion,backToBank};
+function openDirect(type,onlyIds){
+  // Opening the bank should be a single click, just like starting an exam.
+  // Keep the original question bank, answers, IDs, scoring and saved results unchanged.
+  const allowed=Array.isArray(onlyIds)?new Set(onlyIds.map(String)):null;
+  if(type==='math'){
+    const items=allowed?bank.filter(q=>allowed.has(String(q.id))):[...bank];
+    if(!items.length)return;
+    if(typeof roomModeExit==='function')roomModeExit();
+    if(typeof stop==='function')stop();
+    start(items,false);
+    return;
+  }
+  const b=banks[type];if(!b)return;
+  const questions=b.all().filter(q=>!allowed||allowed.has(String(q.id)));
+  if(!questions.length)return;
+  const ids=questions.map(q=>String(q.id));
+  room={type,ids,id:ids[0],direct:true,questions:new Map(questions.map(q=>[String(q.id),q]))};
+  renderQuestion();
+  const nav=document.querySelectorAll('aside nav button[data-section]');
+  nav.forEach(el=>{
+    const active=el.dataset.section==='library';
+    el.classList.toggle('active',active);
+    if(active)el.setAttribute('aria-current','page');else el.removeAttribute('aria-current');
+  });
+}
+const originalSubjectNavigate=window.subjectNavigate;
+if(typeof originalSubjectNavigate==='function'){
+  window.subjectNavigate=function(key){
+    if(key==='library'){
+      // Re-use the subject switcher's cleanup and navigation state, then display
+      // the first bank question directly instead of the intermediate list.
+      originalSubjectNavigate.call(this,'home');
+      openDirect(currentSubject);
+      return;
+    }
+    return originalSubjectNavigate.apply(this,arguments);
+  };
+}
+window.OrnekExamInteractions={timePicker,openQuestion,openDirect,backToBank};
 })();
