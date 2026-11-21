@@ -20,15 +20,12 @@ const scripts=['questions-hard.js','questions-hard-extra.js','questions-hard-nex
 // Classic scripts download in parallel within each batch and execute in insertion order.
 const assetVersion='20261119-question-map-v1';
 function assetUrl(src){return src+'?v='+(src==='learning-path.js'?'learning-path-v1':['landing-guide.js','ornek-creative-ui.js'].includes(src)?'landing-guide-v1':assetVersion)}
-const barriers=new Map([
- ['math-profile-data.js',()=>profileDataReady],
- ['physics-data.js',()=>physicsDataReady]
-]);
+const compressedBanks=new Set(['math-profile-data.js','physics-data.js']);
 const batches=[];
 let batch=[];
 for(const src of scripts){
  batch.push(src);
- if(barriers.has(src)){
+ if(compressedBanks.has(src)){
   batches.push(batch);
   batch=[];
  }
@@ -100,8 +97,9 @@ for(const sources of batches){
  }));
  document.body.append(fragment);
  await bootDeadline(Promise.all(jobs),45000);
- const ready=barriers.get(sources.at(-1));
- if(ready)await bootDeadline(ready(),25000);
+ const src=sources.at(-1);
+ if(src==='math-profile-data.js')await bootDeadline(profileDataReady,25000);
+ if(src==='physics-data.js')await bootDeadline(physicsDataReady,25000);
 }
 startupReveal();
 if(!coreReady)throw Error('Örnek: welcome page was not initialized');
