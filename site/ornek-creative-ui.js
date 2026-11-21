@@ -427,7 +427,7 @@
   let initialHashApplied = false;
   const anchorIds = new Set([
     "arch-subjects", "arch-how", "why-qadam", "qadam-features",
-    "qadam-how", "qadam-demo", "ornek-subjects"
+    "qadam-how", "qadam-demo", "ornek-subjects", "ornek-about", "ornek-blog", "ornek-contact"
   ]);
 
   function normalizeWelcomeNav() {
@@ -590,7 +590,7 @@
         '<span class="ornek-v3-subject-arrow" aria-hidden="true">↗</span></button>';
     }).join("");
     const links = [
-      ["home",t.home],["tests",t.tests],["plan",t.plan],["analytics",t.analytics],["specialities",kk?"Мамандықтар":"Специальности"]
+      ["home",t.home],["tests",t.tests],["plan",t.plan],["analytics",t.analytics],["blog","Блог"],["specialities",kk?"Мамандықтар":"Специальности"]
     ];
     const mid = links.map(([key,label]) =>
       '<button type="button" class="ornek-v3-link' + (key==="home" ? " is-current" : "") +
@@ -640,6 +640,11 @@
   }
 
   function activate(id) {
+    if (id === "blog") {
+      const blog = document.getElementById("ornek-blog");
+      blog?.scrollIntoView();
+      return;
+    }
     if(id === "specialities") { location.href="/specialities"; return; }
     if (id==="home") {
       window.scrollTo({top:0,behavior:window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth"});

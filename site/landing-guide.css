@@ -1,0 +1,67 @@
+.landing-guide {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin: 36px 0;
+}
+
+.landing-guide section {
+  scroll-margin-top: 120px;
+  padding: clamp(20px, 4vw, 32px);
+  border: 1px solid #e4def4;
+  border-radius: 22px;
+  background: #fff;
+  color: #28213a;
+}
+
+.landing-guide h2 { margin: 0 0 12px; }
+.landing-guide p { line-height: 1.65; }
+.landing-guide #ornek-blog, .landing-guide-cta { grid-column: 1 / -1; }
+.landing-guide #ornek-about { grid-column: 1 / -1; }
+
+.landing-articles {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: start;
+  gap: 12px;
+}
+
+.landing-articles details {
+  padding: 16px;
+  background: #f8f5ff;
+  border-radius: 12px;
+}
+
+.landing-articles summary { cursor: pointer; font-weight: 700; }
+.landing-guide form, .landing-guide label { display: grid; gap: 8px; }
+.landing-guide form { gap: 12px; }
+.landing-guide form p { margin: 0; }
+.landing-guide form button { justify-self: start; }
+.landing-guide select, .landing-guide textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 12px;
+  border: 1px solid #c5b7df;
+  border-radius: 10px;
+  background: #fff;
+  color: inherit;
+  font: inherit;
+}
+
+.landing-guide textarea { resize: vertical; }
+.landing-guide .landing-guide-cta { background: #f0eaff; }
+.landing-guide-cta button { margin: 4px 8px 4px 0; }
+
+.arch-footer .landing-footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+  flex: 0 0 100%;
+  overflow-wrap: anywhere;
+}
+
+.arch-footer:has(.landing-footer-links) { flex-wrap: wrap; }
+
+@media (max-width: 760px) {
+  .landing-guide, .landing-articles { grid-template-columns: 1fr; }
+}
